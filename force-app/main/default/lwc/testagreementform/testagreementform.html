@@ -1,0 +1,36 @@
+<template>
+    <lightning-card title="Letter Template">
+
+        <!-- VIEW MODE -->
+        <template if:true={showView}>
+            <div class="slds-p-around_medium">
+                <div lwc:dom="manual" class="letter-container" ref="letterContainer"></div>
+
+                <div class="slds-m-top_medium">
+                    <lightning-button label="Edit" variant="brand" onclick={handleEdit}></lightning-button>
+                    <lightning-button class="slds-m-left_small" 
+                                      label="Save & Send PDF" 
+                                      variant="success"
+                                      onclick={handleFinalSave}></lightning-button>
+                </div>
+            </div>
+        </template>
+
+        <!-- EDIT MODE -->
+        <template if:true={showEdit}>
+            <div class="slds-p-around_medium">
+                <lightning-input-rich-text
+                    value={editedHtml}
+                    label="Edit Template"
+                    onchange={handleEditorChange}>
+                </lightning-input-rich-text>
+
+
+                <div class="slds-m-top_medium">
+                    <lightning-button label="Save Updates" variant="brand" onclick={handleSaveUpdates}></lightning-button>
+                </div>
+            </div>
+        </template>
+
+    </lightning-card>
+</template>

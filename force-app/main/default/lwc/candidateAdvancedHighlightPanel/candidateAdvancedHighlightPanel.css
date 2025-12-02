@@ -1,0 +1,92 @@
+.card {
+    display: flex;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    gap: 2rem;
+    margin-bottom: 1rem;
+    transition: all 0.25s ease;
+    min-height: 220px;
+    max-height: 220px;
+}
+
+.left-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 180px; 
+    padding: 10px 0; 
+}
+
+.photo, .photo-placeholder {
+    width: 180px;      
+    height: 200px;       
+    border-radius: 12px; 
+    border: 4px solid #e6e6e6;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+}
+
+.photo { object-fit: fill; }
+
+.photo-placeholder {
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px dashed #d0d0d0;
+}
+
+.right-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.name { font-size: 1.6rem; font-weight: 700; margin: 0; color: #1a1a1a; }
+.sub-title { font-size: 0.85rem; color: #888; margin: 0 0 1rem 0; }
+
+.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem 2rem; }
+.info-col { display: flex; flex-direction: column; gap: 0.8rem; }
+.info-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: #333; }
+.link { color: #0070d2; cursor: pointer; }
+.value { color: #444; }
+
+.skills-container { display: flex; gap: 0.4rem; align-items: center; }
+
+/* Tooltip for extra skills */
+.extra-skills {
+    position: relative;
+    font-size: 0.8rem;
+    color: #666;
+    cursor: pointer;
+}
+
+.extra-skills::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 125%;
+    background: #333;
+    color: #fff;
+    padding: 0.4rem 0.6rem;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 0.75rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+    z-index: 10;
+}
+
+.extra-skills:hover::after {
+    opacity: 1;
+}
+.linkedin-icon {
+    --sds-c-icon-color-foreground-default: #0077b5;
+}
+.resume-icon {
+    --sds-c-icon-color-foreground-default: #d32f2f;
+}

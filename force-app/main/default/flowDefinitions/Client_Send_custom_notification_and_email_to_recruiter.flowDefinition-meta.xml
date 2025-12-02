@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FlowDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>5</activeVersionNumber>
+    <description>To notify recruiter with email and Custom notification about Agreement Ending Date</description>
+    <masterLabel>Client- Send Custom Notification And Email To Recruiter</masterLabel>
+</FlowDefinition>

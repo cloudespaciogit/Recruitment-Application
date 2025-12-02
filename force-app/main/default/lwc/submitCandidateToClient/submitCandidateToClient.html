@@ -1,0 +1,39 @@
+<template>
+    <lightning-card title="Submit Candidate to Client" icon-name="standard:contact">
+        <div class="slds-p-around_medium">
+            <!-- Client Selection -->
+            <lightning-combobox
+                label="Select Client"
+                placeholder="Choose a client"
+                options={clientOptions}
+                value={selectedClientId}
+                onchange={handleClientChange}>
+            </lightning-combobox>
+
+            <!-- Job Positions -->
+            <lightning-combobox
+                class="slds-m-top_small"
+                label="Select Job Positions"
+                options={jobPositionOptions}
+                value={selectedJobId}
+                onchange={handleJobChange}>
+            </lightning-combobox>
+
+            <!-- Send Type Selection -->
+            <lightning-radio-group
+                class="slds-m-top_small"
+                label="Send As"
+                options={sendTypeOptions}
+                value={sendType}
+                onchange={handleSendTypeChange}>
+            </lightning-radio-group>
+
+            <div class="slds-m-top_medium slds-align_absolute-center">
+                <lightning-button variant="brand" label="Send Email" onclick={sendEmail}></lightning-button>
+            </div>
+        </div>
+    </lightning-card>
+
+    <!-- include custom composer as child (hidden by default until opened via openWithPrefill) -->
+    <c-custom-email-composer></c-custom-email-composer>
+</template>

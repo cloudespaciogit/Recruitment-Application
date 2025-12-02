@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recruiter__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>The internal team member (recruiter) assigned to manage the relationship with this client or handle job requisitions from this company. This is typically a lookup field to the User object.</description>
+    <label>Recruiter</label>
+    <referenceTo>Recruiter__c</referenceTo>
+    <relationshipName>Client_Informations</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

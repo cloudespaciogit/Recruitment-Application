@@ -1,0 +1,15 @@
+.spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.custom-modal .slds-modal__container {
+    width: 1200px; /* Increase modal width */
+    max-width: 90%;
+}
+
+.slds-dual-listbox {
+    min-height: 250px;
+}

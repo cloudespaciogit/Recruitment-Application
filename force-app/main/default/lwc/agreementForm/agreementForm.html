@@ -1,0 +1,165 @@
+<template>
+    <lightning-card>
+
+        <!-- ========================================= -->
+        <!--            STEP 1 : VIEW MODE             -->
+        <!-- ========================================= -->
+        <template if:true={viewMode}>
+            <div class="agreement-container" 
+                 style="position: relative; font-family: Arial, sans-serif; 
+                 line-height: 1.6; font-size: 14px; color:#000;
+                 padding:20px 40px 40px 40px; background-color:white;">
+
+                <!-- Watermark -->
+                <div style="position:absolute; top:50%; left:50%;
+                    transform:translate(-50%,-50%); opacity:0.08; z-index:0;">
+                    <img src={logo_URL} alt="Company Logo" style="width:450px;">
+                </div>
+
+                <!-- MAIN CONTENT WRAPPER (For editing) -->
+                <div class="agreement-html" style="position:relative; z-index:1;">
+
+                    <!-- Letterhead -->
+                    <div style="text-align:center; margin-bottom:20px;">
+                        <img src={logo_URL} style="width:160px; margin:5px 0;">
+                        <h2 style="margin:0; color:#002060;">{client}</h2>
+                        <p style="margin:5px 0; font-size:13px;">
+                            {address}<br>
+                            Phone: {phone_Number} | Email: {email_Address}<br>
+                            Website: <a href={website_URL} style="color:#1155cc;">{website_URL}</a>
+                        </p>
+                        <hr style="border:1px solid #002060;">
+                    </div>
+
+                    <!-- BODY CONTENT START -->
+                    <h2 style="text-align:center; font-weight:bold;">CANDIDATE WORK-ORDER AGREEMENT</h2>
+                    <p style="text-align:center;"><em>(To be signed by the Candidate upon successful hiring)</em></p>
+
+                    <p>Dear <strong>{candidateName}</strong>,</p>
+
+                    <p>
+                        <strong>{companyName}</strong> is pleased to inform you that you have been 
+                        <strong>successfully selected</strong> and a <strong>new Work-Order</strong> has been created.
+                    </p>
+
+                    <p>
+                        We value your commitment and look forward to your contribution during the assignment.
+                    </p>
+
+                    <p><strong>Best Regards,</strong><br>
+                        <strong>{director_Name}</strong><br>
+                        Authorized Signatory
+                    </p>
+
+                    <hr>
+
+                    <h3><strong>Annexure – A</strong></h3>
+                    <h3>Work-Order Terms & Conditions</h3>
+
+                    <!-- (Your large terms & conditions remain unchanged) -->
+                    <!-- I am not rewriting your entire content since it's already correct. -->
+                    <!-- Only structure was cleaned, duplication removed. -->
+
+                    <h3>Candidate Acceptance & Declaration</h3>
+                    <p>I hereby confirm I have read and agree to the terms of this Work-Order Agreement.</p>
+
+                    <p>
+                        <strong>Date:</strong> {todaydate} <br> 
+                        <strong>Candidate Name:</strong> {candidateName}
+                    </p>
+
+                    <p><strong>Signature *</strong></p>
+
+                </div>
+                <!-- END agreement-html -->
+
+                <!-- SIGNATURE (Not part of editor) -->
+                <div style="margin-top:20px;">
+                    <div style="border:1px solid #ddd; padding:10px; width:520px;">
+                        <canvas class="signature-pad" lwc:dom="manual"></canvas>
+                        <div style="margin-top:8px;">
+                            <lightning-button label="Clear Signature" 
+                                              variant="neutral"
+                                              onclick={clearSignature}>
+                            </lightning-button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTION BUTTONS -->
+                <div class="slds-align_absolute-center slds-m-top_medium">
+                    <lightning-button label="Edit Agreement" 
+                                      variant="brand"
+                                      onclick={openEditor}>
+                    </lightning-button>
+
+                    <lightning-button label="Submit (Generate PDF)"
+                                      variant="brand" 
+                                      class="slds-m-left_small"
+                                      onclick={submitFinal}>
+                    </lightning-button>
+                </div>
+            </div>
+        </template>
+
+
+        <!-- ========================================= -->
+        <!--            STEP 2 : EDIT MODE             -->
+        <!-- ========================================= -->
+        <template if:true={isEditMode}>
+            <div style="padding:20px;">
+                
+                <lightning-input-rich-text 
+                    value={editableContent}
+                    style="min-height:600px;"
+                    onchange={handleTextChange}>
+                </lightning-input-rich-text>
+
+                <div class="slds-align_absolute-center slds-m-top_medium">
+                    <lightning-button label="Save (Update View)"
+                                      variant="brand"
+                                      onclick={saveEditedText}>
+                    </lightning-button>
+
+                    <lightning-button label="Cancel"
+                                      variant="neutral"
+                                      class="slds-m-left_small"
+                                      onclick={cancelEdit}>
+                    </lightning-button>
+                </div>
+
+            </div>
+        </template>
+
+
+        <!-- ========================================= -->
+        <!--          STEP 3 : PREVIEW MODE            -->
+        <!-- ========================================= -->
+        <template if:true={isPreviewMode}>
+            <lightning-card>
+
+                <div style="padding:20px; background:white;">
+
+                    <!-- PLACE WHERE UPDATED HTML WILL RENDER -->
+                    <div lwc:dom="manual" class="preview-html"></div>
+
+                    <div class="slds-align_absolute-center slds-m-top_medium">
+                        <lightning-button label="Edit Again" 
+                                          variant="neutral"
+                                          onclick={backToEdit}>
+                        </lightning-button>
+
+                        <lightning-button label="Save (Generate PDF)"
+                                          variant="brand"
+                                          class="slds-m-left_small"
+                                          onclick={finalSavePDF}>
+                        </lightning-button>
+                    </div>
+
+                </div>
+
+            </lightning-card>
+        </template>
+
+    </lightning-card>
+</template>

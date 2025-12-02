@@ -1,0 +1,137 @@
+<template>
+    <section class="form-wrapper">
+        <div class="form-card">
+            <h1 class="form-title">Apply for a Role</h1>
+            <p class="form-subtitle">
+                Please fill in your details. Fields marked * are mandatory.
+            </p>
+
+            <template if:true={errorMessage}>
+                <div class="message message-error">
+                    {errorMessage}
+                </div>
+            </template>
+
+            <template if:true={showSuccess}>
+                <div class="message message-success">
+                    Your application has been submitted.
+                </div>
+            </template>
+
+            <form onsubmit={handleSubmit}>
+
+                
+
+                <div class="grid-2">
+                    <div class="field">
+                        <label>First Name *</label>
+                        <input type="text" name="firstName"
+                               value={formData.firstName}
+                               onchange={handleInputChange}
+                               required />
+                    </div>
+
+                    <div class="field">
+                        <label>Last Name *</label>
+                        <input type="text" name="lastName"
+                               value={formData.lastName}
+                               onchange={handleInputChange}
+                               required />
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Email *</label>
+                        <input type="email" name="email"
+                               value={formData.email}
+                               onchange={handleInputChange}
+                               required />
+                    </div>
+
+                    <div class="field">
+                        <label>Phone *</label>
+                        <input type="tel" name="phone"
+                               value={formData.phone}
+                               onchange={handleInputChange}
+                               required />
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Experience (Years)</label>
+                        <input type="number" min="0" name="experienceYears"
+                               value={formData.experienceYears}
+                               onchange={handleInputChange} />
+                    </div>
+
+                    <div class="field">
+                        <label>Expected Salary</label>
+                        <input type="number" min="0" step="0.01" name="expectedSalary"
+                               value={formData.expectedSalary}
+                               onchange={handleInputChange} />
+                    </div>
+                </div>
+
+                <div class="grid-2">
+                    <div class="field">
+                        <label>Current Company</label>
+                        <input type="text" name="currentCompany"
+                               value={formData.currentCompany}
+                               onchange={handleInputChange} />
+                    </div>
+
+                    <div class="field">
+                        <label>Job Title</label>
+                        <input type="text" name="jobTitle"
+                               value={formData.jobTitle}
+                               onchange={handleInputChange} />
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label>Notice Period</label>
+                    <select name="noticePeriod"
+                            value={formData.noticePeriod}
+                            onchange={handleInputChange}>
+                        <option value="">-- Select --</option>
+                        <template for:each={noticeOptions} for:item="opt">
+                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                        </template>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label>Skills</label>
+                    <textarea name="skills"
+                              rows="4"
+                              value={formData.skills}
+                              onchange={handleInputChange}></textarea>
+                </div>
+
+                <div class="field">
+                    <label>Upload Resume</label>
+                    <input type="file" accept=".pdf,.doc,.docx"
+                           onchange={handleFileChange} />
+                    <p class="hint">PDF or DOC/DOCX preferred, max ~5MB.</p>
+                </div>
+
+                <!-- Hidden Source field handled on Apex side as "Website" -->
+
+                <!-- If using reCAPTCHA, keep a placeholder here for the widget -->
+
+                <div class="actions">
+                    <button type="submit" class="btn-primary" disabled={isSubmitting}>
+                        <template if:true={isSubmitting}>
+                            Submitting...
+                        </template>
+                        <template if:false={isSubmitting}>
+                            Submit Application
+                        </template>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+</template>

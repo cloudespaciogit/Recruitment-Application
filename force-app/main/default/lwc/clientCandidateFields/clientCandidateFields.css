@@ -1,0 +1,166 @@
+/* ===========================
+   HEADER STYLING
+=========================== */
+.header {
+    background: #415a77;
+    color: #e0e1dd;
+    padding: 1.4rem 1.6rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: white;
+}
+
+.subtitle {
+    font-size: 0.9rem;
+    color: #e0e1dd;
+    opacity: 0.9;
+}
+
+/* ===========================
+   STEP CARDS
+=========================== */
+.step-card {
+    background: #e0e1dd;
+    border: 1px solid #778da9;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 10px rgba(13, 27, 42, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.step-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(13, 27, 42, 0.25);
+}
+
+/* Step Header */
+.step-header {
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+    color: #0d1b2a;
+    margin-bottom: 0.6rem;
+}
+
+/* ===========================
+   SELECTED TAGS
+=========================== */
+.tag-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.field-tag {
+    background: linear-gradient(135deg, #415a77, #778da9);
+    border: 1px solid #415a77;
+    color: #e0e1dd;
+    border-radius: 1rem;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: grab;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+}
+
+.field-tag:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(13, 27, 42, 0.3);
+}
+
+.hint {
+    font-size: 0.85rem;
+    color: #415a77;
+    font-style: italic;
+    margin-top: 0.5rem;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+lightning-button[variant="brand"] {
+    --slds-c-button-brand-color-background: #0d1b2a;
+    --slds-c-button-brand-color-border: #415a77;
+    --slds-c-button-brand-color-background-hover: #778da9;
+    --slds-c-button-brand-color-border-hover: #778da9;
+    --slds-c-button-text-color: #e0e1dd;
+}
+
+/* ===========================
+   MODAL STYLING
+=========================== */
+.slds-modal__container {
+    border-radius: 1rem;
+    max-width: 600px;
+    width: 90%;
+   
+}
+
+.slds-modal__header {
+    background:#415a77;
+    border-bottom: 1px solid #778da9;
+    padding: 1rem 1.5rem;
+    border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem;
+}
+
+.slds-modal__header h2 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #e0e1dd;
+}
+
+.slds-modal__content {
+    padding: 1.5rem;
+    max-height: 400px;
+    overflow-y: auto;
+    background:#e0e1dd;
+}
+
+.slds-modal__footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid #778da9;
+    background: #e6e6e6; ;
+    gap: 0.5rem;
+}
+
+.slds-backdrop_open {
+    background-color: rgba(13, 27, 42, 0.6);
+}
+
+
+
+/* ===========================
+   CARD ANIMATIONS & EFFECTS
+=========================== */
+.slds-card {
+    background: linear-gradient(145deg, #e0e1dd, #a9cdeb);
+    border: 1px solid #778da9;
+    border-radius: 1rem;
+}
+
+/* ===========================
+   RESPONSIVE
+=========================== */
+@media (max-width: 600px) {
+    .header {
+        text-align: center;
+    }
+    .title {
+        font-size: 1.1rem;
+    }
+    .step-card {
+        padding: 0.8rem;
+    }
+}

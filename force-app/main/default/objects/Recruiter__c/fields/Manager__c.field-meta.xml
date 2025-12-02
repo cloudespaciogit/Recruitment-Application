@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Manager__c</fullName>
+    <deleteConstraint>SetNull</deleteConstraint>
+    <description>Establish a relationship within the recruiter object to preserve information about their manager.</description>
+    <label>Manager</label>
+    <referenceTo>Recruiter__c</referenceTo>
+    <relationshipLabel>Recruiters</relationshipLabel>
+    <relationshipName>Recruiters</relationshipName>
+    <required>false</required>
+    <trackFeedHistory>false</trackFeedHistory>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Lookup</type>
+</CustomField>

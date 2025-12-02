@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SharingRules xmlns="http://soap.sforce.com/2006/04/metadata">
+    <sharingCriteriaRules>
+        <fullName>CandidateRecordAcessForPartner</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>CandidateRecordAcessForPartner</label>
+        <sharedTo>
+            <portalRole>RAppPartnerPersonAccount</portalRole>
+        </sharedTo>
+        <criteriaItems>
+            <field>Name</field>
+            <operation>notEqual</operation>
+            <value></value>
+        </criteriaItems>
+        <includeRecordsOwnedByAll>true</includeRecordsOwnedByAll>
+    </sharingCriteriaRules>
+    <sharingOwnerRules>
+        <fullName>VendorSharingRule</fullName>
+        <accessLevel>Edit</accessLevel>
+        <label>VendorSharingRule</label>
+        <sharedTo>
+            <group>RishabPG</group>
+        </sharedTo>
+        <sharedFrom>
+            <portalRole>SupplierAccountPartnerUser</portalRole>
+        </sharedFrom>
+    </sharingOwnerRules>
+</SharingRules>

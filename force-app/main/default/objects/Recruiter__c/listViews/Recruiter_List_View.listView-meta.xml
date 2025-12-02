@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Recruiter_List_View</fullName>
+    <columns>NAME</columns>
+    <columns>Email__c</columns>
+    <columns>Job_Title__c</columns>
+    <columns>Department__c</columns>
+    <filterScope>Everything</filterScope>
+    <label>Recruiter List View</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+        <allPartnerUsers></allPartnerUsers>
+    </sharedTo>
+</ListView>

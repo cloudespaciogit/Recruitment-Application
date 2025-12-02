@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ListView xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Candidate_List_View</fullName>
+    <columns>NAME</columns>
+    <columns>Phone__c</columns>
+    <columns>Email__c</columns>
+    <columns>Total_Experience__c</columns>
+    <columns>LinkedIn_Profile__c</columns>
+    <columns>CREATED_DATE</columns>
+    <filterScope>Everything</filterScope>
+    <label>Candidate List View</label>
+    <sharedTo>
+        <allInternalUsers></allInternalUsers>
+        <allPartnerUsers></allPartnerUsers>
+    </sharedTo>
+</ListView>

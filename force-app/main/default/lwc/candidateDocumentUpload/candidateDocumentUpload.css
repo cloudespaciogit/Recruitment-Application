@@ -1,0 +1,204 @@
+.card-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.custom-card {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 0.5rem;
+    border: 1px solid rgb(180, 180, 180);
+    color: #2f4576;
+    padding: 1rem;
+}
+
+.form-section {
+    padding: 1rem;
+}
+
+.form-label {
+    font-weight: 600;
+    white-space: nowrap;
+    text-align: right;
+    color: #2f4576;
+    margin-top: 9px;
+    display: flex;
+    align-items: center;
+}
+
+/* ----- File Name Row ----- */
+.file-name-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+}
+
+.combobox-control {
+    flex: 1;
+    min-width: 220px;
+    max-width: 250px;
+}
+
+.text-control {
+    flex: 1;
+    min-width: 150px;
+    max-width: 220px;
+}
+
+/* ----- Upload Row ----- */
+.upload-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+     position: relative;
+}
+
+.upload-box {
+    border: 2px dashed #d0d0d0;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+    background: #fafafa;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.upload-box:hover {
+    border-color: #1b96ff;
+    background: #f0f8ff;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+}
+
+.upload-box.drag-over {
+    border-color: #28a745;
+    background: #eaffea;
+}
+
+.upload-text {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.browse-link {
+    color: #1b96ff;
+    font-weight: 600;
+    text-decoration: underline;
+}
+
+/* Disabled look */
+
+.upload-box.disabled {
+    background: #f0f0f0;      
+    border: 2px dashed #bdbdbd;
+    color: #9e9e9e;
+    cursor: not-allowed;      /* 🚫 cursor */
+    opacity: 0.7;
+        
+}
+
+/*  Browse link greyed out */
+.upload-box.disabled .browse-link {
+    color: #9e9e9e;
+    text-decoration: none;
+    cursor: not-allowed;
+}
+
+
+/* Hide actual input */
+.hidden-file-input {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+    height: 0;
+    width: 0;
+}
+.upload-section.disabled {
+    pointer-events: none;
+    opacity: 0.5;
+}
+.uploaded-files {
+    max-height: 200px; 
+    overflow-y: auto;  
+    overflow-x: hidden;
+    border: 1px solid #ddd; 
+    border-radius: 6px; 
+    
+}
+
+/* tracker */
+.tracker-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 8px;
+    padding: 0.8rem;
+}
+
+/* Base box look */
+.doc-box {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;       
+    border-radius: 8px;     
+    font-size: 12px;         
+    font-weight: 600;
+    transition: all 0.3s ease;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+    min-height: 32px;        
+}
+
+/* Pending state */
+.doc-box.pending {
+    background: #f5f5f5;
+    border: 1px dashed #bbb;
+    color: #555;
+}
+
+/* Uploaded state */
+.doc-box.uploaded {
+    background: #e8fbe9;
+    border: 1px solid #2ecc71;
+    color: #2c662d;
+    position: relative;
+}
+
+/* Tick icon for uploaded */
+.doc-box.uploaded::after {
+    content: "✔";
+    font-size: 10px;          
+    color: white;
+    background: #2ecc71;
+    border-radius: 50%;
+    padding: 1px 4px;
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+/* Hover effect */
+.doc-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+}
+
+
+/* Upload Overlay */
+.upload-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.7); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10;
+    border-radius: 0.25rem;
+    backdrop-filter: blur(3px); 
+}

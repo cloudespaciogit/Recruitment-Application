@@ -1,0 +1,231 @@
+/* MODAL CONTAINER */
+.slds-modal__container {
+    width: 900px !important;
+    max-width: 95% !important;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* STICKY HEADER & FOOTER */
+.header-fixed {
+    position: sticky;
+    top: 0;
+    background: #fff;
+    z-index: 10;
+    padding: 12px 16px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.footer-fixed {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    z-index: 10;
+    padding: 12px 16px;
+    border-top: 1px solid #e5e5e5;
+}
+
+/* footer buttons spacing like Salesforce */
+.footer-buttons {
+    margin-left: auto;
+}
+.footer-buttons lightning-button + lightning-button {
+    margin-left: 0.5rem;
+}
+
+/* SCROLLABLE CONTENT */
+.content-scroll {
+    max-height: calc(85vh - 160px);
+    overflow-y: auto;
+    padding: 16px;
+}
+
+/* FIELD ROW */
+.field-row {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+}
+
+.field-label {
+    width: 110px;
+    font-weight: 600;
+    color: #444;
+    padding-top: 8px;
+}
+
+.field-control {
+    flex: 1;
+}
+
+/* STANDARD INPUTS */
+lightning-input::part(input) {
+    height: 38px !important;
+    border-radius: 6px;
+}
+
+/* FROM PILL */
+.from-box {
+    position: relative;
+}
+
+.from-pill-container {
+    display: inline-flex;
+    cursor: pointer;
+}
+
+.from-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    border-radius: 20px;
+    border: 1px solid #d8dde6;
+    background: #f9fafb;
+}
+
+.from-popup {
+    position: absolute;
+    margin-top: 6px;
+    width: 360px;
+    background: #fff;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    z-index: 2000;
+}
+
+.from-option {
+    padding: 8px 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+.from-option:hover {
+    background: #f3f6fb;
+}
+
+/* TO/CC/BCC PILLS */
+.pills-wrapper {
+    min-height: 42px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 6px;
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+    background: #fff;
+}
+
+.pill-input {
+    flex: 1;
+    min-width: 120px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+/* CC/BCC */
+.cc-bcc-links {
+    margin-top: 4px;
+    font-size: 13px;
+    color: #0270d1;
+}
+.sep {
+    padding: 0 6px;
+}
+
+/* ---------------------------
+    RICH TEXT EDITOR FIXES
+   --------------------------- */
+
+/* RTE container */
+.rte-wrapper {
+    width: 100%;
+    height: 260px;
+    min-height: 260px;
+}
+
+/* full editor */
+.email-body {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border-radius: 6px;
+}
+
+/* toolbar + editor container */
+.email-body::part(editor) {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Main editable region → scroll both directions */
+.email-body::part(output),
+.slds-rich-text-editor__output,
+.slds-rich-text-editor__textarea,
+.slds-rich-text-area__content {
+    flex: 1;
+    min-height: 180px;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+    white-space: nowrap !important; /* enables horizontal scroll for tables */
+}
+
+/* ATTACHMENTS */
+.attach-preview {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.attach-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.attach-item img {
+    width: 28px;
+    height: 28px;
+}
+/* Force horizontal scrolling inside the rich text editor */
+/* Outer scroll wrapper -> horizontal scroll */
+.rte-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-bottom: 8px; /* spacing below */
+    border: 1px solid #d8dde6;
+    border-radius: 6px;
+}
+
+/* Fixed height inner zone */
+.rte-wrapper {
+    min-width: fit-content; /* IMPORTANT -> enables scroll */
+    height: 260px;
+}
+
+/* RTE full height */
+.email-body {
+    height: 100%;
+    width: 100%;
+}
+
+/* Shadow DOM overrides */
+.email-body::part(editor) {
+    height: 100%;
+    overflow: visible !important;
+}
+
+.email-body::part(output) {
+    height: 100%;
+    white-space: nowrap !important;  /* prevents table wrap */
+    overflow-x: visible !important; 
+    overflow-y: auto !important;
+}
+
+/* Internal SLDS content nodes */
+.slds-rich-text-editor__output,
+.slds-rich-text-editor__textarea,
+.slds-rich-text-area__content {
+    white-space: nowrap !important;
+}
