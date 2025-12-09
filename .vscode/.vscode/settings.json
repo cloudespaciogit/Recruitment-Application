@@ -1,0 +1,5 @@
+{
+  "salesforcedx-vscode-core.push-or-deploy-on-save.enabled": false,
+  "salesforcedx-vscode-core.show-cli-success-msg": true,
+  "salesforcedx-vscode-core.retrieve-test-code-coverage": false
+}
