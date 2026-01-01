@@ -1,56 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
     <actionCalls>
-        <name>Copy_1_of_Send_Custom_Notifcation</name>
-        <label>Copy 1 of Send Custom Notifcation</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <actionName>customNotificationAction</actionName>
-        <actionType>customNotificationAction</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>customNotifTypeId</name>
-            <value>
-                <elementReference>Get_Notification_Id.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>recipientIds</name>
-            <value>
-                <elementReference>UserId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>title</name>
-            <value>
-                <elementReference>NotifTitle</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>body</name>
-            <value>
-                <elementReference>NotifBody</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>targetId</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>customNotificationAction</nameSegment>
-        <offset>0</offset>
-    </actionCalls>
-    <actionCalls>
         <name>Copy_2_of_Send_30_Days_Email</name>
         <label>Send 15 Days Email</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <connector>
-            <targetReference>Copy_2_of_Send_Custom_Notifcation</targetReference>
-        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailAddresses</name>
@@ -99,56 +55,12 @@
         <versionString>1.0.1</versionString>
     </actionCalls>
     <actionCalls>
-        <name>Copy_2_of_Send_Custom_Notifcation</name>
-        <label>Copy 2 of Send Custom Notifcation</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <actionName>customNotificationAction</actionName>
-        <actionType>customNotificationAction</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>customNotifTypeId</name>
-            <value>
-                <elementReference>Get_Notification_Id.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>recipientIds</name>
-            <value>
-                <elementReference>UserId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>title</name>
-            <value>
-                <elementReference>NotifTitle</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>body</name>
-            <value>
-                <elementReference>NotifBody</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>targetId</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>customNotificationAction</nameSegment>
-        <offset>0</offset>
-    </actionCalls>
-    <actionCalls>
         <name>Copy_3_of_Send_30_Days_Email</name>
         <label>Send 1 Day Email</label>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <connector>
-            <targetReference>Copy_1_of_Send_Custom_Notifcation</targetReference>
-        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailAddresses</name>
@@ -203,9 +115,6 @@
         <locationY>0</locationY>
         <actionName>emailSimple</actionName>
         <actionType>emailSimple</actionType>
-        <connector>
-            <targetReference>Send_Custom_Notifcation</targetReference>
-        </connector>
         <flowTransactionModel>CurrentTransaction</flowTransactionModel>
         <inputParameters>
             <name>emailAddresses</name>
@@ -253,65 +162,8 @@
         <offset>0</offset>
         <versionString>1.0.1</versionString>
     </actionCalls>
-    <actionCalls>
-        <name>Send_Custom_Notifcation</name>
-        <label>Send Custom Notifcation</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <actionName>customNotificationAction</actionName>
-        <actionType>customNotificationAction</actionType>
-        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
-        <inputParameters>
-            <name>customNotifTypeId</name>
-            <value>
-                <elementReference>Get_Notification_Id.Id</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>recipientIds</name>
-            <value>
-                <elementReference>UserId</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>title</name>
-            <value>
-                <elementReference>NotifTitle</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>body</name>
-            <value>
-                <elementReference>NotifBody</elementReference>
-            </value>
-        </inputParameters>
-        <inputParameters>
-            <name>targetId</name>
-            <value>
-                <elementReference>$Record.Id</elementReference>
-            </value>
-        </inputParameters>
-        <nameSegment>customNotificationAction</nameSegment>
-        <offset>0</offset>
-    </actionCalls>
     <apiVersion>64.0</apiVersion>
     <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
-    <assignments>
-        <name>User_Id_Assign</name>
-        <label>User Id Assign</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignmentItems>
-            <assignToReference>UserId</assignToReference>
-            <operator>Add</operator>
-            <value>
-                <elementReference>$Record.Owner:User.Id</elementReference>
-            </value>
-        </assignmentItems>
-        <connector>
-            <targetReference>Date_Check</targetReference>
-        </connector>
-    </assignments>
     <decisions>
         <name>Date_Check</name>
         <label>Date Check</label>
@@ -367,12 +219,6 @@
     <description>Send Email Notification for Renewed Work Order</description>
     <environments>Default</environments>
     <formulas>
-        <name>daysRemaining</name>
-        <dataType>Number</dataType>
-        <expression>{!$Record.End_Date__c} - {!Today_Day}</expression>
-        <scale>0</scale>
-    </formulas>
-    <formulas>
         <name>Today_Day</name>
         <dataType>Date</dataType>
         <expression>Today()</expression>
@@ -425,7 +271,7 @@
         <locationY>0</locationY>
         <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Notification_Id</targetReference>
+            <targetReference>Date_Check</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
@@ -453,27 +299,6 @@
         <object>RecruitmentAutomationVariable__mdt</object>
         <storeOutputAutomatically>true</storeOutputAutomatically>
     </recordLookups>
-    <recordLookups>
-        <name>Get_Notification_Id</name>
-        <label>Get Notification Id</label>
-        <locationX>0</locationX>
-        <locationY>0</locationY>
-        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
-        <connector>
-            <targetReference>User_Id_Assign</targetReference>
-        </connector>
-        <filterLogic>and</filterLogic>
-        <filters>
-            <field>CustomNotifTypeName</field>
-            <operator>EqualTo</operator>
-            <value>
-                <stringValue>Work_Order_Notification_End_Date</stringValue>
-            </value>
-        </filters>
-        <getFirstRecordOnly>true</getFirstRecordOnly>
-        <object>CustomNotificationType</object>
-        <storeOutputAutomatically>true</storeOutputAutomatically>
-    </recordLookups>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
@@ -499,11 +324,11 @@
         <schedule>
             <frequency>Daily</frequency>
             <startDate>2025-08-06</startDate>
-            <startTime>01:00:00.000Z</startTime>
+            <startTime>17:15:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>Body15Days</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>
@@ -520,16 +345,6 @@
         <text>&lt;p&gt;Hi &lt;strong&gt;{!$Record.Recruiter__r.Name}&lt;/strong&gt;,&lt;/p&gt;&lt;p&gt;This is a reminder that the current work order for the candidate {!$Record.Candidate__r.Name} is approaching its end date. Please take the necessary steps to extend, reassign, or close the assignment as needed.&lt;/p&gt;&lt;h3&gt;Work Order Details:&lt;/h3&gt;&lt;ul&gt;&lt;li&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Work Order: &lt;/strong&gt;&lt;a href=&quot;https://cloudespaciosoftwareprivat5-dev-ed.develop.lightning.force.com/builder_platform_interaction/%7B!URL%7D&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;color: rgb(1, 118, 211); background-color: rgb(255, 255, 255);&quot;&gt;&lt;strong&gt;{!$Record.Name}&lt;/strong&gt;&lt;/a&gt;&lt;/li&gt;&lt;li&gt;&lt;strong style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;Candidate Name:&lt;/strong&gt;&lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt; {!$Record.Candidate__r.Name} &lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Candidate Email:&lt;/strong&gt; {!$Record.Candidate__r.Email__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Project Name:&lt;/strong&gt; {!$Record.Project__r.Name}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Client:&lt;/strong&gt; &lt;span style=&quot;background-color: rgb(255, 255, 255);&quot;&gt;{!$Record.Project__r.Client__r.Name}&lt;/span&gt;&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Work Order End Date:&lt;/strong&gt; {!$Record.End_Date__c}&lt;/li&gt;&lt;li&gt;&lt;strong&gt;Remaining Days:&lt;/strong&gt; 30 Days&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;Kindly review the candidate&apos;s performance and discuss next steps with the project manager or client as appropriate.&lt;/p&gt;&lt;p&gt;Let us know if you need any assistance.&lt;/p&gt;&lt;p&gt;Best regards,&lt;/p&gt;&lt;p&gt;&lt;strong&gt;{!$Organization.Name}&lt;/strong&gt;&lt;/p&gt;</text>
     </textTemplates>
     <textTemplates>
-        <name>NotifBody</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>{!$Record.Candidate__r.Name}&apos;s work order with {!$Record.Project__r.Client__r.Name} is expiring in {!daysRemaining} days. Please review and take necessary action.</text>
-    </textTemplates>
-    <textTemplates>
-        <name>NotifTitle</name>
-        <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>Candidate {!$Record.Candidate__r.Name}&apos;s work order is expiring on {!$Record.End_Date__c}.</text>
-    </textTemplates>
-    <textTemplates>
         <name>Subject15Days</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Candidate Work Order Ending in 15 Days - Please Review</text>
@@ -544,11 +359,4 @@
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Candidate Work Order Ending in 30 Days - Please Review</text>
     </textTemplates>
-    <variables>
-        <name>UserId</name>
-        <dataType>String</dataType>
-        <isCollection>true</isCollection>
-        <isInput>false</isInput>
-        <isOutput>false</isOutput>
-    </variables>
 </Flow>

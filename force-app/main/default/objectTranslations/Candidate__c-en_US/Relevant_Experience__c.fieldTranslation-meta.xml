@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Relevant experience in current profile --></help>
+    <label><!-- Relevant Experience (Years) --></label>
+    <name>Relevant_Experience__c</name>
+</CustomFieldTranslation>

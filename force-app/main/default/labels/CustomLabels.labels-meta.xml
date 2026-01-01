@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>FinishRedirectUrl</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>FinishRedirectUrl</shortDescription>
+        <value>/lightning/o/Candidate__c/list?filterName=__Recent</value>
+    </labels>
+</CustomLabels>

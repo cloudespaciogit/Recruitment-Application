@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Interview__c</entityName>
+    <fieldName>Interview_Status__c</fieldName>
+    <masterLabel>Interview Guidance Status Bar</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Candidate has accepted the offer and completed joining formalities.&lt;/li&gt;&lt;li&gt;Trigger background check.&lt;/li&gt;&lt;li&gt;Verify if Work Order is created for the same candidate.&lt;/li&gt;&lt;li&gt;Once set to Hired, status cannot be changed.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Hired</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Schedule interviews in the calendar and confirm with the candidate.&lt;/li&gt;&lt;li&gt;Capture feedback consistently.&lt;/li&gt;&lt;li&gt;Track and Keep the status updated after each round.&lt;/li&gt;&lt;li&gt;If cleared → move to &lt;strong&gt;Offered&lt;/strong&gt;, else → &lt;strong&gt;Rejected&lt;/strong&gt;.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Interviewing</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Candidate record is created with this status.&lt;/li&gt;&lt;li&gt;Confirm candidate details and ensure the correct job position is linked.&lt;/li&gt;&lt;li&gt;Move to &lt;strong&gt;Shortlisted&lt;/strong&gt; once reviewed.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Candidate has cleared interviews and is extended a job offer.&lt;/li&gt;&lt;li&gt;Send an official offer letter.&lt;/li&gt;&lt;li&gt;Track candidate acceptance or negotiation.&lt;/li&gt;&lt;li&gt;Communicate clearly with both HR &amp;amp; the hiring manager.&lt;/li&gt;&lt;li&gt;If accepted → move to &lt;strong&gt;Hired&lt;/strong&gt;, if declined → &lt;strong&gt;Rejected&lt;/strong&gt;.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Offered</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Candidate is not moving forward in the hiring process.&lt;/li&gt;&lt;li&gt;Record a clear reason for rejection (e.g., Skills mismatch, Salary expectations, etc.).&lt;/li&gt;&lt;li&gt;Notify the candidate politely.&lt;/li&gt;&lt;li&gt;Keep a record for future opportunities.&lt;/li&gt;&lt;li&gt;Once set to &lt;strong&gt;Rejected&lt;/strong&gt;, status cannot be changed.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Rejected</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Candidate has been selected for further process.&lt;/li&gt;&lt;li&gt;Ensure the candidate meets baseline requirements.&lt;/li&gt;&lt;li&gt;Keep the candidate informed about next steps.&lt;/li&gt;&lt;li&gt;Move to &lt;strong&gt;Screening&lt;/strong&gt; when ready.&lt;/li&gt;&lt;/ul&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</info>
+        <picklistValueName>Shortlisted</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>__MASTER__</recordTypeName>
+</PathAssistant>

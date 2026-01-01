@@ -1,0 +1,5 @@
+{
+  "apiName" : "Job_Position_Detail__c",
+  "type" : "sfdc_cms__route",
+  "path" : "routes"
+}

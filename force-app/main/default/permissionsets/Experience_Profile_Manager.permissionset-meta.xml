@@ -4,10 +4,6 @@
         <apexClass>ExportToExcel</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <flowAccesses>
-        <enabled>true</enabled>
-        <flow>Candidate_Export_to_excel</flow>
-    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Experience Profile Manager</label>
     <license>Salesforce</license>

@@ -527,6 +527,11 @@
             <field>Proposed_Offered_Rate__c</field>
             <table>Supplier__c.Candidates__r</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Contact__c</field>
+            <table>Supplier__c.Candidates__r</table>
+        </columns>
         <masterLabel>Candidates</masterLabel>
     </sections>
     <sections>

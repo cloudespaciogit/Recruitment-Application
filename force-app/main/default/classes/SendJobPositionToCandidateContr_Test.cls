@@ -1,7 +1,7 @@
-@isTest
+@IsTest
 public class SendJobPositionToCandidateContr_Test {
 
-    @testSetup
+    @TestSetup
     static void setupData() {
         Profile p = [SELECT Id FROM Profile WHERE Name = 'System Administrator' LIMIT 1];
 
@@ -44,12 +44,14 @@ public class SendJobPositionToCandidateContr_Test {
         insert inter;
     }
 
-    @isTest
-    static void test_getJobAndCandidates_Success() {
+    @IsTest
+    static void testGetJobAndCandidatesSuccess()
+{
         // Fetch setup data
+          User u = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
         Job_Position__c job = [SELECT Id FROM Job_Position__c LIMIT 1];
         Interview__c inter = [SELECT Id FROM Interview__c LIMIT 1];
-
+         System.runAs(u) {
         Test.startTest();
         Map<String, Object> result = SendJobPositionToCandidateController.getJobAndCandidates(job.Id, new List<Id>{inter.Id});
         Test.stopTest();
@@ -65,6 +67,7 @@ public class SendJobPositionToCandidateContr_Test {
         System.assertEquals(1, fetchedCandidates.size(), 'Should return only one candidate linked to interview');
         System.assertEquals('candidate6@example.com', fetchedCandidates[0].Email__c, 'Email mismatch');
     }
+}
 
     /*@isTest
     static void test_NoInterviewIds() {

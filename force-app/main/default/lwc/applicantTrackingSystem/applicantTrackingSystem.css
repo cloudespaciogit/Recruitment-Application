@@ -9,17 +9,18 @@ care_request_reviewerpill.custom-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--slds-g-z-modal, 1000);
-    font-family: var(--slds-g-font-family, 'Salesforce Sans', Arial, sans-serif);
+
+    z-index: var(--c-z-modal, 1000);
+    font-family: var(--c-font-family, 'Salesforce Sans', Arial, sans-serif);
 }
 
 .update-modal-container {
     background: var(--slds-g-color-neutral-base-100, #ffffff);
     border-radius: var(--slds-g-radius-border-1, 0.125rem);
-    width: 100%;
-    max-width: 34rem;
-    max-height: 80vh;
-    box-shadow: var(--slds-g-shadow-3, 0 6px 20px rgba(0,0,0,0.15));
+    width: var(--c-width, 100%);
+    max-width: var(--c-max-width, 34rem);
+    max-height: var(--c-max-height, 80vh);
+    box-shadow: var(--c-modal-shadow, 0 6px 20px rgba(0,0,0,0.15));
     display: flex;
     flex-direction: column;
     overflow-y: auto;
@@ -28,7 +29,7 @@ care_request_reviewerpill.custom-container {
 
 .update-modal-header {
     padding: var(--slds-g-spacing-4, 1rem) var(--slds-g-spacing-5, 1.5rem);
-    border-bottom: 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5);
+    border-bottom: var(--c-border-bottom, 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5));
     font-size: var(--slds-g-font-scale-3, 1.125rem);
     font-weight: var(--slds-g-font-weight-6, 600);
     text-align: center;
@@ -57,20 +58,20 @@ care_request_reviewerpill.custom-container {
 .delete-modal {
     position: fixed;
     inset: 0;
-    /*background-color: var(--slds-g-color-neutral-base-10, rgba(0,0,0,0.5));*/
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: var(--slds-g-z-modal, 2000);
-    font-family: var(--slds-g-font-family, 'Salesforce Sans', Arial, sans-serif);
+
+    z-index: var(--c-delete-z-index, 2000);
+    font-family: var(--c-font-family, 'Salesforce Sans', Arial, sans-serif);
 }
 
 .delete-modal-container {
     background: var(--slds-g-color-neutral-base-100, #ffffff);
     border-radius: var(--slds-g-radius-border-1, 0.125rem);
-    width: 100%;
-    max-width: 28rem;
-    box-shadow: var(--slds-g-shadow-3, 0 6px 20px rgba(0,0,0,0.2));
+    width: var(--c-width, 100%);
+    max-width: var(--c-delete-max-width, 28rem);
+    box-shadow: var(--c-delete-shadow, 0 6px 20px rgba(0,0,0,0.2));
     display: flex;
     flex-direction: column;
     padding: var(--slds-g-spacing-5, 1.5rem);
@@ -80,8 +81,8 @@ care_request_reviewerpill.custom-container {
     font-size: var(--slds-g-font-scale-3, 1.125rem);
     font-weight: var(--slds-g-font-weight-6, 600);
     text-align: center;
-    border-bottom: 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5);
-    padding-bottom: var(--slds-g-spacing-2, 0.5rem);
+    border-bottom: var(--c-border-bottom, 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5));
+    padding-bottom: var(--c-padding-bottom, 0.5rem);
 }
 
 .delete-modal-body {
@@ -123,7 +124,7 @@ care_request_reviewerpill.custom-container {
     display: flex;
     justify-content: flex-end;
     padding: var(--slds-g-spacing-3, 0.75rem) var(--slds-g-spacing-5, 1.5rem);
-    border-top: 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5);
+    border-top: var(--c-border-top, 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5));
     gap: var(--slds-g-spacing-3, 0.75rem);
 }
 
@@ -134,9 +135,9 @@ care_request_reviewerpill.custom-container {
 }
 
 .record-container {
-    border-bottom: 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5);
-    padding-left: var(--slds-g-spacing-2, 0.5rem);
-    padding-right: var(--slds-g-spacing-2, 0.5rem);
+    border-bottom: var(--c-border-bottom, 1px solid var(--slds-g-color-neutral-base-90, #e5e5e5));
+    padding-left: var(--c-padding-left, 0.5rem);
+    padding-right: var(--c-padding-right, 0.5rem);
 }
 
 /* Alternate row backgrounds */
@@ -150,23 +151,23 @@ care_request_reviewerpill.custom-container {
 
 /* Hover effect */
 .record-container:hover {
-    background-color: var(--slds-g-color-brand-base-95, #e0f0ff);
-    transition: background-color var(--slds-g-duration-quick, 0.2s) ease-in-out;
+    background-color: var(--c-hover-bg, #e0f0ff);
+    transition: background-color 0.2s ease-in-out;
 }
 
 .container_boundary {
-    border-bottom: var(--slds-g-border-width-1, 1px) solid var(--slds-g-color-neutral-base-10, #181818);
-    border-left: var(--slds-g-border-width-1, 1px) solid var(--slds-g-color-neutral-base-10, #181818);
-    border-right: var(--slds-g-border-width-1, 1px) solid var(--slds-g-color-neutral-base-10, #181818);
-    border-radius: 0 0 var(--slds-g-radius-border-1, 0.125rem) var(--slds-g-radius-border-1, 0.125rem);
+    border-bottom: var(--c-border-bottom, 1px solid #181818);
+    border-left: var(--c-border-left, 1px solid #181818);
+    border-right: var(--c-border-right, 1px solid #181818);
+    border-radius: var(--c-border-radius, 0 0 0.125rem 0.125rem);
     overflow: hidden;
 }
 
 /* === RESTORE ORIGINAL HEADER BAR COLOR === */
 .header-bar {
-    background-color: var(--slds-g-color-palette-cloud-blue-30, #0176d3); /* same as before */
+    background-color: var(--c-header-bg, #05253f);
     color: var(--slds-g-color-neutral-base-100, #ffffff);
-    border: 1px solid var(--slds-g-color-neutral-base-10, #181818);
+    border: var(--c-border, 1px solid var(--slds-g-color-neutral-base-10, #181818));
     border-radius: var(--slds-g-radius-border-1, 0.125rem) var(--slds-g-radius-border-1, 0.125rem) 0 0;
 }
 
@@ -186,25 +187,6 @@ care_request_reviewerpill.custom-container {
     transform-origin: top;
 }
 
-/* === Keep progress states visually same === */
-.custom-progress .slds-path__item.slds-is-complete .slds-path__link {
-    background-color: var(--slds-g-color-brand-base-50, #0176d3) !important;
-    border-color: var(--slds-g-color-brand-base-50, #0176d3) !important;
-}
-
-.custom-progress .slds-path__item.slds-is-complete .slds-path__stage {
-    fill: var(--slds-g-color-neutral-base-100, #ffffff) !important;
-}
-
-.custom-progress .slds-path__item.slds-is-current .slds-path__link {
-    border-color: var(--slds-g-color-brand-base-50, #0176d3) !important;
-    color: var(--slds-g-color-brand-base-50, #0176d3) !important;
-}
-
-.custom-progress .slds-path__item.slds-is-complete:hover .slds-path__link {
-    background-color: var(--slds-g-color-neutral-base-10, #181818) !important;
-}
-
 /* === RESTORE ORIGINAL PILL COLOR === */
 .pill-wrapper {
     display: flex;
@@ -217,16 +199,16 @@ care_request_reviewerpill.custom-container {
 .pill-container {
     display: inline-flex;
     align-items: center;
-    background-color: var(--slds-g-color-palette-cloud-blue-30, #0176d3); /* restored original cloud blue tone */
+    background-color: var(--c-header-bg, #05253f);
     color: var(--slds-g-color-neutral-base-100, #ffffff);
     border-radius: var(--slds-g-radius-border-pill, 1rem);
-    padding: 0.15rem 0.4rem;
+    padding: var(--c-pill-padding, 0.15rem 0.4rem);
     font-weight: var(--slds-g-font-weight-6, 600);
     font-size: var(--slds-g-font-scale-1, 0.875rem);
     gap: var(--slds-g-spacing-1, 0.25rem);
     box-shadow: var(--slds-g-shadow-1, 0 1px 2px rgba(0,0,0,0.2));
     white-space: nowrap;
-    border: 1px solid var(--slds-g-color-neutral-base-10, #181818);
+    border: var(--c-pill-border, 1px solid #181818);
 }
 
 .pill-label {
@@ -238,12 +220,13 @@ care_request_reviewerpill.custom-container {
     color: var(--slds-g-color-neutral-base-40, #747474);
     font-size: var(--slds-g-font-scale-1, 0.875rem);
     border-radius: var(--slds-g-radius-border-pill, 50%);
-    padding: 0.05rem 0.4rem;
-    min-width: 1rem;
+    padding: var(--c-pillcount-padding, 0.05rem 0.4rem);
+    min-width: var(--c-min-width, 1rem);
     text-align: center;
     font-weight: var(--slds-g-font-weight-6, 600);
-    border: 0.5px solid var(--slds-g-color-palette-cloud-blue-30, #0176d3);
+    border: var(--c-border-width, 0.5px) solid var(--slds-g-color-palette-cloud-blue-30, #0176d3);
 }
+
 .custom-modal {
     display: flex;
     align-items: center;
@@ -251,8 +234,8 @@ care_request_reviewerpill.custom-container {
 }
 
 .custom-width {
-    max-width: 60% !important;
-    width: 60% !important;
+    max-width: var(--c-modal-max-width, 60%) !important;
+    width: var(--c-modal-width, 60%) !important;
 }
 
 .custom-center-modal {
@@ -268,9 +251,19 @@ care_request_reviewerpill.custom-container {
     z-index: 9999 !important;
 }
 
+.custom-side-panel {
+    width: var(--slds-g-sizing-15, var(--lwc-sizeMedium, 380px));
+    height: var(--c-sidepanel-height, 100vh);
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: var(--slds-g-color-neutral-base-100, var(--lwc-colorBackground, white));
+    box-shadow: var(--c-panel-shadow, -2px 0 8px rgba(0,0,0,0.15));
+    transform: translateX(0);
+    transition: transform 0.25s ease-in-out;
+    z-index: 9999;
+}
 
-/* Modal width */
-.custom-width {
-    width: 60% !important; 
-    max-width: 60% !important;
+.custom-side-panel.hide {
+    transform: translateX(var(--c-translate, 100%));
 }

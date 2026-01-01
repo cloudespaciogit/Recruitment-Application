@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<NavigationMenu xmlns="http://soap.sforce.com/2006/04/metadata">
+    <container>Recuiter Community Site</container>
+    <containerType>Network</containerType>
+    <label>Default Navigation</label>
+    <navigationMenuItem>
+        <label>Job Position</label>
+        <position>1</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>Job_Position__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Interview</label>
+        <position>2</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>Interview__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <defaultListViewId>All</defaultListViewId>
+        <label>Client</label>
+        <position>3</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>Client__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <defaultListViewId>All</defaultListViewId>
+        <label>Projects</label>
+        <position>4</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>Project__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <defaultListViewId>All</defaultListViewId>
+        <label>Supplier</label>
+        <position>5</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>Supplier__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Work Order</label>
+        <position>6</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>Work_Order__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Candidate</label>
+        <position>7</position>
+        <publiclyAvailable>false</publiclyAvailable>
+        <target>Candidate__c</target>
+        <type>SalesforceObject</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Candidate Search</label>
+        <position>8</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>/dashboard/Dashboard/Recent</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>Calender</label>
+        <position>9</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>/calender</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+    <navigationMenuItem>
+        <label>DashBoard</label>
+        <position>10</position>
+        <publiclyAvailable>true</publiclyAvailable>
+        <target>/dashboardcustom</target>
+        <type>InternalLink</type>
+    </navigationMenuItem>
+</NavigationMenu>

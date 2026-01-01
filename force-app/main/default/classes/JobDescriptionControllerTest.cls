@@ -1,119 +1,254 @@
+/**
+ * @description
+ * Test class for JobDescriptionController.
+ * Covers job detail retrieval, job description generation,
+ * save functionality, and error handling.
+ *
+ * @author
+ * AJay Kaurav
+ */
 @IsTest
 public class JobDescriptionControllerTest {
 
-    // ----------------------------------------------------
-    // MOCK CLASS for OpenAI Named Credential Callout
-    // ----------------------------------------------------
+    /**
+     * @description
+     * Mock implementation for OpenAI HTTP callout.
+     */
     private class OpenAIMock implements HttpCalloutMock {
-        public HTTPResponse respond(HTTPRequest req) {
+
+        /**
+         * @description
+         * Returns a mocked OpenAI response.
+         *
+         * @param req HTTPRequest
+         * @return HTTPResponse
+         */
+        public HttpResponse respond(HttpRequest req) {
             HttpResponse res = new HttpResponse();
             res.setStatusCode(200);
-            res.setBody('{ "choices": [ { "message": { "content": "Mock AI Job Description" } } ] }');
+            res.setBody(
+                '{ "choices": [ { "message": { "content": "Mock AI Job Description" } } ] }'
+            );
             return res;
         }
     }
 
-    // ----------------------------------------------------
-    // TEST DATA USING @TestSetup  (Runs once for all tests)
-    // ----------------------------------------------------
+    /**
+     * @description
+     * Creates a standard test user for System.runAs().
+     *
+     * @return User
+     */
+    private static User createTestUser() {
+        Profile p = [
+            SELECT Id
+            FROM Profile
+            WHERE Name = 'System Administrator'
+            LIMIT 1
+        ];
+
+        return new User(
+            Alias = 'tuser',
+            Email = 'testuser@test.com',
+            EmailEncodingKey = 'UTF-8',
+            LastName = 'User',
+            LanguageLocaleKey = 'en_US',
+            LocaleSidKey = 'en_US',
+            ProfileId = p.Id,
+            TimeZoneSidKey = 'Asia/Kolkata',
+            Username = 'testuser' + DateTime.now().getTime() + '@test.com'
+        );
+    }
+
+    /**
+     * @description
+     * Test data setup executed once for all test methods.
+     */
     @TestSetup
     static void setupData() {
-        
-        Client__c client = Recruitment_TestDataFactory.createClient('Test Client', 'client@example.com');
+
+        Client__c client =
+            Recruitment_TestDataFactory.createClient(
+                'Test Client',
+                'client@example.com'
+            );
         insert client;
-        Project__c project = Recruitment_TestDataFactory.createProject('Test Project');
-        
-        Job_Position__c job = Recruitment_TestDataFactory.createJobPosition(client, project);
+
+        Project__c project =
+            Recruitment_TestDataFactory.createProject('Test Project');
+
+        Job_Position__c job =
+            Recruitment_TestDataFactory.createJobPosition(client, project);
+
         job.Client__c = client.Id;
         job.Job_Title__c = 'Salesforce Developer';
         job.Skills_Required__c = 'Apex; Java';
-        insert job;
+        job.Qualification__c = 'B.Tech';
+        job.Experience_Required__c = 3;
+        job.Soft_skills__c = 'Communication';
 
-        
-       
+        insert job;
     }
 
-    // ----------------------------------------------------
-    // TEST: getJobDetails
-    // ----------------------------------------------------
+    /**
+     * @description
+     * Tests retrieval of job details.
+     */
     @IsTest
     static void testGetJobDetails() {
 
-        Job_Position__c job = [SELECT Id FROM Job_Position__c LIMIT 1];
+        User u = createTestUser();
+        insert u;
 
-        Test.startTest();
-        Job_Position__c result = JobDescriptionController.getJobDetails(job.Id);
-        Test.stopTest();
+        System.runAs(u) {
 
-        System.assertNotEquals(null, result);
-        System.assertEquals('Apex; Java', result.Skills_Required__c);
+            Job_Position__c job =
+                [SELECT Id, Skills_Required__c FROM Job_Position__c LIMIT 1];
+
+            Test.startTest();
+            Job_Position__c result =
+                JobDescriptionController.getJobDetails(job.Id);
+            Test.stopTest();
+
+            System.assertNotEquals(
+                null,
+                result,
+                'Job details should be returned'
+            );
+
+            System.assertEquals(
+                'Apex; Java',
+                result.Skills_Required__c,
+                'Skills should match test data'
+            );
+        }
     }
 
-    // ----------------------------------------------------
-    // TEST: generateJobDescription (Mocked callout)
-    // ----------------------------------------------------
+    /**
+     * @description
+     * Tests job description generation using OpenAI mock response.
+     */
     @IsTest
     static void testGenerateJobDescription() {
 
-        Job_Position__c job = [SELECT Id, Skills_Required__c, 
-                                      Aditional_Skills__c, Qualification__c,
-                                      Experience_Required__c, Soft_skills__c
-                               FROM Job_Position__c LIMIT 1];
+        User u = createTestUser();
+        insert u;
 
-        Test.setMock(HttpCalloutMock.class, new OpenAIMock());
+        System.runAs(u) {
 
-        Test.startTest();
-        String response = JobDescriptionController.generateJobDescription(
-            job.Id,
-            job.Skills_Required__c,
-            job.Aditional_Skills__c,
-            job.Qualification__c,
-            job.Experience_Required__c,
-            job.Soft_skills__c,
-            'Professional',
-            'Medium',
-            'Short'
-        );
-        Test.stopTest();
+            Job_Position__c job =
+                [
+                    SELECT Id,
+                           Skills_Required__c,
+                           Aditional_Skills__c,
+                           Qualification__c,
+                           Experience_Required__c,
+                           Soft_skills__c
+                    FROM Job_Position__c
+                    LIMIT 1
+                ];
 
-        System.assert(response.contains('Mock AI Job Description'));
+            JobDescriptionController.JobDescriptionRequest req =
+                new JobDescriptionController.JobDescriptionRequest();
+
+            req.jobId = job.Id;
+            req.skillsData = job.Skills_Required__c;
+            req.additional = job.Aditional_Skills__c;
+            req.qualification = job.Qualification__c;
+            req.experience = job.Experience_Required__c;
+            req.soft = job.Soft_skills__c;
+            req.tone = 'Professional';
+            req.length = 'Medium';
+            req.lengthsize = 'Short';
+
+            String requestJson = JSON.serialize(req);
+
+            Test.setMock(HttpCalloutMock.class, new OpenAIMock());
+
+            Test.startTest();
+            String response =
+                JobDescriptionController.generateJobDescription(requestJson);
+            Test.stopTest();
+
+            System.assertNotEquals(
+                null,
+                response,
+                'Generated job description response should not be null'
+            );
+
+            System.assert(
+                response.contains('Mock AI Job Description'),
+                'Expected mocked OpenAI response'
+            );
+        }
     }
 
-    // ----------------------------------------------------
-    // TEST: saveJobDescription (Success)
-    // ----------------------------------------------------
+    /**
+     * @description
+     * Tests successful save of job description.
+     */
     @IsTest
     static void testSaveJobDescription() {
 
-        Job_Position__c job = [SELECT Id FROM Job_Position__c LIMIT 1];
+        User u = createTestUser();
+        insert u;
 
-        Test.startTest();
-        JobDescriptionController.saveJobDescription(job.Id, 'Updated Description');
-        Test.stopTest();
+        System.runAs(u) {
 
-        Job_Position__c updatedJob = [
-            SELECT Job_Description__c 
-            FROM Job_Position__c 
-            WHERE Id = :job.Id
-        ];
+            Job_Position__c job =
+                [SELECT Id FROM Job_Position__c LIMIT 1];
 
-        System.assertEquals('Updated Description', updatedJob.Job_Description__c);
+            Test.startTest();
+            JobDescriptionController.saveJobDescription(
+                job.Id,
+                'Updated Description'
+            );
+            Test.stopTest();
+
+            Job_Position__c updatedJob =
+                [
+                    SELECT Job_Description__c
+                    FROM Job_Position__c
+                    WHERE Id = :job.Id
+                ];
+
+            System.assertEquals(
+                'Updated Description',
+                updatedJob.Job_Description__c,
+                'Job description should be updated successfully'
+            );
+        }
     }
 
-    // ----------------------------------------------------
-    // TEST: saveJobDescription Error Case
-    // ----------------------------------------------------
+    /**
+     * @description
+     * Tests error handling when Job Id is null.
+     */
     @IsTest
     static void testSaveJobDescriptionError() {
 
-        Test.startTest();
-        try {
-            JobDescriptionController.saveJobDescription(null, 'Desc');
-            System.assert(false, 'Exception should have been thrown');
-        } catch (AuraHandledException e) {
-            
-            System.assert(e.getMessage().contains('Script-thrown exception'));
+        User u = createTestUser();
+        insert u;
+
+        System.runAs(u) {
+
+            Test.startTest();
+            try {
+                JobDescriptionController.saveJobDescription(null, 'Desc');
+
+                System.assertEquals(
+                    true,
+                    false,
+                    'Expected AuraHandledException'
+                );
+            } catch (AuraHandledException ex) {
+
+                System.assert(
+                    ex.getMessage().contains('Script-thrown exception'),
+                    'Expected AuraHandledException wrapper'
+                );
+            }
+            Test.stopTest();
         }
-        Test.stopTest();
     }
 }

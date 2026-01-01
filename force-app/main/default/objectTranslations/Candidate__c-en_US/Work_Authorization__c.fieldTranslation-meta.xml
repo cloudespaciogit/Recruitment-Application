@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Work Authorization --></label>
+    <name>Work_Authorization__c</name>
+    <picklistValues>
+        <masterLabel>B1</masterLabel>
+        <translation><!-- B1 --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Can work for any employer</masterLabel>
+        <translation><!-- Can work for any employer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Canada Authorized</masterLabel>
+        <translation><!-- Canada Authorized --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Canadian Citizen</masterLabel>
+        <translation><!-- Canadian Citizen --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Citizen</masterLabel>
+        <translation><!-- Citizen --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Current Employer Only</masterLabel>
+        <translation><!-- Current Employer Only --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Employment Auth. Document</masterLabel>
+        <translation><!-- Employment Auth. Document --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Employment Authorization Document</masterLabel>
+        <translation><!-- Employment Authorization Document --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>GC</masterLabel>
+        <translation><!-- GC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>GC-EAD</masterLabel>
+        <translation><!-- GC-EAD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Green Card Holder</masterLabel>
+        <translation><!-- Green Card Holder --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>H1-B</masterLabel>
+        <translation><!-- H1-B --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>H4-EAD</masterLabel>
+        <translation><!-- H4-EAD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>HAFAD.</masterLabel>
+        <translation><!-- HAFAD. --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Have H1 Visa</masterLabel>
+        <translation><!-- Have H1 Visa --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L1-A</masterLabel>
+        <translation><!-- L1-A --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L1-B</masterLabel>
+        <translation><!-- L1-B --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>L2-EAD</masterLabel>
+        <translation><!-- L2-EAD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Need H1 Visa</masterLabel>
+        <translation><!-- Need H1 Visa --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Need H1 Visa Sponsor</masterLabel>
+        <translation><!-- Need H1 Visa Sponsor --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>OPT EAD</masterLabel>
+        <translation><!-- OPT EAD --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sponsorship Required</masterLabel>
+        <translation><!-- Sponsorship Required --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>TN Permit Holder</masterLabel>
+        <translation><!-- TN Permit Holder --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>TN Visa</masterLabel>
+        <translation><!-- TN Visa --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>US Authorized</masterLabel>
+        <translation><!-- US Authorized --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>US Citizen</masterLabel>
+        <translation><!-- US Citizen --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>US Citizenship</masterLabel>
+        <translation><!-- US Citizenship --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>United Kingdom Authorized</masterLabel>
+        <translation><!-- United Kingdom Authorized --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

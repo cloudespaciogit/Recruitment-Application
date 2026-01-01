@@ -117,6 +117,10 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Candidate_Fields__c</fieldItem>
                 <identifier>RecordCandidate_Fields__cField</identifier>
             </fieldInstance>
@@ -341,7 +345,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Agreement_Signed__c</fieldItem>
                 <identifier>RecordAgreement_Signed_cField</identifier>
@@ -355,7 +359,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Agreement_Start_Date__c</fieldItem>
                 <identifier>RecordAgreement_Start_Date_cField</identifier>
@@ -365,7 +369,7 @@
             <fieldInstance>
                 <fieldInstanceProperties>
                     <name>uiBehavior</name>
-                    <value>none</value>
+                    <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Agreement_End_Date__c</fieldItem>
                 <identifier>RecordAgreement_End_Date_cField</identifier>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Status --></label>
+    <name>Status__c</name>
+    <picklistValues>
+        <masterLabel>Full Day Leave</masterLabel>
+        <translation><!-- Full Day Leave --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Half Day - FH</masterLabel>
+        <translation><!-- Half Day - FH --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Half Day - SH</masterLabel>
+        <translation><!-- Half Day - SH --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Holiday</masterLabel>
+        <translation><!-- Holiday --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Working</masterLabel>
+        <translation><!-- Working --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

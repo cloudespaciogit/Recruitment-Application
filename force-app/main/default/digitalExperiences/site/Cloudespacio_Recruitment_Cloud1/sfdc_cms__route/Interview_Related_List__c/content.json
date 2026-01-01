@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Interview Related List",
+  "contentBody" : {
+    "activeViewId" : "Interview_Related_List",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "relatedlist-Interview__c",
+    "urlPrefix" : "interview"
+  },
+  "urlName" : "interview-related-list"
+}

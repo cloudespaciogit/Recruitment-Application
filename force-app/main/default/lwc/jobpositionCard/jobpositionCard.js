@@ -29,46 +29,52 @@ export default class JobpositionCard extends LightningElement {
     searchTimeout;
 
     @api selectedCandidateIds = [];
-    @api hideCheckboxColumn = false; 
+    @api hideCheckboxColumn = false;
 
     columns = [
-    { 
-        label: 'Job ID', 
-        fieldName: 'Name', 
-        type: 'text',
-        cellAttributes: { iconName: 'standard:case', iconPosition: 'left' }
-    },
-    { 
-        label: 'Job Title', 
-        fieldName: 'Job_Title__c', 
-        type: 'text',
-        cellAttributes: { iconName: 'standard:lead', iconPosition: 'left' }
-    },
-    { 
-        label: 'Status', 
-        fieldName: 'Status__c', 
-        type: 'text',
-        cellAttributes: { iconName: 'utility:check', iconPosition: 'left' }
-    },
-    { 
-        label: 'Total Opening', 
-        fieldName: 'Total_Openings__c', 
-        type: 'number',
-        cellAttributes: { iconName: 'standard:people', iconPosition: 'left', alignment: 'left'}
-    },
-    { 
-        label: 'Experience', 
-        fieldName: 'Experience_Required__c', 
-        type: 'number',
-        cellAttributes: { iconName: 'utility:skill', iconPosition: 'left', alignment: 'left' }
-    },
-    { 
-        label: 'Created Date', 
-        fieldName: 'CreatedDate', 
-        type: 'date',
-        cellAttributes: { iconName: 'utility:calendar', iconPosition: 'left' }
-    }
-];
+        {
+            label: 'Job ID',
+            fieldName: 'Name',
+            type: 'text',
+            cellAttributes: { iconName: 'standard:case', iconPosition: 'left' }
+        },
+        {
+            label: 'Job Title',
+            fieldName: 'Job_Title__c',
+            type: 'text',
+            cellAttributes: { iconName: 'standard:lead', iconPosition: 'left' }
+        },
+        {
+            label: 'Client Name',
+            fieldName: 'ClientName',
+            type: 'text',
+            cellAttributes: { iconName: 'standard:account', iconPosition: 'left' }
+        },
+        {
+            label: 'Status',
+            fieldName: 'Status__c',
+            type: 'text',
+            cellAttributes: { iconName: 'utility:check', iconPosition: 'left' }
+        },
+        {
+            label: 'Total Opening',
+            fieldName: 'Total_Openings__c',
+            type: 'number',
+            cellAttributes: { iconName: 'standard:people', iconPosition: 'left', alignment: 'left' }
+        },
+        {
+            label: 'Experience',
+            fieldName: 'Experience_Required__c',
+            type: 'number',
+            cellAttributes: { iconName: 'utility:skill', iconPosition: 'left', alignment: 'left' }
+        },
+        {
+            label: 'Created Date',
+            fieldName: 'CreatedDate',
+            type: 'date',
+            cellAttributes: { iconName: 'utility:calendar', iconPosition: 'left' }
+        }
+    ];
 
     @api openModal() {
         this.isOpen = true;
@@ -82,9 +88,17 @@ export default class JobpositionCard extends LightningElement {
     loadJobPositions(searchKey) {
         getOpenJobPositions({ searchKey })
             .then(result => {
+                const processedJobs = result.map(job => {
+                    return {
+                        ...job,
+                        // Extract Client Name from Client__r relationship
+                        ClientName: job.Client__r ? job.Client__r.Name : ''
+                    };
+                });
+
                 const preservedSelection = new Set(this.selectedJobIds);
-                this.jobPositions = result;
-                this.selectedJobIds = result
+                this.jobPositions = processedJobs;
+                this.selectedJobIds = processedJobs
                     .filter(job => preservedSelection.has(job.Id))
                     .map(job => job.Id);
             })
@@ -104,10 +118,7 @@ export default class JobpositionCard extends LightningElement {
 
     handleSearch(event) {
         this.searchKey = event.target.value;
-        clearTimeout(this.searchTimeout);
-        this.searchTimeout = setTimeout(() => {
-            this.loadJobPositions(this.searchKey);
-        }, 300);
+        this.loadJobPositions(this.searchKey);
     }
 
     handleRowSelection(event) {

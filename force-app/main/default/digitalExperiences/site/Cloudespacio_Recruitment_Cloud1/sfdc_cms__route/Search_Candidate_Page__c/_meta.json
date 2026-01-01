@@ -1,0 +1,5 @@
+{
+  "apiName" : "Search_Candidate_Page__c",
+  "type" : "sfdc_cms__route",
+  "path" : "routes"
+}

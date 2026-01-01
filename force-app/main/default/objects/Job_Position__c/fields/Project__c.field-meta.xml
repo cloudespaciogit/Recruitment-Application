@@ -3,6 +3,16 @@
     <fullName>Project__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <label>Project</label>
+    <lookupFilter>
+        <active>true</active>
+        <errorMessage>Value does not exist or does not match filter criteria.</errorMessage>
+        <filterItems>
+            <field>Project__c.Active__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </filterItems>
+        <isOptional>false</isOptional>
+    </lookupFilter>
     <referenceTo>Project__c</referenceTo>
     <relationshipLabel>Job Positions</relationshipLabel>
     <relationshipName>Job_Positions</relationshipName>

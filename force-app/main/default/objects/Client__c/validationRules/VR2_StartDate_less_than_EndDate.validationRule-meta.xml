@@ -3,6 +3,6 @@
     <fullName>VR2_StartDate_less_than_EndDate</fullName>
     <active>true</active>
     <description>Start Date Should be Less than EndDate</description>
-    <errorConditionFormula>Agreement_Start_Date__c  &gt;  Agreement_End_Date__c</errorConditionFormula>
+    <errorConditionFormula>Agreement_Start_Date__c &gt;= Agreement_End_Date__c</errorConditionFormula>
     <errorMessage>Start Date must be earlier than End Date.</errorMessage>
 </ValidationRule>

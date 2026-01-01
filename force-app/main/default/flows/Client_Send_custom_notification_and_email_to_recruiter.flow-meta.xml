@@ -330,7 +330,7 @@ RIGHT(TEXT(YEAR($Record.Agreement_End_Date__c)), 2)</expression>
         <schedule>
             <frequency>Daily</frequency>
             <startDate>2025-08-06</startDate>
-            <startTime>00:00:00.000Z</startTime>
+            <startTime>16:05:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>

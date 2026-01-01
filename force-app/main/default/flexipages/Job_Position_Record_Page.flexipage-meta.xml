@@ -133,8 +133,32 @@
         </itemInstances>
         <itemInstances>
             <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Responded_By__c</fieldItem>
                 <identifier>RecordResponded_By__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Remote_Job__c</fieldItem>
+                <identifier>RecordRemote_Job_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Responded_Date__c</fieldItem>
+                <identifier>RecordResponded_Date__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-00c3a843-4aeb-497b-bff1-753ba7af45f7</name>
@@ -147,8 +171,28 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
+                <fieldItem>Record.OwnerId</fieldItem>
+                <identifier>RecordOwnerIdField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
                 <fieldItem>Record.Status__c</fieldItem>
                 <identifier>RecordStatus_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Reason_for_Closing__c</fieldItem>
+                <identifier>RecordReason_for_Closing_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -169,16 +213,6 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Requisition_department__c</fieldItem>
                 <identifier>RecordRequisition_department_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Remote_Job__c</fieldItem>
-                <identifier>RecordRemote_Job_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -224,7 +258,7 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Salary_Range__c</fieldItem>
+                <fieldItem>Record.ClientBillRateSalary__c</fieldItem>
                 <identifier>RecordSalary_Range_cField</identifier>
             </fieldInstance>
         </itemInstances>
@@ -324,6 +358,16 @@
                 <identifier>RecordSoft_skills__cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Language__c</fieldItem>
+                <identifier>RecordLanguage_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-d1a553d0-45e0-4c0c-afbf-b38553e396ee</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -378,16 +422,6 @@
                 <identifier>RecordAditional_Skills_cField</identifier>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
-                <fieldItem>Record.Language__c</fieldItem>
-                <identifier>RecordLanguage_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-c81d64fe-ed83-481a-ba97-e0ecaabfb4b0</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -432,16 +466,6 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Total_Openings__c</fieldItem>
-                <identifier>RecordTotal_Openings_cField</identifier>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldInstanceProperties>
-                    <name>uiBehavior</name>
-                    <value>none</value>
-                </fieldInstanceProperties>
                 <fieldItem>Record.Open_Date__c</fieldItem>
                 <identifier>RecordOpen_Date_cField</identifier>
             </fieldInstance>
@@ -456,10 +480,40 @@
                 <identifier>RecordClose_Date_cField</identifier>
             </fieldInstance>
         </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Pay_Min_Salary__c</fieldItem>
+                <identifier>RecordPay_Min_Salary__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Pay_max_Salary__c</fieldItem>
+                <identifier>RecordPay_max_Salary__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <name>Facet-a5ad266c-ad5c-4181-8ed2-a9c438068931</name>
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Total_Openings__c</fieldItem>
+                <identifier>RecordTotal_Openings_cField</identifier>
+            </fieldInstance>
+        </itemInstances>
         <itemInstances>
             <fieldInstance>
                 <fieldInstanceProperties>
@@ -496,8 +550,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Reason_for_Closing__c</fieldItem>
-                <identifier>RecordReason_for_Closing_cField</identifier>
+                <fieldItem>Record.Pay_Rate_Salary_range__c</fieldItem>
+                <identifier>RecordPay_Rate_Salary_range__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-74fa4bd2-0978-40fd-be7b-2bd0ec0039e7</name>
@@ -788,7 +842,7 @@
                 </componentInstanceProperties>
                 <componentInstanceProperties>
                     <name>label</name>
-                    <value>Dates and Opening</value>
+                    <value>Dates, Opening and Budget</value>
                 </componentInstanceProperties>
                 <componentName>flexipage:fieldSection</componentName>
                 <identifier>flexipage_fieldSection3</identifier>
@@ -846,6 +900,29 @@
     <flexiPageRegions>
         <itemInstances>
             <componentInstance>
+                <componentName>skillsMatchedCandidates</componentName>
+                <identifier>c_skillsMatchedCandidates2</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-28d63b4a-1a2d-4ef1-a337-8c18826caf3c</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>recordId</name>
+                </componentInstanceProperties>
+                <componentName>addToExistingCandidate</componentName>
+                <identifier>c_addToExistingCandidate</identifier>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-c1ed1c5b-e9da-4388-ba52-29b44fc333f3</name>
+        <type>Facet</type>
+    </flexiPageRegions>
+    <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
                 <componentInstanceProperties>
                     <name>active</name>
                     <value>false</value>
@@ -894,6 +971,34 @@
                 <identifier>flexipage_tab5</identifier>
             </componentInstance>
         </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-28d63b4a-1a2d-4ef1-a337-8c18826caf3c</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Candidates</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab6</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-c1ed1c5b-e9da-4388-ba52-29b44fc333f3</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Existing Candidates</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+                <identifier>flexipage_tab7</identifier>
+            </componentInstance>
+        </itemInstances>
         <name>Facet-4f23de8f-e650-4440-bf1e-69795724c9de</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -921,7 +1026,7 @@
             <componentInstance>
                 <componentInstanceProperties>
                     <name>showLegacyActivityComposer</name>
-                    <value>false</value>
+                    <value>true</value>
                 </componentInstanceProperties>
                 <componentName>runtime_sales_activities:activityPanel</componentName>
                 <identifier>runtime_sales_activities_activityPanel</identifier>

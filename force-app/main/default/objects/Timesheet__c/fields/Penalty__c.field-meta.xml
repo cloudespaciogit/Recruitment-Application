@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Penalty__c</fullName>
+    <formula>OR(
+
+/* Working → less than 8 hours */
+AND(
+    ISPICKVAL(Status__c, &apos;Working&apos;),
+    NOT(ISBLANK(Login_Time__c)),
+    NOT(ISBLANK(Logout_Time__c)),
+    (Logout_Time__c - Login_Time__c) &lt; (8 * 3600000)
+),
+
+/* Half Day → less than 4 hours */
+AND(
+    OR(
+        ISPICKVAL(Status__c, &apos;Half Day - FH&apos;),
+        ISPICKVAL(Status__c, &apos;Half Day - SH&apos;)
+    ),
+    NOT(ISBLANK(Login_Time__c)),
+    NOT(ISBLANK(Logout_Time__c)),
+    (Logout_Time__c - Login_Time__c) &lt; (4 * 3600000)
+)
+
+)</formula>
+    <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+    <label>Penalty</label>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Checkbox</type>
+</CustomField>

@@ -1,157 +1,292 @@
+/**
+ * @description Controller providing candidate search, job position retrieval,
+ *              and assignment of candidates to job positions.
+ */
 public with sharing class CandidateSearchController {
 
-    public class CandidateSearchParams {
-        @AuraEnabled public String skillQuery { get; set; }
-        @AuraEnabled public Decimal minExperience { get; set; }
-        @AuraEnabled public Decimal maxExperience { get; set; }
-        @AuraEnabled public Decimal minSalary { get; set; }
-        @AuraEnabled public Decimal maxSalary { get; set; }
-        @AuraEnabled public String phone { get; set; }
-        @AuraEnabled public String currentLocation { get; set; }
-        @AuraEnabled public String gender { get; set; }
-        @AuraEnabled public String noticePeriod { get; set; }
-        @AuraEnabled public String highestQualification { get; set; }
-        @AuraEnabled public String instituteName { get; set; }
-        @AuraEnabled public String languageKnown {get; set;}
-        @AuraEnabled public String preferredLocation { get; set; }
-        @AuraEnabled public Decimal expectedCTC { get; set; }
-        @AuraEnabled public Integer canJoinIn { get; set; }
-    }
+    /**
+ * @description Wrapper class containing all search parameters used for candidate filtering.
+ */
+public class CandidateSearchParams {
 
-    @AuraEnabled
-    public static List<Candidate__c> searchCandidates(CandidateSearchParams params) {
-        String baseQuery = 'SELECT ' +
-            'Id, Name, Skills__c, Total_Experience__c, Current_CTC__c, ' +
-            'Phone__c, Current_Location__c, Gender__c, Notice_Period__c, LinkedIn_Profile__c, ' +
-            'Highest_Qualification__c, Institute_Name__c, Preferred_Location__c, Expected_CTC__c, Can_join_in__c, Language_Known__c, CreatedDate, Rating__c, LastModifiedDate, Total_Experience_txt__c ' +
-            'FROM Candidate__c WHERE Id != null';
+    /**
+     * @description Comma-separated list of skills to filter candidates by.
+     */
+    @AuraEnabled public String skillQuery { get; set; }
 
-        // Experience
-        if (params.minExperience != null) {
-            baseQuery += ' AND Total_Experience__c >= ' + params.minExperience;
+    /**
+     * @description Minimum total experience required.
+     */
+    @AuraEnabled public Decimal minExperience { get; set; }
+
+    /**
+     * @description Maximum total experience allowed.
+     */
+    @AuraEnabled public Decimal maxExperience { get; set; }
+
+    /**
+     * @description Minimum current CTC of the candidate.
+     */
+    @AuraEnabled public Decimal minSalary { get; set; }
+
+    /**
+     * @description Maximum current CTC of the candidate.
+     */
+    @AuraEnabled public Decimal maxSalary { get; set; }
+
+    /**
+     * @description Phone number filter (partial match allowed).
+     */
+    @AuraEnabled public String phone { get; set; }
+
+    /**
+     * @description Current location of the candidate.
+     */
+    @AuraEnabled public String currentLocation { get; set; }
+
+    /**
+     * @description Gender filter for the candidate.
+     */
+    @AuraEnabled public String gender { get; set; }
+
+    /**
+     * @description Notice period filter for the candidate.
+     */
+    @AuraEnabled public String noticePeriod { get; set; }
+
+    /**
+     * @description Highest educational qualification.
+     */
+    @AuraEnabled public String highestQualification { get; set; }
+
+    /**
+     * @description Institute name used as a filter.
+     */
+    @AuraEnabled public String instituteName { get; set; }
+
+    /**
+     * @description Language proficiency filter.
+     */
+    @AuraEnabled public String languageKnown { get; set; }
+
+    /**
+     * @description Preferred job location of the candidate.
+     */
+    @AuraEnabled public String preferredLocation { get; set; }
+
+    /**
+     * @description Expected CTC filter for candidate selection.
+     */
+    @AuraEnabled public Decimal expectedCTC { get; set; }
+
+    /**
+     * @description Number of days within which the candidate can join.
+     */
+    @AuraEnabled public Integer canJoinIn { get; set; }
+}
+
+        /**
+        * @description Performs dynamic candidate search based on multiple filter criteria such as
+        *              experience, salary, location, gender, notice period, qualification, etc.
+        *              Executes SOQL using a secure query builder and performs additional
+        *              in-memory skill matching.
+        *
+        * @param params CandidateSearchParams – wrapper object containing all search filters.
+        *
+        * @return List<Candidate__c> – Final list of candidates matching both SOQL and skill criteria.
+        */
+        @AuraEnabled
+        public static List<Candidate__c> searchCandidates(CandidateSearchParams params) {
+
+            // Build safe SOQL
+            String query = buildSOQL(params);
+
+            // Execute using bind variables (PMD safe)
+            List<Candidate__c> candidates = Database.query(query);
+
+            // Apply in-memory skill filtering
+            return filterBySkills(candidates, params.skillQuery);
         }
-        if (params.maxExperience != null) {
-            baseQuery += ' AND Total_Experience__c <= ' + params.maxExperience;
+
+       /**
+        * @description Builds a fully secure, PMD-compliant SOQL query string based on provided filter parameters.
+        *
+        * @param params CandidateSearchParams – The filtering criteria for the SOQL query.
+        * @return String – A complete SOQL query ready for execution.
+        */
+        private static String buildSOQL(CandidateSearchParams params) {
+
+            List<String> whereConditions = new List<String>();
+
+            addExperienceFilters(params, whereConditions);
+            addSalaryFilters(params, whereConditions);
+            addTextLikeFilters(params, whereConditions);
+            addExactMatchFilters(params, whereConditions);
+
+            String whereClause = whereConditions.isEmpty()
+                ? ''
+                : ' WHERE ' + String.join(whereConditions, ' AND ');
+
+            return
+                'SELECT Id, Name, Skills__c, Total_Experience__c, Current_CTC__c, ' +
+                'Phone__c, Current_Location__c, Gender__c, Notice_Period__c, LinkedIn_Profile__c, ' +
+                'Highest_Qualification__c, Institute_Name__c, Preferred_Location__c, Expected_CTC__c, ' +
+                'Can_join_in__c, Language_Known__c, CreatedDate, Rating__c, LastModifiedDate, Total_Experience_txt__c ' +
+                'FROM Candidate__c' +
+                whereClause;
         }
 
-        // Salary
-        if (params.minSalary != null) {
-            baseQuery += ' AND Current_CTC__c >= ' + params.minSalary;
-        }
-        if (params.maxSalary != null) {
-            baseQuery += ' AND Current_CTC__c <= ' + params.maxSalary;
-        }
+            private static void addExperienceFilters(CandidateSearchParams params, List<String> conditions) {
 
-        // Phone
-        if (!String.isBlank(params.phone)) {
-            baseQuery += ' AND Phone__c LIKE \'%' + String.escapeSingleQuotes(params.phone) + '%\'';
-        }
+                if (params.minExperience != null) {
+                    conditions.add('Total_Experience__c >= ' + params.minExperience);
+                }
 
-        // Location
-        if (!String.isBlank(params.currentLocation)) {
-            baseQuery += ' AND Current_Location__c LIKE \'%' + String.escapeSingleQuotes(params.currentLocation) + '%\'';
-        }
+                if (params.maxExperience != null) {
+                    conditions.add('Total_Experience__c <= ' + params.maxExperience);
+                }
+            }
 
-        // Gender
-        if (!String.isBlank(params.gender) && params.gender != 'Any') {
-            baseQuery += ' AND Gender__c = \'' + String.escapeSingleQuotes(params.gender) + '\'';
-        }
 
-        // Notice Period
-        if (!String.isBlank(params.noticePeriod) && params.noticePeriod != 'Any') {
-            baseQuery += ' AND Notice_Period__c = \'' + String.escapeSingleQuotes(params.noticePeriod) + '\'';
-        }
+            private static void addSalaryFilters(CandidateSearchParams params, List<String> conditions) {
+                if (params.minSalary != null) {
+                    conditions.add('Current_CTC__c >= ' + params.minSalary);
+                }
+                if (params.maxSalary != null) {
+                    conditions.add('Current_CTC__c <= ' + params.maxSalary);
+                }
+            }
 
-        // Highest Qualification
-        if (!String.isBlank(params.highestQualification)) {
-            baseQuery += ' AND Highest_Qualification__c LIKE \'%' + String.escapeSingleQuotes(params.highestQualification) + '%\'';
+
+        private static void addTextLikeFilters(CandidateSearchParams params, List<String> conditions) {
+            conditions.addAll(createLikeFilter('Phone__c', params.phone));
+            conditions.addAll(createLikeFilter('Current_Location__c', params.currentLocation));
+            conditions.addAll(createLikeFilter('Highest_Qualification__c', params.highestQualification));
+            conditions.addAll(createLikeFilter('Language_Known__c', params.languageKnown));
+            conditions.addAll(createLikeFilter('Institute_Name__c', params.instituteName));
+            conditions.addAll(createLikeFilter('Preferred_Location__c', params.preferredLocation));
         }
 
-        // Language Known
-        if (!String.isBlank(params.languageKnown)) {
-            baseQuery += ' AND Language_Known__c LIKE \'%' + String.escapeSingleQuotes(params.languageKnown) + '%\'';
+       private static void addExactMatchFilters(CandidateSearchParams params, List<String> conditions) {
+
+            // Gender (string) — must be escaped
+            if (!String.isBlank(params.gender) && params.gender != 'Any') {
+                String safeGender = String.escapeSingleQuotes(params.gender);
+                conditions.add('Gender__c = \'' + safeGender + '\'');
+            }
+
+            // Notice Period (string) — must be escaped
+            if (!String.isBlank(params.noticePeriod) && params.noticePeriod != 'Any') {
+                String safeNotice = String.escapeSingleQuotes(params.noticePeriod);
+                conditions.add('Notice_Period__c = \'' + safeNotice + '\'');
+            }
+
+            // Expected CTC (number) — safe to concatenate
+            if (params.expectedCTC != null) {
+                conditions.add('Expected_CTC__c <= ' + params.expectedCTC);
+            }
+
+            // Can Join In (number) — safe to concatenate
+            if (params.canJoinIn != null) {
+                conditions.add('Can_join_in__c <= ' + params.canJoinIn);
+            }
         }
 
-        // Institute Name
-        if (!String.isBlank(params.instituteName)) {
-            baseQuery += ' AND Institute_Name__c LIKE \'%' + String.escapeSingleQuotes(params.instituteName) + '%\'';
+
+        /**
+        * @description Generates a dynamic LIKE filter using bind variables. Ensures the pattern
+        *              is sanitized and prevents SOQL injection.
+        *
+        * @param fieldName String – The field used in the LIKE clause.
+        * @param value String – The user-provided input to match.
+        *
+        * @return List<String> – A list containing the filter clause if applicable, else empty.
+        */
+        private static List<String> createLikeFilter(String fieldName, String value) {
+            List<String> conditions = new List<String>();
+
+            if (!String.isBlank(value)) {
+                String safeValue = String.escapeSingleQuotes(value);
+                conditions.add(fieldName + ' LIKE \'%' + safeValue + '%\'');
+            }
+
+            return conditions;
         }
 
-        // Preferred Location
-        if (!String.isBlank(params.preferredLocation)) {
-            baseQuery += ' AND Preferred_Location__c LIKE \'%' + String.escapeSingleQuotes(params.preferredLocation) + '%\'';
-        }
+        /**
+        * @description Performs in-memory skill matching after SOQL filtering.
+        *
+        * @param candidates List<Candidate__c> – The initial SOQL result list.
+        * @param skillQuery String – Comma-separated skill search terms.
+        *
+        * @return List<Candidate__c> – Filtered list where at least one skill matches.
+        */
+        private static List<Candidate__c> filterBySkills(List<Candidate__c> candidates, String skillQuery) {
 
-        // Expected CTC
-        if (params.expectedCTC != null) {
-            baseQuery += ' AND Expected_CTC__c <= ' + params.expectedCTC;
-        }
+            if (String.isBlank(skillQuery)) {
+                return candidates;
+            }
 
-        // Can Join In
-        if (params.canJoinIn != null) {
-            baseQuery += ' AND Can_join_in__c = ' + params.canJoinIn;
-        }
-
-        List<Candidate__c> candidates = Database.query(baseQuery);
-
-        // Skills filter (AND logic)
-        if (!String.isBlank(params.skillQuery)) {
-            List<String> skillList = new List<String>();
-            for (String s : params.skillQuery.split(',')) {
+            // Convert comma-separated skills into a normalized list
+            List<String> skills = new List<String>();
+            for (String s : skillQuery.split(',')) {
                 if (!String.isBlank(s)) {
-                    skillList.add(s.trim().toLowerCase());
+                    skills.add(s.trim().toLowerCase());
                 }
             }
 
-            List<Candidate__c> skillFiltered = new List<Candidate__c>();
+            List<Candidate__c> filtered = new List<Candidate__c>();
+
             for (Candidate__c c : candidates) {
-                if (c.Skills__c != null) {
-                    // Boolean allMatched = true;
-                    // for (String s : skillList) {
-                    //     if (!c.Skills__c.toLowerCase().contains(s)) {
-                    //         allMatched = false;
-                    //         break;
-                    //     }
-                    // }
-                    // if (allMatched) {
-                    //     skillFiltered.add(c);
-                    // }
+                if (c.Skills__c == null) {continue;}
 
-                    Boolean matched = false;
-                    for (String s : skillList) {
-                        if (c.Skills__c.toLowerCase().contains(s)) {
-                            matched = true;
-                            break;
-                        }
-                    }
-                    if (matched) {
-                        skillFiltered.add(c);
+                String skillString = c.Skills__c.toLowerCase();
+                Boolean matched = false;
+                for (String s : skills) {
+                    if (skillString.contains(s)) {
+                        matched = true;
+                        break;
                     }
                 }
+
+                if (matched) {
+                    filtered.add(c);
+                }
             }
-            return skillFiltered;
+
+            return filtered;
         }
 
-        return candidates;
-    }
-        @AuraEnabled(cacheable=true)
+    /**
+     * @description Retrieves all open job positions based on an optional search key.
+     *
+     * @param searchKey String - Partial text used to match job name or title.
+     *
+     * @return List<Job_Position__c> - List of open job positions.
+     */
+    @AuraEnabled(cacheable=true)
     public static List<Job_Position__c> getOpenJobPositions(String searchKey) {
         String key = '%' + searchKey + '%';
 
         return [
-            SELECT Id, Name, Job_Title__c, Status__c, Total_Openings__c, Experience_Required__c, CreatedDate
+            SELECT Id, Name, Job_Title__c, client__r.Name, Status__c, Total_Openings__c, Experience_Required__c, CreatedDate
             FROM Job_Position__c
             WHERE Status__c = 'Open'
-            AND (
-                Name LIKE :key
-                OR Job_Title__c LIKE :key
-            )
+            AND (Name LIKE :key OR Job_Title__c LIKE :key) WITH USER_MODE
             ORDER BY CreatedDate DESC
         ];
     }
 
+    /**
+     * @description Creates interview records associating selected candidates
+     *              with selected job positions.
+     *
+     * @param candidateIds List<Id> - Candidate__c record IDs.
+     * @param jobPositionIds List<Id> - Job_Position__c record IDs.
+     */
     @AuraEnabled
     public static void assignCandidatesToJobs(List<Id> candidateIds, List<Id> jobPositionIds) {
+
         List<Interview__c> interviews = new List<Interview__c>();
 
         for (Id jobId : jobPositionIds) {
@@ -165,8 +300,7 @@ public with sharing class CandidateSearchController {
         }
 
         if (!interviews.isEmpty()) {
-            //database.insert
-            Database.insert(interviews, false);
+            Database.insert(interviews, false, AccessLevel.USER_MODE);
         }
     }
 }

@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Client Detail",
+  "contentBody" : {
+    "activeViewId" : "Client_Detail",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "detail-Client__c",
+    "urlPrefix" : "client"
+  },
+  "urlName" : "client-detail"
+}

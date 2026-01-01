@@ -14,7 +14,6 @@
             <div class="slds-grid slds-grid_vertical-align-center" style="justify-content: flex-end;">
 
                 <!-- Toolbar Buttons -->
-                <template if:true={hasData}>
                         <div class="slds-grid slds-grid_vertical-align-center slds-wrap">
 
                             <!-- Record Update Button -->  
@@ -81,11 +80,11 @@
                         </lightning-button-icon>
                         <template if:true={showSubmitToClient}>
                             <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open custom-center-modal">
-                                <div class="slds-modal__container custom-width">
+                                <div class="slds-modal__container slds-size_3-of-5">
                                     <!-- Header -->
                                     <header class="slds-modal__header">
                                         <h2 class="slds-text-heading_medium">Submit Candidate to Client</h2>
-                                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                                        <button class="slds-button slds-button_icon slds-modal__close"
                                                 title="Close" onclick={closeSubmitToClient}>
                                             <lightning-icon icon-name="utility:close" size="medium"></lightning-icon>
                                         </button>
@@ -114,11 +113,9 @@
                         onclick={handleFilterClick}
                         class="slds-m-right_xx-small"
                         variant="border-filled"
-                        size="medium"
-                        disabled={isActionDisabled}>
+                        size="medium">
                     </lightning-button-icon>
                 </div>
-            </template>
             </div>
                 <lightning-card>
                         <template if:true={hasData}>
@@ -207,21 +204,22 @@
                                     <div class="slds-col slds-size_12-of-12 slds-p-vertical-small">
                                         <template if:true={record.displaySteps}>
                                             <div class="outer-wrapper">
-                                                <!--div class="slds-grid slds-grid_vertical-align-center"-->
-                                                    <div class="full-progress slds-size_11-of-12">                                       
-                                                        <lightning-progress-indicator
-                                                            class="custom-progress"
-                                                            current-step={record.pathCurrentStep}
-                                                            type="path"
-                                                            variant="base">
-                                                            <template for:each={record.displaySteps} for:item="step">
-                                                                <lightning-progress-step
-                                                                    key={step.value}
-                                                                    label={step.label}
-                                                                    value={step.value}>
-                                                                </lightning-progress-step>
-                                                            </template>
-                                                        </lightning-progress-indicator>
+                                                    <div class="full-progress slds-size_11-of-12"> 
+                                                            <lightning-progress-indicator
+                                                                current-step={record.pathCurrentStep}
+                                                                type="path"
+                                                                variant="base"
+                                                                class="custom-progress">
+                                                                
+                                                                <template for:each={record.displaySteps} for:item="step">
+                                                                    <lightning-progress-step
+                                                                        key={step.value}
+                                                                        label={step.label}
+                                                                        value={step.value}>
+                                                                    </lightning-progress-step>
+                                                                </template>
+
+                                                            </lightning-progress-indicator>
                                                     </div>    
                                             </div>
                                         </template>
@@ -427,4 +425,89 @@
                         </section>
                         <div class="slds-backdrop slds-backdrop_open"></div>
                     </template>
+                    
+<!--------------- Filter Modal----------------------->
+                    <template if:true={isFilterModalOpen}>
+                        <section class="slds-panel slds-panel_docked slds-panel_docked-right slds-is-open custom-side-panel">
+
+                            <!-- HEADER -->
+                            <header class="slds-panel__header">
+                                <h2 class="slds-panel__header-title">Filter Records</h2>
+                                <button class="slds-button slds-button_icon slds-button_icon-small"
+                                    onclick={closeFilterModal}>
+                                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                                </button>
+                            </header>
+
+                            <!-- BODY -->
+                            <div class="slds-panel__body slds-p-around_medium">
+
+                                <!-- Stage Filter -->
+                                <lightning-combobox
+                                    name="stageFilter"
+                                    label="Stage"
+                                    value={selectedStageFilter}
+                                    options={picklistSteps}
+                                    onchange={handleStageFilterChange}>
+                                </lightning-combobox>
+
+                                <!-- Source Filter -->
+                                <lightning-combobox
+                                    class="slds-m-top_medium"
+                                    name="sourceFilter"
+                                    label="Source"
+                                    value={selectedSourceFilter}
+                                    options={sourceOptions}
+                                    onchange={handleSourceFilterChange}>
+                                </lightning-combobox>
+
+                                <div class="slds-m-vertical_medium slds-border_bottom"></div>
+
+                                <!-- Date Filters -->
+                                <div class="slds-grid slds-gutters slds-m-bottom_medium">
+
+                                    <div class="slds-col">
+                                        <lightning-input
+                                            type="date"
+                                            label="Start Date"
+                                            value={startDateFilter}
+                                            onchange={handleStartDateChange}>
+                                        </lightning-input>
+                                    </div>
+
+                                    <div class="slds-col">
+                                        <lightning-input
+                                            type="date"
+                                            label="End Date"
+                                            value={endDateFilter}
+                                            onchange={handleEndDateChange}>
+                                        </lightning-input>
+                                    </div>
+
+                                </div>
+
+                                <!-- Quick Date Filters -->
+                                <label class="slds-form-element__label slds-text-title_caps slds-m-bottom_x-small">
+                                    Quick Date Filters
+                                </label>
+
+                                <lightning-button-group>
+                                    <lightning-button label="Today" value="today" onclick={handleQuickDateSelect}></lightning-button>
+                                    <lightning-button label="Yesterday" value="yesterday" onclick={handleQuickDateSelect}></lightning-button>
+                                    <lightning-button label="Last 7 Days" value="last7" onclick={handleQuickDateSelect}></lightning-button>
+                                </lightning-button-group>
+
+                            </div>
+
+                            <!-- FOOTER -->
+                            <footer class="slds-panel__footer slds-p-around_small">
+                                <lightning-button label="Clear Filters" onclick={clearFilters}></lightning-button>
+                                <lightning-button label="Cancel" class="slds-m-left_small" onclick={closeFilterModal}></lightning-button>
+                                <lightning-button label="Apply" variant="brand" class="slds-m-left_small" onclick={applyFilters}></lightning-button>
+                            </footer>
+
+                        </section>
+                    </template>
+
+
         </template>

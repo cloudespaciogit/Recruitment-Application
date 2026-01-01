@@ -1,0 +1,69 @@
+<template>
+    <!-- Outer container (NO lightning-card) -->
+    <div class="clock-wrapper">
+
+        <div class="container">
+
+            <!-- ROW 1 : TIME + BUTTON -->
+            <div class="top-row slds-grid slds-grid_align-spread slds-grid_vertical-align-center">
+
+                <!-- TIME -->
+                <div class="clock-time">
+                    {currentTime}
+                </div>
+
+                <!-- BUTTONS -->
+                <div>
+                    <template if:true={showClockIn}>
+                        <button
+                            class="slds-button slds-button_brand big-clock-btn"
+                            onclick={handleClockIn}>
+                            Web Clock In
+                        </button>
+                    </template>
+
+                    <template if:true={showClockOut}>
+                        <button
+                            class="slds-button slds-button_destructive big-clock-btn"
+                            onclick={handleClockOut}>
+                            Web Clock Out
+                        </button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- ROW 2 : DATE + HOURS -->
+            <div class="bottom-row slds-m-top_small">
+
+                <div class="slds-grid slds-grid_align-spread">
+                    <!-- LEFT -->
+                    <div class="date-text">
+                        {currentDate}
+                    </div>
+
+                    <!-- RIGHT -->
+                    <template if:true={showClockOut}>
+                        <div class="date-textval slds-text-align_right">
+                            {workingHours} Since last Login
+                        </div>
+                    </template>
+                </div>
+
+                <template if:true={showClockOut}>
+                    <div class="total-hours-label slds-m-top_x-small">
+                        TOTAL HOURS : {workingHours}
+                    </div>
+                </template>
+
+            </div>
+
+            <!-- SPINNER -->
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center slds-m-top_medium">
+                    <lightning-spinner size="medium"></lightning-spinner>
+                </div>
+            </template>
+
+        </div>
+    </div>
+</template>

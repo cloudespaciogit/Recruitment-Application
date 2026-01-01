@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Helps to select department of reqiisition --></help>
+    <label><!-- Requisition department --></label>
+    <name>Requisition_department__c</name>
+    <picklistValues>
+        <masterLabel>Administration</masterLabel>
+        <translation><!-- Administration --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Business Development</masterLabel>
+        <translation><!-- Business Development --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Corporate Communications</masterLabel>
+        <translation><!-- Corporate Communications --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Customer Support / Service</masterLabel>
+        <translation><!-- Customer Support / Service --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Facilities Management</masterLabel>
+        <translation><!-- Facilities Management --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Finance &amp; Accounts</masterLabel>
+        <translation><!-- Finance &amp; Accounts --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Human Resources (HR)</masterLabel>
+        <translation><!-- Human Resources (HR) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Information Technology (IT)</masterLabel>
+        <translation><!-- Information Technology (IT) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Legal &amp; Compliance</masterLabel>
+        <translation><!-- Legal &amp; Compliance --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Logistics &amp; Supply Chain</masterLabel>
+        <translation><!-- Logistics &amp; Supply Chain --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Marketing</masterLabel>
+        <translation><!-- Marketing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Operations</masterLabel>
+        <translation><!-- Operations --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Procurement / Purchase</masterLabel>
+        <translation><!-- Procurement / Purchase --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Production / Manufacturing</masterLabel>
+        <translation><!-- Production / Manufacturing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Project Management Office (PMO)</masterLabel>
+        <translation><!-- Project Management Office (PMO) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quality Assurance (QA)</masterLabel>
+        <translation><!-- Quality Assurance (QA) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Research &amp; Development (R&amp;D)</masterLabel>
+        <translation><!-- Research &amp; Development (R&amp;D) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Sales</masterLabel>
+        <translation><!-- Sales --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Security (Physical &amp; IT Security)</masterLabel>
+        <translation><!-- Security (Physical &amp; IT Security) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Training &amp; Development</masterLabel>
+        <translation><!-- Training &amp; Development --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

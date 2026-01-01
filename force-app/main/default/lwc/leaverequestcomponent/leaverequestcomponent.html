@@ -1,0 +1,213 @@
+<template>
+
+    <!-- BUTTON ON RECORD PAGE -->
+     <div class="leave-card" style="width:100%;">
+    <button
+        class="slds-button slds-button_brand custom-btn"
+        onclick={openPanel}>
+        Request Leave
+    </button>
+
+    <div class="card-links">
+        <a href="javascript:void(0)">Request Credit for Compensatory Off</a>
+        <a href="javascript:void(0)">Leave Policy Explanation</a>
+    </div>
+</div>
+
+    <!-- RIGHT SIDE POPUP -->
+    <template if:true={showPanel}>
+        <section class="overlay">
+
+            <div class="drawer">
+
+                <!-- Header -->
+                <div class="panel-header">
+                    <h2>Request Leave</h2>
+                    <lightning-button-icon
+                        icon-name="utility:close"
+                        alternative-text="Close"
+                        onclick={closePanel}>
+                    </lightning-button-icon>
+                </div>
+
+                <!-- Body -->
+                <div class="panel-body slds-p-around_medium">
+
+                    <!-- From / To -->
+                    <div class="date-box">
+
+                        <!-- From -->
+                        <div class="date-col">
+                            <label class="slds-form-element__label">From</label>
+                            <div class="date-input-wrapper">
+                            <lightning-input
+                                type="date"
+                                value={fromDate}
+                                onchange={handleFromChange}>
+                            </lightning-input>
+                            </div>
+                        </div>
+
+                        <!-- Days pill -->
+                        <div class="days-pill">
+                            <span>{totalDays}</span>
+                            <small>days</small>
+                        </div>
+
+                        <!-- To -->
+                        <div class="date-col">
+                            <label class="slds-form-element__label">To</label>
+                            <div class="date-input-wrapper">
+                            <lightning-input
+                                type="date"
+                                value={toDate}
+                                onchange={handleToChange}>
+                            </lightning-input>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- Days
+                    <div class="slds-text-align_center slds-m-vertical_small">
+                        <strong>{totalDays}</strong> days
+                    </div> -->
+
+                    <!-- Leave Type -->
+                    <div class="slds-m-vertical_small">
+                        <label class="slds-form-element__label">
+                            Select type of leave
+                        </label>
+                        <lightning-combobox
+                            options={leaveOptions}
+                            value={leaveType}
+                            placeholder="Select"
+                            onchange={handleLeaveType}>
+                        </lightning-combobox>
+                    </div>
+
+                    <!-- Duration -->
+                    <!-- Duration -->
+<template if:true={leaveType}>
+    <div class="slds-m-vertical_small">
+        <label class="slds-form-element__label">
+            Leave Duration
+        </label>
+
+        <!-- Full / Half -->
+        <lightning-radio-group
+            options={durationOptions}
+            type="radio"
+            value={durationType}
+            onchange={handleDurationChange}>
+        </lightning-radio-group>
+
+        <!-- Half Day Type -->
+        <template if:true={isHalfDaySelected}>
+            <div class="slds-m-top_small">
+                <label class="slds-form-element__label">
+                    Half Day Type
+                </label>
+                <lightning-radio-group
+                    options={halfDayOptions}
+                    type="radio"
+                    value={halfDayType}
+                    onchange={handleHalfDayChange}>
+                </lightning-radio-group>
+            </div>
+        </template>
+
+    </div>
+</template>
+
+
+                    <!-- Reason -->
+                    <div class="slds-m-vertical_small">
+                        <label class="slds-form-element__label">Reason</label>
+                        <lightning-textarea
+                            value={reason}
+                            onchange={handleReason}>
+                        </lightning-textarea>
+                    </div>
+
+                    <template if:true={reasonError}>
+                        <div class="slds-text-color_error slds-m-top_xx-small">
+                            Reason for Leave is mandatory.
+                        </div>
+                    </template>
+
+                    <!-- Notify Section -->
+                    <!-- Notify Section -->
+            <div class="slds-m-vertical_medium">
+                <label class="slds-form-element__label">
+                    Notify
+                </label>
+
+                <!-- Selected Chips -->
+                <template if:true={hasSelectedNotify}>
+                    <div class="notify-chips slds-m-bottom_x-small">
+                        <template for:each={selectedNotifyChips} for:item="chip">
+                            <span key={chip.email} class="notify-chip">
+                                {chip.name}
+                                <lightning-button-icon
+                                    icon-name="utility:close"
+                                    size="x-small"
+                                    variant="bare"
+                                    data-email={chip.email}
+                                    onclick={removeNotifyChip}>
+                                </lightning-button-icon>
+                            </span>
+                        </template>
+                    </div>
+                </template>
+
+                <!-- Search -->
+                <lightning-input
+                    type="search"
+                    placeholder="Search name or email"
+                    onchange={handleNotifySearch}>
+                </lightning-input>
+
+                <!-- Search Results -->
+                <template if:true={showNotifyResults}>
+                    <div class="slds-m-top_small notify-results">
+                        <template for:each={filteredNotifyList} for:item="item">
+                            <div
+                                key={item.Email__c}
+                                class="notify-result-item"
+                                data-email={item.Email__c}
+                                data-name={item.Name__c}
+                                onclick={selectNotifyUser}>
+                                {item.Name__c} ({item.Email__c})
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+
+
+        </div>
+
+
+               
+
+                <!-- Footer -->
+                <div class="panel-footer">
+                    <lightning-button
+                        label="Cancel"
+                        onclick={closePanel}>
+                    </lightning-button>
+
+                    <lightning-button
+                        variant="brand"
+                        label="Request"
+                        onclick={handleSubmit}>
+                    </lightning-button>
+                </div>
+
+            </div>
+        </section>
+    </template>
+
+</template>

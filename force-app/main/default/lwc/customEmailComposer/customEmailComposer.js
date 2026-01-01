@@ -3,14 +3,17 @@ import getFromAddresses from '@salesforce/apex/CustomEmailComposerController.get
 import sendEmailNow from '@salesforce/apex/CustomEmailComposerController.sendEmailNow';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
+
 export default class CustomEmailComposer extends LightningElement {
     @api recordId;
     @track showModal = false;
+
 
     // FROM
     @track fromOptions = [];
     @track selectedFrom = null;
     @track showFromPopup = false;
+
 
     // RECIPIENTS
     @track toInput = '';
@@ -22,15 +25,12 @@ export default class CustomEmailComposer extends LightningElement {
     showCc = false;
     showBcc = false;
 
+
     // SUBJECT & BODY
     @track subject = '';
     @track htmlBody = '';
     @track sendLabel = 'Send';
 
-    // ATTACHMENTS
-    //@track fileList = [];
-    //@track selectedFiles = [];
-    selectedFileIds = new Set();
 
     // RELATED TO & JOB
     @track relatedToId = null;
@@ -41,9 +41,11 @@ export default class CustomEmailComposer extends LightningElement {
     @track jobType = '';
     @track jobDescription = '';
 
+
     connectedCallback() {
         this.loadFromAddresses();
     }
+
 
     /* ---------------------------
        FROM ADDRESS LOGIC
@@ -54,6 +56,28 @@ export default class CustomEmailComposer extends LightningElement {
             : 'Select From Address';
     }
 
+
+    buildRecipients(chips, inputValue) {
+        const emails = [...chips];
+
+
+        if (inputValue && inputValue.trim()) {
+            const parsed = inputValue
+                .split(/[,;]+/)
+                .map(e => e.trim())
+                .filter(e => e);
+
+
+            parsed.forEach(e => {
+                if (!emails.includes(e)) {
+                    emails.push(e);
+                }
+            });
+        }
+        return emails;
+    }
+
+
     loadFromAddresses() {
         getFromAddresses()
             .then(res => {
@@ -62,20 +86,23 @@ export default class CustomEmailComposer extends LightningElement {
                 this.selectedFrom = org || this.fromOptions[0] || null;
             })
             .catch(err => {
-                // eslint-disable-next-line no-console
-                console.error(err);
+                // Replaced console.error with a toast to handle error cleanly without violating lint rules
+                this.toast('Error loading From addresses', err?.body?.message || err.message, 'error');
             });
     }
+
 
     toggleFromPopup() {
         this.showFromPopup = !this.showFromPopup;
     }
+
 
     handleFromSelect(e) {
         const id = e.currentTarget.dataset.id;
         this.selectedFrom = this.fromOptions.find(x => x.id === id);
         this.showFromPopup = false;
     }
+
 
     /* ---------------------------
        INPUT HANDLERS
@@ -87,6 +114,7 @@ export default class CustomEmailComposer extends LightningElement {
         }
     }
 
+
     handleToInputChange(e) {
         this.toInput = e.target.value;
     }
@@ -96,6 +124,7 @@ export default class CustomEmailComposer extends LightningElement {
     handleBccInputChange(e) {
         this.bccInput = e.target.value;
     }
+
 
     handleToInputKeyUp(e) {
         if (e.key === 'Enter' || e.key === ',') {
@@ -113,43 +142,55 @@ export default class CustomEmailComposer extends LightningElement {
         }
     }
 
-    addChips(type) {
-        let raw =
-            type === 'to' ? this.toInput :
-            type === 'cc' ? this.ccInput :
-            this.bccInput;
 
-        if (!raw || !raw.trim()) return;
+    addChips(type) {
+        // Map the type to the correct input value
+        const inputs = {
+            to: this.toInput,
+            cc: this.ccInput,
+            bcc: this.bccInput
+        };
+
+
+        // Use const to satisfy the linter
+        const raw = inputs[type];
+
+
+        if (!raw || !raw.trim()) {
+            return;
+        }
+
 
         const emails = raw
             .split(/[,;]+/)
             .map(e => e.trim())
             .filter(e => e);
 
+
         if (type === 'to') {
-            this.toChips = [
-                ...this.toChips,
-                ...emails.filter(e => !this.toChips.includes(e))
-            ];
+            const newEmails = emails.filter(e => !this.toChips.includes(e));
+            this.toChips = [...this.toChips, ...newEmails];
             this.toInput = '';
+
+
         } else if (type === 'cc') {
-            this.ccChips = [
-                ...this.ccChips,
-                ...emails.filter(e => !this.ccChips.includes(e))
-            ];
+            const newEmails = emails.filter(e => !this.ccChips.includes(e));
+            this.ccChips = [...this.ccChips, ...newEmails];
             this.ccInput = '';
+
+
         } else if (type === 'bcc') {
-            this.bccChips = [
-                ...this.bccChips,
-                ...emails.filter(e => !this.bccChips.includes(e))
-            ];
+            const newEmails = emails.filter(e => !this.bccChips.includes(e));
+            this.bccChips = [...this.bccChips, ...newEmails];
             this.bccInput = '';
         }
     }
 
+
     removeChip(e) {
         const type = e.currentTarget.dataset.type;
         const value = e.currentTarget.dataset.value;
+
 
         if (type === 'to') {
             this.toChips = this.toChips.filter(c => c !== value);
@@ -160,6 +201,7 @@ export default class CustomEmailComposer extends LightningElement {
         }
     }
 
+
     toggleCc() {
         this.showCc = !this.showCc;
     }
@@ -167,39 +209,16 @@ export default class CustomEmailComposer extends LightningElement {
         this.showBcc = !this.showBcc;
     }
 
+
     handleSubjectChange(e) {
         this.subject = e.target.value;
     }
+
 
     handleBodyChange(e) {
         this.htmlBody = e.detail?.value || e.target.value;
     }
 
-    /* ---------------------------
-       FILE ATTACHMENTS
-    ---------------------------- */
-    /*toggleFileSelect(e) {
-        const id = e.target.value;
-        if (e.target.checked) {
-            this.selectedFileIds.add(id);
-        } else {
-            this.selectedFileIds.delete(id);
-        }
-    }*/
-
-    /*addSelectedFiles() {
-        this.selectedFileIds.forEach(id => {
-            const file = this.fileList.find(x => x.Id === id);
-            if (file && !this.selectedFiles.some(f => f.Id === id)) {
-                this.selectedFiles = [...this.selectedFiles, file];
-            }
-        });
-    }*/
-
-    /*removeAttachment(e) {
-        const id = e.currentTarget.dataset.id;
-        this.selectedFiles = this.selectedFiles.filter(f => f.Id !== id);
-    }*/
 
     /* ---------------------------
        PREFILL FROM PARENT
@@ -207,6 +226,7 @@ export default class CustomEmailComposer extends LightningElement {
     @api
     openWithPrefill(prefill = {}) {
         this.resetForm(false);
+
 
         if (prefill.toAddresses) {
             const arr =
@@ -216,11 +236,14 @@ export default class CustomEmailComposer extends LightningElement {
             this.toChips = arr;
         }
 
+
         if (prefill.subject) this.subject = prefill.subject;
         if (prefill.htmlBody) this.htmlBody = prefill.htmlBody;
 
+
         if (prefill.relatedToId) this.relatedToId = prefill.relatedToId;
         if (prefill.relatedToName) this.relatedToName = prefill.relatedToName;
+
 
         this.jobId = prefill.jobId || null;
         this.jobTitle = prefill.jobTitle || '';
@@ -228,8 +251,10 @@ export default class CustomEmailComposer extends LightningElement {
         this.jobType = prefill.jobType || '';
         this.jobDescription = prefill.jobDescription || '';
 
+
         this.showModal = true;
     }
+
 
     /* ---------------------------
        RESET & CLOSE
@@ -239,6 +264,7 @@ export default class CustomEmailComposer extends LightningElement {
         this.resetForm();
     }
 
+
     resetForm(resetFrom = true) {
         this.toInput = '';
         this.ccInput = '';
@@ -247,11 +273,10 @@ export default class CustomEmailComposer extends LightningElement {
         this.ccChips = [];
         this.bccChips = [];
 
+
         this.subject = '';
         this.htmlBody = '';
 
-        //this.selectedFiles = [];
-        //this.selectedFileIds = new Set();
 
         if (resetFrom) {
             this.selectedFrom =
@@ -260,48 +285,70 @@ export default class CustomEmailComposer extends LightningElement {
                 null;
         }
 
+
         this.showFromPopup = false;
         this.showCc = false;
         this.showBcc = false;
+
 
         this.relatedToId = null;
         this.relatedToName = '';
     }
 
+
     /* ---------------------------
        SEND EMAIL
     ---------------------------- */
     handleSend() {
+        // Removed console.log statements
+
+
         this.addChips('to');
         this.addChips('cc');
         this.addChips('bcc');
+
 
         if (!this.toChips.length && !this.ccChips.length && !this.bccChips.length) {
             this.toast('Error', 'Please add at least one recipient', 'error');
             return;
         }
 
-       // const docIds = this.selectedFiles.map(f => f.Id);
 
-        sendEmailNow({
+        if (!this.selectedFrom) {
+            this.toast('Error', 'From address not selected', 'error');
+            return;
+        }
+
+
+        const payload = {
             toAddresses: this.toChips,
             ccAddresses: this.ccChips,
             bccAddresses: this.bccChips,
             subject: this.subject,
             htmlBody: this.htmlBody,
             relatedRecordId: this.relatedToId,
-            fromType: this.selectedFrom?.type,
-            fromId: this.selectedFrom?.id,
-            fromAddress: this.selectedFrom?.address
+            fromType: this.selectedFrom.type,
+            fromId: this.selectedFrom.id,
+            fromAddress: this.selectedFrom.address
+        };
+
+
+        sendEmailNow({
+            payloadJson: JSON.stringify(payload)
         })
             .then(res => {
                 this.toast('Success', res || 'Email sent', 'success');
                 this.closeModal();
             })
             .catch(err => {
-                this.toast('Error', err?.body?.message || err.message, 'error');
+                this.toast(
+                    'Error',
+                    err?.body?.message || err.message,
+                    'error'
+                );
             });
     }
+
 
     toast(title, message, variant) {
         this.dispatchEvent(new ShowToastEvent({ title, message, variant }));

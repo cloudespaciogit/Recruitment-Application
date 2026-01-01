@@ -1,6 +1,6 @@
 <template>
 
-    <div class="search-page" style={backgroundImage} >
+    <div class="search-page">
         <!-- Outer container for the entire Candidate Search page -->
 
         <div class={containerClass} >
@@ -19,7 +19,7 @@
                 <!-- Panel that contains search filters and search header -->
                 <template if:true ={searchFlag}> 
                     <div class="post-search-header"> 
-                        <h1 class="post-search-title">Filters</h1>
+                        <h1 class="post-search-title slds-text-title_bold">Filters</h1>
                     </div>
                 </template>
                 <template if:false ={searchFlag}> 

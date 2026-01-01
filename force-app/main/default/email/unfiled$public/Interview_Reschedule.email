@@ -1,0 +1,19 @@
+Hello {!Interview__c.CandidateId__c} ,
+
+We are pleased to inform you that your interview with {!Job_Position__c.Client__c} has been Rescheduled for the position of {!Job_Position__c.Job_Title__c} {!Interview__c.Round__c}. Please join the interview meeting scheduled for .{!Interview__c.Interview_Date__c}
+
+Please ensure you are available at the specified date and time. If you have any questions or need to reschedule, please contact your recruiter.
+
+We look forward to meeting you and wish you the best of luck as you progress through our selection process.
+
+ 
+
+Organizer:
+
+{!Job_Position__c.Recruiter__c}
+
+{!User.Email}
+
+Regards,
+
+Team HR

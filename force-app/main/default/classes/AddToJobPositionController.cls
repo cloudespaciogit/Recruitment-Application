@@ -1,6 +1,6 @@
 /**
 * @File Name : AddToJobPositionController.cls
-* @Author : Dixit Anand
+* @Author : Dixit Anand arora ////////
 * @Last Modified By :
 * @Last Modified On :November 26, 2025
 * @Modification Log :
@@ -11,7 +11,7 @@
 **/
 
 
-public with sharing class AddToJobPositionController {
+public without sharing class AddToJobPositionController {
     
     @AuraEnabled(cacheable=true)
     public static List<Job_Position__c> getJobPositions(Id candidateId, String searchKey) {
@@ -21,11 +21,13 @@ public with sharing class AddToJobPositionController {
         if (!String.isBlank(searchKey)) {
             String likeKey = '%' + searchKey + '%';
             resultJobs = [
-                SELECT Id, Name, Job_Title__c, CreatedDate, Skills_Required__c
+                SELECT Id, Name, Job_Title__c, 	Client__r.Name,CreatedDate, Skills_Required__c
                 FROM Job_Position__c
                 WHERE Name LIKE :likeKey OR Job_Title__c LIKE :likeKey
+                 WITH USER_MODE
                 ORDER BY CreatedDate DESC
-                LIMIT 50
+                 LIMIT 50
+             
             ];
             
             return resultJobs;
@@ -35,9 +37,11 @@ public with sharing class AddToJobPositionController {
         if (candidateId == null) {
             
             return [
-                SELECT Id, Name, Job_Title__c, CreatedDate, Skills_Required__c
-                FROM Job_Position__c
+                SELECT Id, Name, Job_Title__c,	Client__r.Name, CreatedDate, Skills_Required__c
+                FROM Job_Position__c  WITH USER_MODE
                 ORDER BY CreatedDate DESC
+                
+                
             ];
         }
         
@@ -46,7 +50,7 @@ public with sharing class AddToJobPositionController {
             SELECT Id, Designation__c, Skills__c
             FROM Candidate__c
             WHERE Id = :candidateId
-            LIMIT 1
+          WITH USER_MODE   LIMIT 1
         ];
         
         
@@ -62,10 +66,12 @@ public with sharing class AddToJobPositionController {
         
         
         List<Job_Position__c> allJobs = [
-            SELECT Id, Name, Job_Title__c, CreatedDate, Skills_Required__c
+            SELECT Id, Name, Job_Title__c, CreatedDate, Client__r.Name,Skills_Required__c
             FROM Job_Position__c
+             WITH USER_MODE
             ORDER BY CreatedDate DESC
         ];
+      
         
         
         

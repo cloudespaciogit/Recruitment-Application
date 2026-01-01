@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Client</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Clients</value>
+    </caseValues>
+    <layouts>
+        <layout>Client Information Layout</layout>
+        <sections>
+            <label><!-- Agreement --></label>
+            <section>Agreement</section>
+        </sections>
+        <sections>
+            <label><!-- Contact Details --></label>
+            <section>Contact Details</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Hiring Details --></label>
+            <section>Hiring Details</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Candidate Field Preference --></label>
+        <name>Candidate_Field_Preference</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Values Can&apos;t be  Less Than 0 --></errorMessage>
+        <name>VR1_No_Of_Employees_And_TurnOver</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Start Date must be earlier than End Date. --></errorMessage>
+        <name>VR2_StartDate_less_than_EndDate</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- When Agreement Signed is checked, both Agreement Start Date and End Date are required. When it is unchecked, both dates must be blank. --></errorMessage>
+        <name>VR3_Agreement_Singed_dependencies</name>
+    </validationRules>
+</CustomObjectTranslation>

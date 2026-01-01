@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Captures the current or most recent job title held by the candidate (e.g., Salesforce Developer, QA Engineer, Marketing Manager) --></help>
+    <label><!-- Designation --></label>
+    <name>Designation__c</name>
+</CustomFieldTranslation>

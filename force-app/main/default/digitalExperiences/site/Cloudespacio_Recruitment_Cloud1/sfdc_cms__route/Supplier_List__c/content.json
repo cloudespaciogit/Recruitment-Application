@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Supplier List",
+  "contentBody" : {
+    "activeViewId" : "Supplier_List",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "list-Supplier__c",
+    "urlPrefix" : "supplier"
+  },
+  "urlName" : "supplier-list"
+}

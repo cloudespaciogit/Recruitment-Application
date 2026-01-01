@@ -20,4 +20,189 @@
         <wednesdayEndTime>00:00:00.000Z</wednesdayEndTime>
         <wednesdayStartTime>00:00:00.000Z</wednesdayStartTime>
     </businessHours>
+    <holidays>
+        <activityDate>2025-06-07</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Bakrid / Eid al Adha</name>
+    </holidays>
+    <holidays>
+        <isRecurring>true</isRecurring>
+        <name>Christmas</name>
+        <recurrenceDayOfMonth>25</recurrenceDayOfMonth>
+        <recurrenceMonthOfYear>December</recurrenceMonthOfYear>
+        <recurrenceStartDate>2025-12-25</recurrenceStartDate>
+        <recurrenceType>RecursYearly</recurrenceType>
+    </holidays>
+    <holidays>
+        <activityDate>2026-11-08</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Diwali</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-10-21</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Diwali</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-10-01</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Dussehra</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-10-20</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Dussehra</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-03-31</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Eid-ul-Fitr</name>
+    </holidays>
+    <holidays>
+        <isRecurring>true</isRecurring>
+        <name>Gandhi Jayanti</name>
+        <recurrenceDayOfMonth>2</recurrenceDayOfMonth>
+        <recurrenceMonthOfYear>October</recurrenceMonthOfYear>
+        <recurrenceStartDate>2025-10-02</recurrenceStartDate>
+        <recurrenceType>RecursYearly</recurrenceType>
+    </holidays>
+    <holidays>
+        <activityDate>2026-09-14</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Ganesh Chaturthi</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-08-27</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Ganesh Chaturthi</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-04-18</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Good Friday</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-04-03</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Good Friday</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-11-24</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Guru Nanak Jayanti</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-11-05</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Guru Nanak Jayanti</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-03-14</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Holi</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-03-04</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Holi</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-03-21</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Id-ul-Fitr</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-05-27</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Id-ul-Zuha (Bakrid)</name>
+    </holidays>
+    <holidays>
+        <isRecurring>true</isRecurring>
+        <name>Independence Day</name>
+        <recurrenceDayOfMonth>15</recurrenceDayOfMonth>
+        <recurrenceMonthOfYear>August</recurrenceMonthOfYear>
+        <recurrenceStartDate>2025-08-15</recurrenceStartDate>
+        <recurrenceType>RecursYearly</recurrenceType>
+    </holidays>
+    <holidays>
+        <activityDate>2026-09-04</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Janmashtami</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-02-26</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Maha Shivaratri</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-04-10</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Mahavir Jayanti</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-03-31</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Mahavir Jayanti</name>
+    </holidays>
+    <holidays>
+        <isRecurring>true</isRecurring>
+        <name>Makar Sankranti</name>
+        <recurrenceDayOfMonth>14</recurrenceDayOfMonth>
+        <recurrenceMonthOfYear>January</recurrenceMonthOfYear>
+        <recurrenceStartDate>2025-01-14</recurrenceStartDate>
+        <recurrenceType>RecursYearly</recurrenceType>
+    </holidays>
+    <holidays>
+        <activityDate>2026-06-26</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Muharram</name>
+    </holidays>
+    <holidays>
+        <activityDate>2025-07-06</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Muharram</name>
+    </holidays>
+    <holidays>
+        <isRecurring>true</isRecurring>
+        <name>New Year&apos;s Day</name>
+        <recurrenceDayOfWeek>Sunday</recurrenceDayOfWeek>
+        <recurrenceDayOfWeek>Monday</recurrenceDayOfWeek>
+        <recurrenceDayOfWeek>Tuesday</recurrenceDayOfWeek>
+        <recurrenceDayOfWeek>Wednesday</recurrenceDayOfWeek>
+        <recurrenceDayOfWeek>Thursday</recurrenceDayOfWeek>
+        <recurrenceDayOfWeek>Friday</recurrenceDayOfWeek>
+        <recurrenceDayOfWeek>Saturday</recurrenceDayOfWeek>
+        <recurrenceInstance>First</recurrenceInstance>
+        <recurrenceMonthOfYear>January</recurrenceMonthOfYear>
+        <recurrenceStartDate>2025-01-01</recurrenceStartDate>
+        <recurrenceType>RecursYearlyNth</recurrenceType>
+    </holidays>
+    <holidays>
+        <activityDate>2025-08-09</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Raksha Bandhan</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-08-28</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Raksha Bandhan</name>
+    </holidays>
+    <holidays>
+        <activityDate>2026-03-26</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Ram Navami</name>
+    </holidays>
+    <holidays>
+        <isRecurring>true</isRecurring>
+        <name>Republic Day</name>
+        <recurrenceDayOfMonth>26</recurrenceDayOfMonth>
+        <recurrenceMonthOfYear>January</recurrenceMonthOfYear>
+        <recurrenceStartDate>2025-01-26</recurrenceStartDate>
+        <recurrenceType>RecursYearly</recurrenceType>
+    </holidays>
+    <holidays>
+        <activityDate>2026-05-01</activityDate>
+        <isRecurring>false</isRecurring>
+        <name>Workers Day</name>
+    </holidays>
 </BusinessHoursSettings>

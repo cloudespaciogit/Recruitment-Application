@@ -1,123 +1,206 @@
 /**
-* @File Name : skillQuickActionController.cls
-* @Description :
-* @Author :
-* @Last Modified By :
-* @Last Modified On : October 6, 2025
-* @Modification Log :
-*==============================================================================
-* Ver | Date | Author | Modification
-*==============================================================================
-* 1.0 | October 6, 2025 |   | Initial Version
-**/
+ * @description Controller used by Quick Actions to fetch and update
+ *              skills and soft skills for Candidate and Job Position records.
+ */
+public with sharing class SkillQuickActionController { 
 
-public with sharing class skillQuickActionController {
+    /**
+     * @description Fetches skills and soft skills for Candidate or Job Position.
+     * @param candidateId Record Id of Candidate or Job Position
+     * @param objName Object name (Candidate | Job Position)
+     * @return Map containing skills and softSkills
+     */
     @AuraEnabled(cacheable=true)
-    public static Map<String, List<String>> getCandidateSkills(Id candidateId, String objName) {
-        if (candidateId == null) {
-            throw new AuraHandledException('Candidate Id is required.');
-        }
-
-        Map<String, List<String>> mainResult = new Map<String, List<String>>();
+    public static Map<String, List<String>> getCandidateSkills(
+        Id candidateId,
+        String objName
+    ) {
+        validateId(candidateId);
 
         if (objName == 'Candidate') {
-            Candidate__c cand = [
-                SELECT Id, Skills__c, Soft_Skills__c
-                FROM Candidate__c
-                WHERE Id = :candidateId
-                WITH USER_MODE
-                LIMIT 1
-                
-            ];
-
-            mainResult = buildSkillMap(cand.Skills__c, cand.Soft_Skills__c);
-            System.debug('Cand RESULT --> ' + mainResult);
-        } 
-        else if (objName == 'Job Position') {
-            Job_Position__c jp = [ 
-                SELECT Id, Skills_Required__c, Soft_Skills__c
-                FROM Job_Position__c 
-                WHERE Id = :candidateId
-                WITH USER_MODE
-                LIMIT 1
-                
-            ];
-
-            mainResult = buildSkillMap(jp.Skills_Required__c, jp.Soft_Skills__c);
-            System.debug('JP RESULT --> ' + mainResult);
-        }
-        else {
-            System.debug('Invalid objName passed: ' + objName);
+            return getCandidateSkillMap(candidateId);
         }
 
-        return mainResult;
+        if (objName == 'Job Position') {
+            return getJobPositionSkillMap(candidateId);
+        }
+
+        return new Map<String, List<String>>();
     }
 
+    /**
+     * @description Updates skills and soft skills for Candidate or Job Position.
+     * @param req Wrapper containing update details
+     */
     @AuraEnabled
-    public static void updateCandidateSkills(Id candidateId, String objName, List<String> skills, List<String> softSkills) {
-        if (candidateId == null) {
+    public static void updateCandidateSkills(SkillUpdateWrapper req) {
+        validateRequest(req);
+
+        if (req.objName == 'Candidate') {
+            updateCandidate(req);
+            return;
+        }
+
+        if (req.objName == 'Job Position') {
+            updateJobPosition(req);
+            return;
+        }
+
+        throw new AuraHandledException('Invalid object name provided.');
+    }
+
+    /**
+     * @description Builds skill map from stored comma-separated values.
+     * @param skills Hard skills string
+     * @param softSkills Soft skills string
+     * @return Map with parsed skill lists
+     */
+    private static Map<String, List<String>> buildSkillMap(
+        String skills,
+        String softSkills
+    ) {
+        Map<String, List<String>> result = new Map<String, List<String>>();
+        result.put('skills', parseSkills(skills));
+        result.put('softSkills', parseSkills(softSkills));
+        return result;
+    }
+
+    /**
+     * @description Parses comma-separated skill values.
+     * @param value Comma-separated string
+     * @return List of parsed skills
+     */
+    private static List<String> parseSkills(String value) {
+        List<String> values = new List<String>();
+
+        if (String.isBlank(value)) {
+            return values;
+        }
+
+        for (String s : value.split(',')) {
+            if (String.isNotBlank(s)) {
+                values.add(s.trim());
+            }
+        }
+        return values;
+    }
+
+    /**
+     * @description Fetches Candidate skills.
+     * @param candidateId Candidate record Id
+     * @return Map of skills
+     */
+    private static Map<String, List<String>> getCandidateSkillMap(Id candidateId) {
+        Candidate__c cand = [
+            SELECT Skills__c, Soft_Skills__c
+            FROM Candidate__c
+            WHERE Id = :candidateId
+            WITH USER_MODE
+            LIMIT 1
+        ];
+        return buildSkillMap(cand.Skills__c, cand.Soft_Skills__c);
+    }
+
+    /**
+     * @description Fetches Job Position skills.
+     * @param recordId Job Position record Id
+     * @return Map of skills
+     */
+    private static Map<String, List<String>> getJobPositionSkillMap(Id recordId) {
+        Job_Position__c jp = [
+            SELECT Skills_Required__c, Soft_Skills__c
+            FROM Job_Position__c
+            WHERE Id = :recordId
+            WITH USER_MODE
+            LIMIT 1
+        ];
+        return buildSkillMap(jp.Skills_Required__c, jp.Soft_Skills__c);
+    }
+
+    /**
+     * @description Updates Candidate skills.
+     * @param req Skill update request
+     */
+    private static void updateCandidate(SkillUpdateWrapper req) {
+        Candidate__c cand = new Candidate__c(
+            Id = req.recordId,
+            Skills__c = joinValues(req.skills),
+            Soft_Skills__c = joinValues(req.softSkills)
+        );
+        Database.update(cand, AccessLevel.USER_MODE);
+    }
+
+    /**
+     * @description Updates Job Position skills.
+     * @param req Skill update request
+     */
+    private static void updateJobPosition(SkillUpdateWrapper req) {
+        Job_Position__c jp = new Job_Position__c(
+            Id = req.recordId,
+            Skills_Required__c = joinValues(req.skills),
+            Soft_Skills__c = joinValues(req.softSkills)
+        );
+        Database.update(jp, AccessLevel.USER_MODE);
+    }
+
+    /**
+     * @description Joins list values into a comma-separated string.
+     * @param values List of strings
+     * @return Joined string or null
+     */
+    private static String joinValues(List<String> values) {
+        return (values != null && !values.isEmpty())
+            ? String.join(values, ', ')
+            : null;
+    }
+
+    /**
+     * @description Validates record Id.
+     * @param recordId Record Id to validate
+     */
+    private static void validateId(Id recordId) {
+        if (recordId == null) {
             throw new AuraHandledException('Candidate Id is required.');
         }
-        if(objName == 'Candidate'){
-            Candidate__c cand = new Candidate__c(Id = candidateId);
-            cand.Skills__c = (skills != null && !skills.isEmpty()) ? String.join(skills, ', ') : null;
-            cand.Soft_Skills__c = (softSkills != null && !softSkills.isEmpty()) ? String.join(softSkills, ', ') : null;
-
- 
-            
-            try {
-                Database.update(cand, AccessLevel.USER_MODE);
-            }
-            catch (Exception e) {
-                throw new AuraHandledException(e.getMessage());                
-            } 
-            //update cand;
-            //update as user cand;
-            
-        }
-        else if(objName == 'Job Position'){
-            Job_Position__c jp = new Job_Position__c(Id = candidateId);
-            jp.Skills_Required__c = (skills != null && !skills.isEmpty()) ? String.join(skills, ', ') : null;
-            jp.Soft_Skills__c = (softSkills != null && !softSkills.isEmpty()) ? String.join(softSkills, ', ') : null;
-
-            try {
-                Database.update(jp, AccessLevel.USER_MODE);
-            }
-            catch (Exception e) {
-                throw new AuraHandledException(e.getMessage());                
-            } 
-            //update jp;
-            //update as user jp;
-        }
-        else {
-            throw new AuraHandledException('Invalid object name provided.');
-        }
-        
     }
 
-
-    // ---------------- Helper Method ----------------
-    private static Map<String, List<String>> buildSkillMap(String skills, String softSkills) {
-        Map<String, List<String>> result = new Map<String, List<String>>();
-        result.put('skills', new List<String>());
-        result.put('softSkills', new List<String>());
-
-        if (String.isNotBlank(skills)) {
-            for (String s : skills.split(',')) {
-                if (String.isNotBlank(s)) {
-                    result.get('skills').add(s.trim());
-                }
-            }
+    /**
+     * @description Validates update request wrapper.
+     * @param req Skill update wrapper
+     */
+    private static void validateRequest(SkillUpdateWrapper req) {
+        if (req == null || req.recordId == null) {
+            throw new AuraHandledException('Request object or Id is missing.');
         }
+    }
 
-        if (String.isNotBlank(softSkills)) {
-            for (String s : softSkills.split(',')) {
-                if (String.isNotBlank(s)) {
-                    result.get('softSkills').add(s.trim());
-                }
-            }
-        }
+    /**
+     * @description Wrapper used to update skills and soft skills.
+     */
+    public class SkillUpdateWrapper {
 
-        return result;
+        /**
+         * @description Record Id of Candidate or Job Position.
+         */
+        @AuraEnabled
+        public Id recordId { get; set; }
+
+        /**
+         * @description Object name (Candidate or Job Position).
+         */
+        @AuraEnabled
+        public String objName { get; set; }
+
+        /**
+         * @description List of hard skills.
+         */
+        @AuraEnabled
+        public List<String> skills { get; set; }
+
+        /**
+         * @description List of soft skills.
+         */
+        @AuraEnabled
+        public List<String> softSkills { get; set; }
     }
 }

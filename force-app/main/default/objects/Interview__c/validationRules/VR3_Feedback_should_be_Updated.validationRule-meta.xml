@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>VR3_Feedback_should_be_Updated</fullName>
-    <active>false</active>
+    <active>true</active>
     <description>You should update feedback if either &quot;Round&quot; or &quot;Interview status&quot; fields are changed.</description>
     <errorConditionFormula>OR(
         AND(

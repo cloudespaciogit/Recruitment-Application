@@ -1,0 +1,68 @@
+<template>
+    <div class="header-bar">
+        <!-- LEFT: Selected Range -->
+        <div class="range-label">
+            {selectedRangeLabel}
+        </div>
+
+        <!-- RIGHT: Buttons -->
+        <div class="filter-bar">
+            <template for:each={filters} for:item="f" for:index="i">
+                <button
+                    key={f.label}
+                    data-index={i}
+                    class={f.className}
+                    onclick={handleFilterClick}>
+                    {f.label}
+                </button>
+            </template>
+        </div>
+    </div>
+
+    <!-- TABLE HEADER -->
+    <div class="table-header">
+        <div>Date</div>
+        <div>Login</div>
+        <div>Logout</div>
+        <div>Total Hours</div>
+    </div>
+
+    <!-- ROWS -->
+    <template for:each={timesheets} for:item="ts">
+        <div key={ts.id} class={ts.rowClass}>
+
+            <!-- DATE COLUMN -->
+            <div class="date-cell">
+                <span class="date-text">{ts.dateLabel}</span>
+
+                <template if:true={ts.badgeText}>
+                    <span class={ts.badgeClass}>{ts.badgeText}</span>
+                </template>
+            </div>
+
+            <!-- SINGLE TEXT FOR WEEKOFF / HOLIDAY -->
+            <template if:true={ts.displayText}>
+                <div class="single-text">
+                    {ts.displayText}
+                </div>
+            </template>
+
+            <!-- NORMAL / HALF-DAY ROW -->
+            <template if:false={ts.displayText}>
+                <div>{ts.login}</div>
+                <div>{ts.logout}</div>
+
+                <!-- TOTAL HOURS + PENALTY (SAME COLUMN) -->
+                <div class="total-cell">
+                    <span>{ts.total}</span>
+
+                    <template if:true={ts.showPenalty}>
+                        <span class="penalty-badge">Penalty</span>
+                    </template>
+                </div>
+            </template>
+
+        </div>
+    </template>
+
+</template>

@@ -181,7 +181,11 @@
     <tabs>standard-Case</tabs>
     <tabs>standard-Opportunity</tabs>
     <tabs>standard-Lead</tabs>
+    <tabs>Timesheet__c</tabs>
     <workspaceConfig>
+        <mappings>
+            <tab>Timesheet__c</tab>
+        </mappings>
         <mappings>
             <tab>standard-Account</tab>
         </mappings>

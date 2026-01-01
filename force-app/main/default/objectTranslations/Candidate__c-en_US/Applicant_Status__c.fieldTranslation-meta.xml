@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Applicant Status --></label>
+    <name>Applicant_Status__c</name>
+    <picklistValues>
+        <masterLabel>Active</masterLabel>
+        <translation><!-- Active --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Do Not Call</masterLabel>
+        <translation><!-- Do Not Call --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Do Not Submit</masterLabel>
+        <translation><!-- Do Not Submit --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Immediate</masterLabel>
+        <translation><!-- Immediate --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Placed</masterLabel>
+        <translation><!-- Placed --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Priority</masterLabel>
+        <translation><!-- Priority --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Reference</masterLabel>
+        <translation><!-- Reference --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

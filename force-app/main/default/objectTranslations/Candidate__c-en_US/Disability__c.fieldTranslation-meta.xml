@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Disability --></label>
+    <name>Disability__c</name>
+    <picklistValues>
+        <masterLabel>I don&apos;t wish to answer</masterLabel>
+        <translation><!-- I don&apos;t wish to answer --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>No, I don&apos;t have a disability or a history / record of having a disability</masterLabel>
+        <translation><!-- No, I don&apos;t have a disability or a history / record of having a disability --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yes, I have a disability or have a history / record of having a disability</masterLabel>
+        <translation><!-- Yes, I have a disability or have a history / record of having a disability --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

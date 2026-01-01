@@ -13,6 +13,9 @@
                             <value>Candidate__c.Submit_To_Client</value>
                         </valueListItems>
                         <valueListItems>
+                            <value>Candidate__c.Login</value>
+                        </valueListItems>
+                        <valueListItems>
                             <value>Candidate__c.Add_To_JobPosition</value>
                         </valueListItems>
                         <valueListItems>
@@ -74,6 +77,9 @@
                         </valueListItems>
                         <valueListItems>
                             <value>Candidate__c.Add_Skill</value>
+                        </valueListItems>
+                        <valueListItems>
+                            <value>Candidate__c.Leave_Request</value>
                         </valueListItems>
                     </valueList>
                 </componentInstanceProperties>
@@ -241,8 +247,8 @@
                     <name>uiBehavior</name>
                     <value>none</value>
                 </fieldInstanceProperties>
-                <fieldItem>Record.Language__c</fieldItem>
-                <identifier>RecordLanguage__cField</identifier>
+                <fieldItem>Record.Language_Known__c</fieldItem>
+                <identifier>RecordLanguage_Known_cField</identifier>
             </fieldInstance>
         </itemInstances>
         <itemInstances>
@@ -273,6 +279,16 @@
                 </fieldInstanceProperties>
                 <fieldItem>Record.Job_Title__c</fieldItem>
                 <identifier>RecordJob_Title__cField</identifier>
+            </fieldInstance>
+        </itemInstances>
+        <itemInstances>
+            <fieldInstance>
+                <fieldInstanceProperties>
+                    <name>uiBehavior</name>
+                    <value>none</value>
+                </fieldInstanceProperties>
+                <fieldItem>Record.Contact__c</fieldItem>
+                <identifier>RecordContact__cField</identifier>
             </fieldInstance>
         </itemInstances>
         <name>Facet-702f6d70-b69e-40a9-bb6d-956c7eab0aac</name>
@@ -1015,12 +1031,6 @@
                 <identifier>flexipage_fieldSection5</identifier>
             </componentInstance>
         </itemInstances>
-        <itemInstances>
-            <componentInstance>
-                <componentName>candidateApplicationForm</componentName>
-                <identifier>c_candidateApplicationForm</identifier>
-            </componentInstance>
-        </itemInstances>
         <mode>Replace</mode>
         <name>detailTabContent</name>
         <type>Facet</type>
@@ -1099,6 +1109,12 @@
                 </componentInstanceProperties>
                 <componentName>flexipage:tabset</componentName>
                 <identifier>flexipage_tabset</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>timesheetListView</componentName>
+                <identifier>c_timesheetListView</identifier>
             </componentInstance>
         </itemInstances>
         <mode>Replace</mode>
@@ -1198,6 +1214,24 @@
         <type>Facet</type>
     </flexiPageRegions>
     <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>uploadTimesheet</componentName>
+                <identifier>c_uploadTimesheet</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>leaverequestcomponent</componentName>
+                <identifier>c_leaverequestcomponent</identifier>
+            </componentInstance>
+        </itemInstances>
+        <itemInstances>
+            <componentInstance>
+                <componentName>timesheetLoginButton</componentName>
+                <identifier>c_timesheetLoginButton</identifier>
+            </componentInstance>
+        </itemInstances>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>

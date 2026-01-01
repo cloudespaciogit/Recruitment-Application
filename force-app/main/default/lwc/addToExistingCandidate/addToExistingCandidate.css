@@ -1,0 +1,17 @@
+.full-width-card {
+    width: 100%;
+}
+
+.full-width-card .slds-card__body {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.datatable-wrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.slds-p-around_small {
+    padding: 0.5rem;
+}

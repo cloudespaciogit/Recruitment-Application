@@ -1,0 +1,21 @@
+Hello {!Interview__c.CandidateId__c},
+
+Congratulations! We are pleased to inform you that you have successfully cleared the First round for the position of {!Job_Position__c.Job_Title__c} with {!Job_Position__c.Client__c}.
+
+Your next interview round has been scheduled. Please find the details below:
+
+Interview Date: {!Interview__c.Interview_Date__c}
+Round: {!Interview__c.Round__c}
+Position: {!Job_Position__c.Job_Title__c}
+Client: {!Job_Position__c.Client__c}
+
+Please ensure that you are available at the specified time. Should you have any questions or need to make changes to the schedule, feel free to reach out to your recruiter.
+
+We wish you continued success and all the best for your upcoming round!
+
+Organizer:
+{!Job_Position__c.Recruiter__c}
+{!User.Email}
+
+Warm regards,
+Team HR

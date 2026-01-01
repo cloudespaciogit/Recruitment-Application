@@ -1269,6 +1269,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Supplier</fullName>
+            <default>false</default>
+        </values>
+        <values>
             <fullName>Walk-in</fullName>
             <default>false</default>
         </values>

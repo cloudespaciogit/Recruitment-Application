@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Amount offered to Candidate or Supplier --></help>
+    <label><!-- Pay Rate/ Salary range --></label>
+    <name>Pay_Rate_Salary_range__c</name>
+</CustomFieldTranslation>

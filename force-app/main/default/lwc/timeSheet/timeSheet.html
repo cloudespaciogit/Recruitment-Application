@@ -1,0 +1,55 @@
+<template>
+    <div class="dashboard-wrapper">
+
+        <!-- TOP USER CARDS -->
+        <div class="slds-grid slds-wrap slds-gutters user-cards">
+
+            <!-- Timesheet -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+                <div class="dashboard-card small-card">
+                    <div class="card-inner small-inner">
+                        <c-timesheet-login-button
+                            class="inner-component">
+                        </c-timesheet-login-button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leave -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+                <div class="dashboard-card small-card">
+                    <div class="card-inner small-inner">
+                        <c-leaverequestcomponent
+                            class="inner-component">
+                        </c-leaverequestcomponent>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Holiday -->
+            <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-3">
+                <div class="dashboard-card small-card">
+                    <div class="card-inner small-inner">
+                        <c-holiday-card
+                            class="inner-component">
+                        </c-holiday-card>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- SPACE -->
+        <div class="slds-m-top_large"></div>
+
+        <!-- LAST 30 DAYS -->
+        <div class="dashboard-card">
+            <div class="card-inner">
+                <c-timesheet-list-view
+                    class="inner-component">
+                </c-timesheet-list-view>
+            </div>
+        </div>
+
+    </div>
+</template>

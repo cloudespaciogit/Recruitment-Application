@@ -1,7 +1,7 @@
 @IsTest
 private class InterviewCleanupAndReminderBatchTest {
     
-    @testSetup
+    @TestSetup
     static void setupData() {
         Profile p = [SELECT Id FROM Profile WHERE Name='System Administrator' LIMIT 1];
         

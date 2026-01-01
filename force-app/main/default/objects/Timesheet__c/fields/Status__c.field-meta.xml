@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Status__c</fullName>
+    <label>Status</label>
+    <required>false</required>
+    <trackHistory>false</trackHistory>
+    <trackTrending>false</trackTrending>
+    <type>Picklist</type>
+    <valueSet>
+        <restricted>true</restricted>
+        <valueSetDefinition>
+            <sorted>false</sorted>
+            <value>
+                <fullName>Full Day Leave</fullName>
+                <default>false</default>
+                <label>Full Day Leave</label>
+            </value>
+            <value>
+                <fullName>Half Day - SH</fullName>
+                <default>false</default>
+                <label>Half Day - SH</label>
+            </value>
+            <value>
+                <fullName>Holiday</fullName>
+                <default>false</default>
+                <label>Holiday</label>
+            </value>
+            <value>
+                <fullName>Working</fullName>
+                <default>false</default>
+                <label>Working</label>
+            </value>
+            <value>
+                <fullName>Half Day - FH</fullName>
+                <default>false</default>
+                <label>Half Day - FH</label>
+            </value>
+        </valueSetDefinition>
+    </valueSet>
+</CustomField>

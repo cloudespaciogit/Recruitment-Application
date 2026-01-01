@@ -316,7 +316,7 @@
         <schedule>
             <frequency>Daily</frequency>
             <startDate>2025-08-06</startDate>
-            <startTime>00:00:00.000Z</startTime>
+            <startTime>15:45:00.000Z</startTime>
         </schedule>
         <triggerType>Scheduled</triggerType>
     </start>
@@ -325,15 +325,12 @@
         <name>NotificationBody</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>Supplier {!$Record.Name}&apos;s agreement is expiring on {!$Record.Agreement_End_Date__c}.
-Please review and take necessary action.
-Supplier {!$Record.Name}&apos;s agreement is expiring on {!$Record.Agreement_End_Date__c}.
-
 Please review and take necessary action.</text>
     </textTemplates>
     <textTemplates>
         <name>NotificationTitle</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
-        <text>⚠️ Attention Required: Client Agreement Expiring Soon</text>
+        <text>⚠️ Attention Required: Supplier Agreement Expiring Soon</text>
     </textTemplates>
     <variables>
         <description>Will store the emails to be send in CC</description>

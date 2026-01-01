@@ -1,3 +1,15 @@
+/**
+* @File Name : SupplierCandidateControllerTest.cls
+* @Description : Test class for SupplierCandidateController
+* @Author : ashish
+* @Last Modified By :
+* @Last Modified On : dec 2, 2025
+* @Modification Log :
+*=============================================================================
+* Ver | Date | Author | Modification
+*=============================================================================
+* 1.1 | October 16, 2025 |   | Added full positive & negative test coverage
+**/
 @isTest
 private class SupplierCandidateControllerTest {
 
@@ -180,5 +192,56 @@ private class SupplierCandidateControllerTest {
             list1 = SupplierCandidateController.getMyCandidatesBySearch('no-match-expected-12345');
             System.assertNotEquals(null, list1);
         }
+    }
+    
+    // -------------------------------------------------
+    // Test: updateCandidateFields with null candidateId -> throw AuraHandledException
+    // --------------------------------------------------
+    @isTest
+    static void test_updateCandidateFields_nullId_throwsAnyException() {
+        Test.startTest();
+        Boolean threw = false;
+        try {
+            SupplierCandidateController.updateCandidateFields(null, 'AnyValue', 100.00);
+        } catch (Exception ex) {
+            threw = true;
+            // optional: log the exception type/message for diagnostics in debug logs
+            System.debug('Exception thrown as expected: ' + ex.getTypeName() + ' / ' + ex.getMessage());
+        }
+        Test.stopTest();
+    
+        System.assert(threw, 'Expected an exception when candidateId is null (caught none)');
+    }
+    
+    @isTest
+    static void testCreateInterviews_whenInterviewAlreadyExists_throwsWithNames() {
+        // Arrange - use data from @testSetup
+        Supplier__c sup = [SELECT Id FROM Supplier__c WHERE Name = 'TS Supplier' LIMIT 1];
+        Job_Position__c jp = [SELECT Id FROM Job_Position__c LIMIT 1];
+        Candidate__c cand = [SELECT Id, First_name__c, Last_name__c, Name FROM Candidate__c WHERE Supplier__c = :sup.Id LIMIT 1];
+    
+        // Insert an Interview for this candidate + job to simulate "already exists"
+        Interview__c pre = new Interview__c(
+            Candidate__c = cand.Id,
+            Job_Position__c = jp.Id
+        );
+        insert pre; // if this insert fails in your org, add any required fields here before inserting
+    
+        // Act & Assert — calling createInterviews with same candidate should throw an exception
+        // Act (call method inside startTest)
+        Boolean threw = false;
+        String caughtMsg = '';
+        
+        Test.startTest();
+            try {
+                SupplierCandidateController.createInterviews(new List<Id>{ cand.Id }, jp.Id);
+            } catch (Exception ex) {
+                threw = true;
+                caughtMsg = String.valueOf(ex.getMessage());
+                System.debug('createInterviews threw: ' + String.valueOf(ex.getTypeName()) + ' / ' + caughtMsg);
+            }
+        Test.stopTest();
+    
+        System.assert(threw, 'Expected an exception to be thrown for already-existing interview');
     }
 }

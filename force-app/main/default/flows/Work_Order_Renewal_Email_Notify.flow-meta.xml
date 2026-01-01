@@ -236,7 +236,7 @@
         <recordTriggerType>CreateAndUpdate</recordTriggerType>
         <triggerType>RecordAfterSave</triggerType>
     </start>
-    <status>Draft</status>
+    <status>Obsolete</status>
     <textTemplates>
         <name>Body</name>
         <isViewedAsPlainText>false</isViewedAsPlainText>

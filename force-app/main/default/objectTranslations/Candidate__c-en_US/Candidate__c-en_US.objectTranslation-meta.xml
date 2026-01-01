@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Candidate</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Candidates</value>
+    </caseValues>
+    <layouts>
+        <layout>Candidate Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Education And Qualification --></label>
+            <section>Education And Qualification</section>
+        </sections>
+        <sections>
+            <label><!-- Personal Information --></label>
+            <section>Personal Information</section>
+        </sections>
+        <sections>
+            <label><!-- Professional --></label>
+            <section>Professional</section>
+        </sections>
+        <sections>
+            <label><!-- Projects --></label>
+            <section>Projects</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Direct (Internal/External)</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Education And Qualification --></label>
+            <section>Education And Qualification</section>
+        </sections>
+        <sections>
+            <label><!-- Personal Information --></label>
+            <section>Personal Information</section>
+        </sections>
+        <sections>
+            <label><!-- Professional Information --></label>
+            <section>Professional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Project Information --></label>
+            <section>Project Information</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Referred</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Education And Qualification --></label>
+            <section>Education And Qualification</section>
+        </sections>
+        <sections>
+            <label><!-- Personal Information --></label>
+            <section>Personal Information</section>
+        </sections>
+        <sections>
+            <label><!-- Professional Information --></label>
+            <section>Professional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Project Information --></label>
+            <section>Project Information</section>
+        </sections>
+        <sections>
+            <label><!-- Referral Information --></label>
+            <section>Referral Information</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <layouts>
+        <layout>Supplier</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Education And Qualification --></label>
+            <section>Education And Qualification</section>
+        </sections>
+        <sections>
+            <label><!-- Personal Information --></label>
+            <section>Personal Information</section>
+        </sections>
+        <sections>
+            <label><!-- Professional Information --></label>
+            <section>Professional Information</section>
+        </sections>
+        <sections>
+            <label><!-- Project Information --></label>
+            <section>Project Information</section>
+        </sections>
+        <sections>
+            <label><!-- Supplier Information --></label>
+            <section>Supplier Information</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Add Skill --></label>
+        <name>Add_Skill</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Add Skills --></label>
+        <name>Add_Skills</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Add To JobPosition --></label>
+        <name>Add_To_JobPosition</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Leave Request --></label>
+        <name>Leave_Request</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Login --></label>
+        <name>Login</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Submit To Client --></label>
+        <name>Submit_To_Client</name>
+    </quickActions>
+    <recordTypes>
+        <description><!-- Candidates who have been sourced externally and are not associated with the organization. --></description>
+        <label><!-- External --></label>
+        <name>External</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Candidates who are current employees of the organization within the company. --></description>
+        <label><!-- Internal --></label>
+        <name>Internal</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Candidates who have been referred by current employees, partners, or affiliates of the organization. --></description>
+        <label><!-- Referral --></label>
+        <name>Referral</name>
+    </recordTypes>
+    <recordTypes>
+        <description><!-- Candidates submitted by external recruitment agencies, vendors, or third-party suppliers. --></description>
+        <label><!-- Supplier --></label>
+        <name>Supplier</name>
+    </recordTypes>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Amounts should be positive and greater than zero for Current CTC, Expected CTC, and Offered CTC. --></errorMessage>
+        <name>Candidate_Positive_Salary_Validation</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Expected CTC must be greater than or equal to Current CTC. --></errorMessage>
+        <name>Expected_CTC_Not_Less_Than_Current</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Highest Qualification, Institute Name, Year of Passing, and GPA/Percentage are mandatory for this Candidate type. --></errorMessage>
+        <name>Require_Education_Details_For_Recordtype</name>
+    </validationRules>
+    <webLinks>
+        <label><!-- Export_To_Excel --></label>
+        <name>Export_To_Excel</name>
+    </webLinks>
+</CustomObjectTranslation>

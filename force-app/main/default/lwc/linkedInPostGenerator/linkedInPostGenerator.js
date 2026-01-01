@@ -66,7 +66,10 @@ export default class LinkedInPostGenerator extends LightningElement {
     @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: EMPLOYMENT_TYPE })
     wiredEmploymentValues({ error, data }) {
         if (data) {
-            this.employmentOptions = data.values;
+            this.employmentOptions  = [
+            { label: '--None--', value: '' },
+            ...data.values
+        ];
         }else if (error) {
             this.showToast('Error', 'Failed to load Employment Type values.', 'error');
         }
@@ -75,7 +78,10 @@ export default class LinkedInPostGenerator extends LightningElement {
     @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: INTERVIEW_MODE })
     wiredInterviewValues({ error, data }) {
         if (data) {
-            this.interviewOptions = data.values;
+            this.interviewOptions  = [
+            { label: '--None--', value: '' },
+            ...data.values
+        ];
         }else if (error) {
             this.showToast('Error', 'Failed to load Interview Mode values.', 'error');
         }
@@ -84,7 +90,10 @@ export default class LinkedInPostGenerator extends LightningElement {
     @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: WORK_MODE })
     wiredWorkModeValues({ error, data }) {
         if (data) {
-            this.workModeOptions = data.values;
+            this.workModeOptions  = [
+            { label: '--None--', value: '' },
+            ...data.values
+        ];
         }else if (error) {
             this.showToast('Error', 'Failed to load Work Mode values.', 'error');
         }
@@ -93,7 +102,10 @@ export default class LinkedInPostGenerator extends LightningElement {
     @wire(getPicklistValues, { recordTypeId: '$objectInfo.data.defaultRecordTypeId', fieldApiName: SHIFT_TIME })
     wiredShiftTimeValues({ error, data }) {
         if (data) {
-            this.shiftTimeOptions = data.values;
+            this.shiftTimeOptions  = [
+            { label: '--None--', value: '' },
+            ...data.values
+        ];
         }else if (error) {
             this.showToast('Error', 'Failed to load Shift Time values.', 'error');
         }
@@ -125,6 +137,8 @@ export default class LinkedInPostGenerator extends LightningElement {
 
     handleChange(event) {
         const { label, value } = event.target;
+        console.log('label : ',label);
+        console.log('value : ',value);
       
         const fieldMap = {
             'Email': () => this.email = value,
@@ -138,9 +152,11 @@ export default class LinkedInPostGenerator extends LightningElement {
             'Work Mode': () => this.work_Mode = value,
             'Job Title': () => this.job_Title = value,
             'Shift Time': () => this.shift_Time = value,
-            'Generated Post Contentthis': () => {
+            'Generated Post Content': () => {
                 this.generatedContent = value;
+                 console.log('this.generatedContent : ',this.generatedContent);
                 this.generatedContentEditable = true;
+                 console.log('generatedContentEditable : ',this.generatedContentEditable);
             }
         };
 
@@ -177,7 +193,8 @@ export default class LinkedInPostGenerator extends LightningElement {
 
    If you have the right expertise and are interested in exploring this opportunity, we’d love to connect!
 
-📩 Ready to apply? Send your CV to 👉 ${this.email} 
+   Ready to apply? https://cloudespacio.com/career/
+📩Send your CV to 👉 ${this.email} 
  
 #${this.job_Title.replace(/\s+/g, '')} #JobOpening #${employmentTypeTag} #${this.sanitizeHashtag(this.companyName)} #ITJobs #NowHiring`;
 
@@ -189,6 +206,7 @@ export default class LinkedInPostGenerator extends LightningElement {
 
     generateTextPost() {
         this.isLoading = true;
+         this.showFieldErrors();
 
         // Collect missing fields
         const missingFields = [];
@@ -245,16 +263,25 @@ export default class LinkedInPostGenerator extends LightningElement {
         }
 
         try {
+            console.log('this.generatedContent : ',this.generatedContent);
             await createPost({ content: this.generatedContent })
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Success',
-                message: 'Post has been saved successfully on Linkedin!',
-                variant: 'success'
-            }));
+            
+          this.showToast(
+                'Success',
+                'Post has been published successfully on LinkedIn.',
+                'success'
+            );
 
-            this.dispatchEvent(new FlowNavigationFinishEvent());
+            this.close();
+            console.log('OUTPUT  chal gaya: ',);
+
+            
         } catch (error) {
-            this.showToast('Error', 'Failed to publish post on LinkedIn.', 'error');
+             this.showToast(
+                'Error',
+                error?.body?.message || 'Failed to publish post on LinkedIn.',
+                'error'
+            );
         } finally {
             this.isLoading = false;
         }
@@ -264,7 +291,8 @@ export default class LinkedInPostGenerator extends LightningElement {
 
 
     close() {
-        this.dispatchEvent(new FlowNavigationFinishEvent());
+    this.dispatchEvent(new FlowNavigationFinishEvent());
+
     }
 
     showToast(title, message, variant) {
@@ -274,4 +302,15 @@ export default class LinkedInPostGenerator extends LightningElement {
             variant
         }));
     }
+
+    showFieldErrors() {
+    const fields = this.template.querySelectorAll(
+        'lightning-input, lightning-combobox'
+    );
+
+    fields.forEach(field => {
+        field.reportValidity(); // 🔥 FORCE show error if invalid
+    });
+}
+
 }

@@ -1,0 +1,130 @@
+.header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.range-label {
+    font-size: 16px;
+    font-weight: 600;
+    color: #2b2b2b;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 8px;
+}
+
+.filter-btn {
+    border: 1px solid #d8d8d8;
+    background: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.filter-btn.active {
+    background: #78426d;
+    color: white;
+    border-color: #78426d;
+}
+
+.table-header,
+.row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 10px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.table-header {
+    font-weight: 600;
+    background: #f4f4f4;
+}
+
+.date-cell {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.date-text {
+    font-weight: 500;
+}
+
+.woof-badge {
+    background-color: #c9b88a;
+    color: #4b3f1f;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.weekoff-text {
+    font-size: 11px;
+    color: #8a6d3b;
+    margin-top: 4px;
+}
+
+.single-text {
+    grid-column: 2 / 5; /* spans Login, Logout, Total */
+    font-weight: 500;
+    color: #555;
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    padding: 10px;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.row.weekend {
+    background-color: #e2d09633;
+}
+
+.row.holiday {
+    background-color: #ffe5e7;
+}
+
+.holiday-badge {
+    background-color: #df7cb6;
+    color: #4b3f1f;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+/* Leave row background */
+.row.leave {
+    background-color: #d5ecf3; /* light green */
+}
+
+/* Leave badge */
+.leave-badge {
+    background-color: #5fcbcf; /* dark green */
+    color: #4b3f1f;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
+.total-cell {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.penalty-badge {
+    background-color: #ff4747dc;
+    color: #4b3f1f;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+}

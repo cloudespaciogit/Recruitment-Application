@@ -1,0 +1,139 @@
+/* BULK BAR */
+.bulk-bar {
+    padding: 12px;
+    background: #f9fafb;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+/* TABLE */
+.table-wrapper {
+    max-height: 420px;
+    overflow-y: auto;
+    border: 1px solid #e5e7eb;
+}
+
+/* =========================
+   TABLE HEADER (ENHANCED)
+========================= */
+.table-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    background: #0b2a4a;   
+    color: #ffffff;
+
+    height: 52px;         
+    padding: 0 0;         
+
+    font-size: 14.5px;    
+    font-weight: 600;
+
+    display: flex;
+    align-items: center;   
+}
+
+/* Header column spacing */
+.table-header .col {
+    padding: 0 12px;       
+    line-height: 1.2;
+}
+
+/* Checkbox alignment in header */
+.table-header .checkbox-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Optional: subtle bottom shadow for depth */
+.table-header {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.table-row {
+    padding: 10px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.table-row:hover {
+    background: #f4f8ff;
+}
+
+/* COLUMNS */
+.col { padding: 0 10px; font-size: 13px; }
+.checkbox-col { width: 40px; }
+.name { width: 180px; }
+.match { width: 80px; }
+.rating { width: 90px; }
+.skills { flex: 1; }
+.exp { width: 110px; }
+.notice { width: 120px; }
+.updated { width: 120px; }
+.action { width: 80px; }
+
+/* PAGINATION */
+.pagination {
+    padding: 12px;
+    gap: 12px;
+}
+
+.page-info {
+    padding: 0 12px;
+    font-weight: 600;
+}
+
+/* =========================
+   PAGINATION FOOTER
+========================= */
+.pagination-footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 12px 16px;
+    background: #ffffff;
+}
+
+/* TOP ROW */
+.pagination-top {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px; /* ⬅ gap between rows */
+}
+
+/* RIGHT RECORDS PER PAGE */
+.pagination-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.records-label {
+    font-size: 13px;
+    color: #555;
+}
+
+.pagination-right lightning-combobox {
+    width: 70px;
+}
+
+/* BOTTOM ROW (CENTER PAGINATION) */
+.pagination-bottom {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+}
+
+/* PAGE INFO */
+.page-info {
+    font-weight: 600;
+    color: #444;
+    min-width: 90px;
+    text-align: center;
+}
+.empty-state {
+    padding: 48px 0;
+    text-align: center;
+    font-size: 15px;
+    font-weight: 600;
+    color: #6b7280;
+}
