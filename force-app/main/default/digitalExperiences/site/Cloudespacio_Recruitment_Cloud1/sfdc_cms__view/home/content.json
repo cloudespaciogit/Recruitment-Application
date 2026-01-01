@@ -1,0 +1,115 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Home",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "dxpStyle" : { },
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"22cb3679-dbc1-41ca-ae31-d42bb949b21a\",\"columns\":[{\"UUID\":\"161984a0-676b-4042-a9c8-20839f933e44\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":null}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "bannerBackgroundColor" : "",
+                "bannerPosition" : "top",
+                "bannerSizePercent" : 35,
+                "borderRadius" : 20,
+                "boxShadow" : true,
+                "dxpStyle" : { },
+                "haveBanner" : false,
+                "iconBackgroundColor" : "rgb(255,255,255)",
+                "iconSize" : "medium",
+                "noImageColor" : "rgb(116,116,116)",
+                "overlay" : "rgba(0,0,0,0.01)",
+                "templateType" : "default",
+                "titleColor" : "",
+                "titleFontSize" : "medium",
+                "titleHorizontalAlign" : "center"
+              },
+              "definition" : "community_navigation:tileMenu",
+              "id" : "cf2cb985-e908-4398-8cca-4fed303ee354",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "bannerBackgroundColor" : "",
+                "bannerPosition" : "top",
+                "bannerSizePercent" : 35,
+                "borderRadius" : 20,
+                "boxShadow" : true,
+                "dxpStyle" : { },
+                "haveBanner" : false,
+                "iconBackgroundColor" : "rgb(255,255,255)",
+                "iconSize" : "medium",
+                "noImageColor" : "rgb(116,116,116)",
+                "overlay" : "rgba(0,0,0,0.01)",
+                "templateType" : "default",
+                "titleColor" : "",
+                "titleFontSize" : "medium",
+                "titleHorizontalAlign" : "center"
+              },
+              "definition" : "community_navigation:tileMenu",
+              "id" : "60688066-29ab-4b82-8a2a-fa5c459bc6dd",
+              "type" : "component"
+            }, {
+              "attributes" : {
+                "dxpStyle" : { },
+                "imageInfos" : "",
+                "richTextValue" : "<div style=\"display: flex; justify-content: center; align-items: center; margin: 50px 0; flex-direction: column; text-align: center;\"><div style=\"background-image: url(assets/img/desert.svg) !important; background-size: cover; background-position: center; height: 300px; width: 100%; max-width: 600px; min-width: 300px;\"></div><h1 class=\"slds-text-heading_medium slds-p-bottom_x-small\">Start Building Your Page</h1> <div>Drag and drop a component into the content slots.</div></div>"
+              },
+              "definition" : "community_builder:htmlEditor",
+              "id" : "eb13c70c-15d3-403b-b5d2-53ea4d4a1500",
+              "type" : "component"
+            } ],
+            "id" : "161984a0-676b-4042-a9c8-20839f933e44",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "22cb3679-dbc1-41ca-ae31-d42bb949b21a",
+          "type" : "component"
+        } ],
+        "id" : "9246b614-18b4-4102-a643-8a14670ab5b0",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "customHeadTags" : "",
+            "description" : "",
+            "dxpStyle" : { },
+            "pageTitle" : "Home",
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "ad5e2f51-0dbb-48dd-8b51-de1720fd25e7",
+          "type" : "component"
+        } ],
+        "id" : "892fca11-6bb4-4fbb-bbdc-923a7c121738",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "23fd4b90-345e-4a9a-a65a-9af9538730df",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "home"
+  },
+  "urlName" : "home"
+}

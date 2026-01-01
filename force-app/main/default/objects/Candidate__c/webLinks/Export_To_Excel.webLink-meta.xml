@@ -5,9 +5,9 @@
     <displayType>massActionButton</displayType>
     <encodingKey>UTF-8</encodingKey>
     <linkType>url</linkType>
-    <masterLabel>Export To Excell</masterLabel>
+    <masterLabel>Export To Excel</masterLabel>
     <openType>replace</openType>
     <protected>false</protected>
     <requireRowSelection>true</requireRowSelection>
-    <url>/flow/Candidate_Export_to_excel</url>
+    <url>/flow/Candidate_Export_To_Excel</url>
 </WebLink>

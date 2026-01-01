@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Search Candidate Page",
+  "contentBody" : {
+    "activeViewId" : "Search_Candidate_Page",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "custom-search-candidate-page",
+    "urlPrefix" : "search-candidate-page"
+  },
+  "urlName" : "search-candidate-page"
+}

@@ -1,0 +1,442 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Send_email_to_recruiter</name>
+        <label>Send email to recruiter</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <connector>
+            <targetReference>Set_blank_value_to_variables</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recipientAddresses</name>
+            <value>
+                <collectionElements>
+                    <elementReference>loop_through_Recruiter.Email</elementReference>
+                </collectionElements>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>senderType</name>
+            <value>
+                <inputConfiguratorMode>Custom</inputConfiguratorMode>
+                <stringValue>DefaultWorkflowUser</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>composeEmailContent</name>
+            <value>
+                <stringValue>True</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>EmailSubject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>EmailBody</elementReference>
+                <inputConfiguratorMode>Resource</inputConfiguratorMode>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>emailSimple</nameSegment>
+        <offset>0</offset>
+        <versionString>2.0.1</versionString>
+    </actionCalls>
+    <apiVersion>65.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Assign_all_candidate_and_interview_data</name>
+        <label>Assign all candidate and interview data</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>CandidateRowsHTML</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>SingleInterviewRecord</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_through_interviews</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Assign_Job_Position_Record</name>
+        <label>Assign Job Position Record</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>allJobsData</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>BodyForEachJobPosition</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Set_empty_values_on_loop_variable</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_blank_value_to_variables</name>
+        <label>Set blank value to variables</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>allJobsData</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>loop_through_Recruiter</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_empty_values_on_loop_variable</name>
+        <label>Set empty values on loop variable</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>CandidateRowsHTML</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_through_Jobs</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Found_Interview_records</name>
+        <label>Found Interview records?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Loop_through_interviews</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Yes</defaultConnectorLabel>
+        <rules>
+            <name>No</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_interviews</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_interviews</leftValueReference>
+                <operator>IsEmpty</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_through_Jobs</targetReference>
+            </connector>
+            <label>No</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Found_Job_positions</name>
+        <label>Found Job positions?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>loop_through_Recruiter</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Yes</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Job_positions</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_through_Jobs</targetReference>
+            </connector>
+            <label>Yes</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>JobPositionURL</name>
+        <dataType>String</dataType>
+        <expression>LEFT({!$Api.Partner_Server_URL_290}, FIND(&quot;/services&quot;, {!$Api.Partner_Server_URL_290}) - 1)</expression>
+    </formulas>
+    <formulas>
+        <name>PriorityColourScheme</name>
+        <dataType>String</dataType>
+        <expression>IF(
+  TEXT({!Loop_through_Jobs.Priority__c}) = &quot;High&quot;,
+  &quot;&lt;b style=&apos;color:red&apos;&gt;High&lt;/b&gt;&quot;,
+  IF(
+    TEXT({!Loop_through_Jobs.Priority__c}) = &quot;Medium&quot;,
+    &quot;&lt;b style=&apos;color:orange&apos;&gt;Medium&lt;/b&gt;&quot;,
+    IF(
+      TEXT({!Loop_through_Jobs.Priority__c}) = &quot;Low&quot;,
+      &quot;&lt;b style=&apos;color:green&apos;&gt;Low&lt;/b&gt;&quot;,
+      &quot;&lt;b&gt;&quot; &amp; TEXT({!Loop_through_Jobs.Priority__c}) &amp; &quot;&lt;/b&gt;&quot;
+    )
+  )
+)</expression>
+    </formulas>
+    <interviewLabel>Job Position - Daily Send email to Recruiter {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Job Position - Daily Send email to Recruiter</label>
+    <loops>
+        <name>Loop_through_interviews</name>
+        <label>Loop through interviews</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_interviews</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Assign_all_candidate_and_interview_data</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Assign_Job_Position_Record</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>Loop_through_Jobs</name>
+        <label>Loop through Jobs</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_Job_positions</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_interviews</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Send_email_to_recruiter</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <loops>
+        <name>loop_through_Recruiter</name>
+        <label>loop through Recruiter</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <collectionReference>Get_recruiters</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Get_Job_positions</targetReference>
+        </nextValueConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_interviews</name>
+        <label>Get interviews</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Found_Interview_records</targetReference>
+        </connector>
+        <filterLogic>(1 OR 2 OR 3 OR 4) AND 5 AND 6</filterLogic>
+        <filters>
+            <field>Interview_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>New</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Recruiter Screening</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Shortlisted</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Interviewing</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Interview_Date__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Job_Position__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Loop_through_Jobs.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Interview__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Job_positions</name>
+        <label>Get Job positions</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Found_Job_positions</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Open</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Recruiter__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>loop_through_Recruiter.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Job_Position__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_recruiters</name>
+        <label>Get recruiters</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>loop_through_Recruiter</targetReference>
+        </connector>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>User</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_recruiters</targetReference>
+        </connector>
+        <schedule>
+            <frequency>Daily</frequency>
+            <startDate>2025-12-04</startDate>
+            <startTime>16:42:00.000Z</startTime>
+        </schedule>
+        <triggerType>Scheduled</triggerType>
+    </start>
+    <status>Draft</status>
+    <textTemplates>
+        <name>BodyForEachJobPosition</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;Client:&lt;/b&gt; {!Loop_through_Jobs.Client__r.Name} , &lt;b&gt;Job Position:&lt;/b&gt; &lt;a href=&quot;{!JobPositionURL}/lightning/r/Job_Position__c/{!Loop_through_Jobs.Id}/view&quot; target=&quot;_blank&quot;&gt;
+    {!Loop_through_Jobs.Job_Title__c}&lt;/a&gt;, &lt;b&gt;Priority:&lt;/b&gt; {!PriorityColourScheme}&lt;/p&gt;
+&lt;table class=&quot;ql-table-blob&quot; style=&quot;border-collapse:collapse;width:100%;max-width:800px&quot;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;Candidate Name&lt;/th&gt;
+&lt;th style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;Email&lt;/th&gt;
+&lt;th style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;Supplier&lt;/th&gt;
+&lt;th style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;Date Applied&lt;/th&gt;
+&lt;th style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;Status&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+{!CandidateRowsHTML}
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt; &lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailBody</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;p&gt;Hi {!loop_through_Recruiter.Name},&lt;/p&gt;&lt;p&gt;Please find below the list of candidates whose interviews are not yet scheduled. Kindly take necessary action.&lt;/p&gt;
+{!allJobsData}
+&lt;p&gt; &lt;/p&gt;&lt;p&gt;Regards,&lt;/p&gt;
+&lt;p&gt;&lt;i&gt;Autogenerated&lt;/i&gt;&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>EmailSubject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>🚨 Daily Alert: Candidates Pending Interview</text>
+    </textTemplates>
+    <textTemplates>
+        <name>SingleInterviewRecord</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>&lt;tr&gt;
+&lt;td style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;{!Loop_through_interviews.Candidate__r.Name}&lt;/td&gt;
+&lt;td style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;{!Loop_through_interviews.Candidate__r.Email__c}&lt;/td&gt;
+&lt;td style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;{!Loop_through_interviews.Candidate__r.Supplier__r.Name}&lt;/td&gt;
+&lt;td style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;{!Loop_through_interviews.CreatedDate}&lt;/td&gt;
+&lt;td style=&quot;border:1px solid #ddd;padding:8px;&quot;&gt;{!Loop_through_interviews.Interview_Status__c}&lt;/td&gt;
+&lt;/tr&gt;</text>
+    </textTemplates>
+    <variables>
+        <name>allJobsData</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>CandidateRowsHTML</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>currentItem_Filter_according_to_recruiter</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Job_Position__c</objectType>
+    </variables>
+</Flow>

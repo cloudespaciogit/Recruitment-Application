@@ -5,13 +5,14 @@ import exportCandidatesToExcel from '@salesforce/apex/ExportToExcel.exportCandid
 
 export default class ExportToExcel extends LightningElement {
     @api recordIds;
+    @api done;
    
     connectedCallback() {
         console.log('OUTPUT : ', this.recordIds);
 
         if (this.recordIds && this.recordIds.length > 0) {
             // If recordIds is a string, convert to array
-            let candidateIdsArray = Array.isArray(this.recordIds)
+            const candidateIdsArray = Array.isArray(this.recordIds)
                 ? this.recordIds
                 : this.recordIds.split(',').map(id => id.trim());
 

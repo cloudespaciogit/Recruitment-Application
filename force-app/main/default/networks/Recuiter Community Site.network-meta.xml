@@ -54,6 +54,7 @@
         <recaptchaScoreThreshold>0.0</recaptchaScoreThreshold>
     </networkAuthApiSettings>
     <networkMemberGroups>
+        <permissionSet>PartnerAcess</permissionSet>
         <profile>Admin</profile>
         <profile>Gold Partner User</profile>
         <profile>Partner Community User</profile>

@@ -1,0 +1,16 @@
+Hello {!Work_Order__c.Recruiter__c},
+
+This is a reminder that the work order for the following candidate is ending soon:
+
+**Candidate Name**: {!Work_Order__c.Candidate__c}  
+**Project**: {!Work_Order__c.Project__c}
+**Start Date**:   {!Work_Order__c.Start_Date__c}
+**End Date**: {!Work_Order__c.End_Date__c}
+**Role**: {!Work_Order__c.Role_on_Project__c} 
+**Salary Offered**: {!Work_Order__c.Salary_Offered__c}
+**Billable/Non-Billable**: {!Work_Order__c.00NdM000019Buqn}
+
+Please take the necessary next steps.
+
+Thanks,  
+Recruitment System

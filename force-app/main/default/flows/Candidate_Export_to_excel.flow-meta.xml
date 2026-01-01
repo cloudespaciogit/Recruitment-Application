@@ -65,10 +65,35 @@
             <label>NotEmpty</label>
         </rules>
     </decisions>
+    <decisions>
+        <name>IscheckIds</name>
+        <label>IscheckIds</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>NoData</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>IstrueIds</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ids</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop</targetReference>
+            </connector>
+            <label>IstrueIds</label>
+        </rules>
+    </decisions>
     <environments>Default</environments>
-    <interviewLabel>Candidate - Export to excel {!$Flow.CurrentDateTime}</interviewLabel>
+    <interviewLabel>Candidate: Export To Excel {!$Flow.CurrentDateTime}</interviewLabel>
     <isAdditionalPermissionRequiredToRun>true</isAdditionalPermissionRequiredToRun>
-    <label>Candidate - Export to excel</label>
+    <label>Candidate: Export To Excel</label>
     <loops>
         <name>Loop</name>
         <label>Current Ids</label>
@@ -111,8 +136,8 @@
         <allowFinish>true</allowFinish>
         <allowPause>false</allowPause>
         <fields>
-            <name>Export_To_Excel</name>
-            <extensionName>c:exportToExcel</extensionName>
+            <name>ExcelExport</name>
+            <extensionName>c:excelExport</extensionName>
             <fieldType>ComponentInstance</fieldType>
             <inputParameters>
                 <name>recordIds</name>
@@ -132,10 +157,24 @@
                 </width>
             </styleProperties>
         </fields>
+        <showFooter>false</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>NoData</name>
+        <label>NoData</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
         <fields>
-            <name>test</name>
-            <fieldText>&lt;p&gt;&lt;strong&gt; File has been exported successfully.&lt;/strong&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;</fieldText>
-            <fieldType>DisplayText</fieldType>
+            <name>Export_To_Excel</name>
+            <extensionName>c:excelExport</extensionName>
+            <fieldType>ComponentInstance</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>true</isRequired>
+            <storeOutputAutomatically>true</storeOutputAutomatically>
             <styleProperties>
                 <verticalAlignment>
                     <stringValue>top</stringValue>
@@ -145,14 +184,14 @@
                 </width>
             </styleProperties>
         </fields>
-        <showFooter>true</showFooter>
+        <showFooter>false</showFooter>
         <showHeader>false</showHeader>
     </screens>
     <start>
         <locationX>0</locationX>
         <locationY>0</locationY>
         <connector>
-            <targetReference>Loop</targetReference>
+            <targetReference>IscheckIds</targetReference>
         </connector>
     </start>
     <status>Active</status>

@@ -18,11 +18,12 @@ public class Recruitment_TestDataFactory {
 * @return Candidate__c instance (not inserted)
 */
     public static Candidate__c createCandidate(String name, String email) {
+		Long ts = System.currentTimeMillis();
         return new Candidate__c(
             Last_name__c = name,
             Email__c = email,
             Date_of_Birth__c = Date.newInstance(1990, 1, 1),
-            Phone__c = '1234567890',
+            Phone__c = '99999' + Math.mod(ts, 100000),
             Current_Location__c = 'New York',
             Total_Experience__c = 5,
             Highest_Qualification__c = 'B.Tech',
@@ -38,6 +39,7 @@ public class Recruitment_TestDataFactory {
     public static Project__c createProject(String description) {
         return new Project__c(
             Description__c = description,
+            Project_Name__c = 'test project',
             No_of_employees__c = 10,
             Start_Date__c = Date.today(),
             End_Date__c = Date.today().addDays(30),
@@ -208,5 +210,15 @@ public class Recruitment_TestDataFactory {
             Location = 'Conference Room',
             Description = 'Discussion about project status'
         );
+    }
+
+    /**
+    * @description  : Create a Timesheet__c instance and Return.
+    * @param Id   - name String
+    * @return Timesheet__c instance (not inserted)
+    */
+	public static Timesheet__c createTimesheet(String name) {
+          Timesheet__c ts = new Timesheet__c(Name = name, Date__c = Date.today());
+            return ts;
     }
 }

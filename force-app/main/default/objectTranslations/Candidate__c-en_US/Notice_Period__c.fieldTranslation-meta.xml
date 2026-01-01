@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Notice Period (Days) --></label>
+    <name>Notice_Period__c</name>
+    <picklistValues>
+        <masterLabel>1 month</masterLabel>
+        <translation><!-- 1 month --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>15 days or less</masterLabel>
+        <translation><!-- 15 days or less --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>2 Months</masterLabel>
+        <translation><!-- 2 Months --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>3 Months</masterLabel>
+        <translation><!-- 3 Months --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>45 Days</masterLabel>
+        <translation><!-- 45 Days --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>7 Days</masterLabel>
+        <translation><!-- 7 Days --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Currently serving Notice Period</masterLabel>
+        <translation><!-- Currently serving Notice Period --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Immediate Joiner</masterLabel>
+        <translation><!-- Immediate Joiner --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

@@ -58,6 +58,11 @@
                 <default>false</default>
                 <label>Internal Database</label>
             </value>
+            <value>
+                <fullName>Supplier</fullName>
+                <default>false</default>
+                <label>Supplier</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

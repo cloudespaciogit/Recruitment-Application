@@ -8,5 +8,5 @@
     Expected_CTC__c &lt;= 0,
     Offered_CTC__c &lt;= 0
 )</errorConditionFormula>
-    <errorMessage>Please enter positive amounts for Current CTC, Expected CTC, and Offered CTC.</errorMessage>
+    <errorMessage>Amounts should be positive and greater than zero for Current CTC, Expected CTC, and Offered CTC.</errorMessage>
 </ValidationRule>

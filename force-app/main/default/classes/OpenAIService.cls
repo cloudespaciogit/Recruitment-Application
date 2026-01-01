@@ -13,8 +13,21 @@
 * 1.0 | September 25, 2025 |   | Initial Version
 **/
 
+/**
+ * @description
+ * Service class to integrate Salesforce with OpenAI (ChatGPT)
+ * for generating job descriptions and related content.
+ */
+
 public with sharing class OpenAIService {
     
+    /**
+     * @description
+     * Generates a job description using OpenAI based on provided skills.
+     *
+     * @param skills Skills or keywords used to generate the job description
+     * @return Generated job description text
+     */
     public static String generateJobDescription(String skills) {
         Http http = new Http();
         HttpRequest req = new HttpRequest();
@@ -44,7 +57,6 @@ public with sharing class OpenAIService {
             if(!choices.isEmpty()) {
                 Map<String,Object> choice = (Map<String,Object>) choices[0];
                 Map<String,Object> message = (Map<String,Object>) choice.get('message');
-                system.debug(' message.get'+(String) message.get('content'));
                 return (String) message.get('content');
             }
         }

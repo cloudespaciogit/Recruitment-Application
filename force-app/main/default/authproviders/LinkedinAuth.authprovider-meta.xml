@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AuthProvider xmlns="http://soap.sforce.com/2006/04/metadata">
+    <authorizeUrl>https://www.linkedin.com/oauth/v2/authorization</authorizeUrl>
+    <consumerKey>86wrwkvhv6ti6i</consumerKey>
+    <consumerSecret>Placeholder_Value</consumerSecret>
+    <defaultScopes>openid profile email w_member_social</defaultScopes>
+    <friendlyName>LinkedinAuth</friendlyName>
+    <includeOrgIdInIdentifier>false</includeOrgIdInIdentifier>
+    <isPkceEnabled>false</isPkceEnabled>
+    <providerType>LinkedIn</providerType>
+    <requireMfa>false</requireMfa>
+    <sendAccessTokenInHeader>false</sendAccessTokenInHeader>
+    <sendClientCredentialsInHeader>false</sendClientCredentialsInHeader>
+    <sendSecretInApis>true</sendSecretInApis>
+    <tokenUrl>https://www.linkedin.com/oauth/v2/accessToken</tokenUrl>
+    <userInfoUrl>https://api.linkedin.com/v2/me</userInfoUrl>
+</AuthProvider>

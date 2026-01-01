@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BrandingSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brandingSetProperty>
+        <propertyName>BRAND_COLOR</propertyName>
+        <propertyValue>#00BBFF</propertyValue>
+    </brandingSetProperty>
+    <brandingSetProperty>
+        <propertyName>HEADER_BACKGROUND_COLOR</propertyName>
+        <propertyValue>#FFFFFF</propertyValue>
+    </brandingSetProperty>
+    <brandingSetProperty>
+        <propertyName>BRAND_IMAGE</propertyName>
+        <propertyValue>/file-asset/Cloudespacio_Logo_1200x400pxtranspa?v=1</propertyValue>
+    </brandingSetProperty>
+    <brandingSetProperty>
+        <propertyName>GROUPS_BANNER_IMAGE</propertyName>
+        <propertyValue>/file-asset/group_banner1536x3071?v=1</propertyValue>
+    </brandingSetProperty>
+    <brandingSetProperty>
+        <propertyName>GROUP_IMAGE</propertyName>
+        <propertyValue></propertyValue>
+    </brandingSetProperty>
+    <brandingSetProperty>
+        <propertyName>PROFILE_BANNER_IMAGE</propertyName>
+        <propertyValue>/file-asset/lightning_blue_profile_Banner1024x21?v=1</propertyValue>
+    </brandingSetProperty>
+    <brandingSetProperty>
+        <propertyName>USER_IMAGE</propertyName>
+        <propertyValue></propertyValue>
+    </brandingSetProperty>
+    <brandingSetProperty>
+        <propertyName>OVERRIDE_LOADING_PAGE</propertyName>
+        <propertyValue>true</propertyValue>
+    </brandingSetProperty>
+    <masterLabel>Cloudespacio Lightning</masterLabel>
+</BrandingSet>

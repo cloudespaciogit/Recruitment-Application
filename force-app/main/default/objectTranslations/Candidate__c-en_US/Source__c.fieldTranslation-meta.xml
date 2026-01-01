@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Select the origin from which the candidate was referred or discovered. --></help>
+    <label><!-- Source --></label>
+    <name>Source__c</name>
+    <picklistValues>
+        <masterLabel>Campus Hiring</masterLabel>
+        <translation><!-- Campus Hiring --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Company Website</masterLabel>
+        <translation><!-- Company Website --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Employee Referral</masterLabel>
+        <translation><!-- Employee Referral --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Internal Database</masterLabel>
+        <translation><!-- Internal Database --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Job Portal (e.g., Naukri, Monster)</masterLabel>
+        <translation><!-- Job Portal (e.g., Naukri, Monster) --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>LinkedIn</masterLabel>
+        <translation><!-- LinkedIn --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Recruitment Agency</masterLabel>
+        <translation><!-- Recruitment Agency --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Social Media</masterLabel>
+        <translation><!-- Social Media --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Supplier</masterLabel>
+        <translation><!-- Supplier --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Walk-in</masterLabel>
+        <translation><!-- Walk-in --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

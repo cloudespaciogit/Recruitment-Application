@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Candidate List",
+  "contentBody" : {
+    "activeViewId" : "Candidate_List",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "list-Candidate__c",
+    "urlPrefix" : "candidate"
+  },
+  "urlName" : "candidate-list"
+}

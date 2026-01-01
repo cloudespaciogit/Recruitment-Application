@@ -1,0 +1,49 @@
+.container {
+    padding: var(--slds-g-spacing-2, 0.5rem);
+    padding-top: var(--slds-g-spacing-4, 1.5rem);
+}
+
+/* TIME + BUTTON ROW */
+.top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* BIG CLOCK */
+.clock-time {
+    font-size: var(--slds-g-font-scale-5, 1.5rem);   /* ≈ large heading */
+    font-weight: var(--c-clock-font-weight, 500);
+    line-height: var(--c-clock-line-height, 1);
+    margin-left: var(--slds-g-spacing-3, 1.25rem);
+}
+/* BOTTOM INFO */
+.bottom-row {
+margin-top: var(--slds-g-spacing-1, 0.25rem);
+}
+.big-clock-btn {
+    margin-right: var(--slds-g-spacing-5, var(--lwc-spacingLarge, 1.5rem));
+    min-width: var(--c-button-min-width, 160px);
+    height: var(--c-button-height, 3rem);
+    font-size: var(--c-font-size-1, var(--slds-g-font-size-1, 1rem));
+    border-radius: var(--slds-g-radius-border-2, var(--lwc-borderRadiusMedium, 8px));   
+}
+
+.date-text {
+font-size: var(--c-font-size-3, var(--slds-g-font-size-3, 16px));
+color: var(--slds-g-color-neutral-base-50, #5c5c5c);
+margin-left: var(--slds-g-spacing-3, 20px);
+} 
+
+.date-textval {
+font-size: var(--c-font-size-3, var(--slds-g-font-size-3, 1rem));
+color: var(--slds-g-color-neutral-base-50, #5c5c5c);
+margin-right: var(--slds-g-spacing-4, 1.7rem);
+}
+
+.total-hours-label {
+margin-top: var(--slds-g-spacing-2, 0.75rem);
+font-size: var(--c-font-size-1, var(--slds-g-font-size-1, 0.75rem));
+letter-spacing: var(--c-text-letter-spacing, var(--slds-c-text-letter-spacing, 0.08em));
+color: var(--slds-g-color-neutral-base-60, #6b6b6b);
+margin-left: var(--slds-g-spacing-3, 1.25rem);
+}

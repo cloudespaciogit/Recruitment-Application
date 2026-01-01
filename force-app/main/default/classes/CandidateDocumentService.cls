@@ -1,345 +1,396 @@
-/*
-##################################################### 
-# Created By (Date)   : Shivam Shivhare (02 Sep, 2025)
-# Description         : Service class for handling Google Drive operations 
-#                       (upload, fetch, delete) for record-specific documents.
-# Modifications Log   : 
-* Ver    Date              Author                   Modification
-* 1.0    02 Sep, 2025      Shivam Shivhare          Initial Version
-#####################################################
-*/
+/**
+ * #####################################################
+ * @description
+ * Service class for handling Google Drive operations
+ * (upload, fetch, delete, resume link update)
+ * for Candidate documents.
+ *
+ * @author
+ * Shivam Shivhare
+ *
+ * @since
+ * 02-Sep-2025
+ * #####################################################
+ */
+public without sharing class CandidateDocumentService {
 
+    /* =========================================================
+     * CONSTANTS & TEST SUPPORT
+     * ========================================================= */
 
-public with sharing class CandidateDocumentService {
+    /** Named Credential used for Google Drive callouts */
+    private static final String NAMED_CREDENTIAL = getNamedCredential();
 
-     private static String NAMED_CREDENTIAL = getNamedCredential();
-	@TestVisible private static String TEST_parentFolderId;
+    /** Test override for parent folder id */
+    @TestVisible
+    private static String testParentFolderId;
 
+    /* =========================================================
+     * NAMED CREDENTIAL RESOLUTION
+     * ========================================================= */
 
-     private static String getNamedCredential() {
+    /**
+     * @description
+     * Fetch Google Drive Named Credential from custom metadata.
+     * Falls back to default if lookup fails.
+     *
+     * @return Named Credential name
+     */
+    private static String getNamedCredential() {
         try {
-            Google_Drive_Parent_Folder__mdt md = [
-                SELECT Named_Credential__c 
-                FROM Google_Drive_Parent_Folder__mdt 
-                LIMIT 1
-            ];
+            Google_Drive_Parent_Folder__mdt md =
+                [SELECT Named_Credential__c FROM Google_Drive_Parent_Folder__mdt WITH USER_MODE LIMIT 1];
             return md.Named_Credential__c;
-        } catch (Exception e) {
-            System.debug('Error fetching Named Credential: ' + e.getMessage());
-            return 'GoogleDriveNC'; 
+        } catch (Exception ex) {
+            return 'GoogleDriveNC';
         }
     }
 
-    /* ==================================================================================
-    * Method : uploadFileToDrive
-    * Purpose: Upload a file to Google Drive inside a record-specific folder.
-    * Params : 
-    *   - fileName       : Name of the file.
-    *   - base64Data     : File data encoded in base64.
-    *   - mimeType       : MIME type of the file.
-    *   - recordId       : Salesforce record Id (Candidate, Project, etc.).
-    *   - objectApiName  : API name of the object.
-    * Returns: Google Drive file Id of the uploaded file.
-    *================================================================================== 
-    */
+    /* =========================================================
+     * FILE UPLOAD
+     * ========================================================= */
+
+    /**
+     * @description
+     * Upload a file to Google Drive under a Candidate-specific folder.
+     *
+     * @param fileName   Name of the file
+     * @param base64Data Base64 encoded file content
+     * @param mimeType   MIME type of the file
+     * @param recordId   Candidate record Id
+     * @return Google Drive file Id
+     */
     @AuraEnabled
-    public static String uploadFileToDrive(String fileName, String base64Data, String mimeType, Id recordId) {
-        try {
-             Candidate__c cand = [SELECT Name FROM Candidate__c WHERE Id = :recordId LIMIT 1];
-            String recordName = cand.Name;
-            
-            String folderName = recordName + '_' + recordId;
+    public static String uploadFileToDrive(
+        String fileName,
+        String base64Data,
+        String mimeType,
+        Id recordId
+    ) {
+        validateCandidateCRUD();
 
-            // Fetch Parent Folder ID
-         
-            String parentFolderId;
-            
-            if (TEST_parentFolderId != null) {
-                parentFolderId = TEST_parentFolderId;
-            } else {
-                Google_Drive_Parent_Folder__mdt parentFolderMetadata = [
-                    SELECT Parent_Folder_ID__c 
-                    FROM Google_Drive_Parent_Folder__mdt 
-                    LIMIT 1
-                ];
-                parentFolderId = parentFolderMetadata.Parent_Folder_ID__c;
-            }
+        Candidate__c candidate =
+            [SELECT Id, Name FROM Candidate__c WHERE Id = :recordId LIMIT 1];
 
-            if (String.isBlank(parentFolderId)) {
-                throw new AuraHandledException('Parent Folder ID is not configured in Custom Metadata.');
-            }
+        String folderName = candidate.Name + '_' + candidate.Id;
+        String parentFolderId = resolveParentFolderId();
+        String folderId = getOrCreateFolder(folderName, parentFolderId);
 
-            // Create/Get folder + Upload
-            String folderId = getOrCreateFolder(folderName, parentFolderId);
-            return uploadMultipart(folderId, fileName, base64Data, mimeType);
-
-        } catch (Exception e) {
-            System.debug('Error in uploadFileToDrive: ' + e.getMessage());
-            throw new AuraHandledException('File upload failed: ' + e.getMessage());
-        }
+        return uploadMultipart(folderId, fileName, base64Data, mimeType);
     }
 
-    /* ==================================================================================
-    * Method : getOrCreateFolder
-    * Purpose: Ensure a record-specific folder exists under parent and return its ID.
-    * Params : 
-    *   - folderName     : Name of the folder to create/search.
-    *   - parentFolderId : Parent Google Drive folder Id.
-    * Returns: Folder Id in Google Drive.
-    * ================================================================================== 
-    */
+    /* =========================================================
+     * FOLDER HANDLING
+     * ========================================================= */
+
+    /**
+     * @description
+     * Resolve the configured parent Google Drive folder Id.
+     *
+     * @return Parent folder Id
+     */
+    private static String resolveParentFolderId() {
+        if (testParentFolderId != null) {
+            return testParentFolderId;
+        }
+
+        Google_Drive_Parent_Folder__mdt md =
+            [SELECT Parent_Folder_ID__c FROM Google_Drive_Parent_Folder__mdt WITH USER_MODE LIMIT 1];
+
+        if (String.isBlank(md.Parent_Folder_ID__c)) {
+            throw new AuraHandledException('Parent Folder ID is not configured.');
+        }
+        return md.Parent_Folder_ID__c;
+    }
+
+    /**
+     * @description
+     * Fetch an existing Candidate folder or create a new one.
+     *
+     * @param folderName     Folder name
+     * @param parentFolderId Parent folder Id
+     * @return Folder Id
+     */
     private static String getOrCreateFolder(String folderName, String parentFolderId) {
-        String folderId;
         Http http = new Http();
 
-        try {
-            // Step 1: Build the query
-            String query = 'name = \'' + folderName + '\' and mimeType = \'application/vnd.google-apps.folder\' and \'' + parentFolderId + '\' in parents and trashed = false';
-            String encodedQuery = EncodingUtil.urlEncode(query, 'UTF-8');
+        String query =
+            'name = \'' + folderName +
+            '\' and mimeType = \'application/vnd.google-apps.folder\'' +
+            ' and \'' + parentFolderId +
+            '\' in parents and trashed = false';
 
-            // Step 2: Search for the folder
-            HttpRequest searchReq = new HttpRequest();
-            searchReq.setEndpoint('callout:' + NAMED_CREDENTIAL + '/drive/v3/files?q=' + encodedQuery);
-            searchReq.setMethod('GET');
-            HttpResponse searchRes = http.send(searchReq);
+        HttpRequest searchReq = new HttpRequest();
+        searchReq.setEndpoint(
+            'callout:' + NAMED_CREDENTIAL +
+            '/drive/v3/files?q=' + EncodingUtil.urlEncode(query, 'UTF-8')
+        );
+        searchReq.setMethod('GET');
 
-            if (searchRes.getStatusCode() == 200) {
-                Map<String, Object> searchResult = (Map<String, Object>) JSON.deserializeUntyped(searchRes.getBody());
-                List<Object> files = (List<Object>) searchResult.get('files');
+        HttpResponse searchRes = http.send(searchReq);
 
-                if (!files.isEmpty()) {
-                    folderId = (String)((Map<String, Object>)files[0]).get('id');
-                    return folderId;
-                }
+        if (searchRes.getStatusCode() == 200) {
+            Map<String, Object> result =
+                (Map<String, Object>) JSON.deserializeUntyped(searchRes.getBody());
+            List<Object> files = (List<Object>) result.get('files');
+
+            if (!files.isEmpty()) {
+                return (String) ((Map<String, Object>) files[0]).get('id');
             }
-
-            // Step 3: If not found, create new folder
-            HttpRequest createReq = new HttpRequest();
-            createReq.setEndpoint('callout:' + NAMED_CREDENTIAL + '/drive/v3/files');
-            createReq.setMethod('POST');
-            createReq.setHeader('Content-Type', 'application/json');
-
-            String body = JSON.serialize(new Map<String, Object>{
-                'name' => folderName,
-                'mimeType' => 'application/vnd.google-apps.folder',
-                'parents' => new List<String>{ parentFolderId }
-            });
-            createReq.setBody(body);
-
-            HttpResponse createRes = http.send(createReq);
-            if (createRes.getStatusCode() == 200 || createRes.getStatusCode() == 201) {
-                Map<String, Object> createResult = (Map<String, Object>) JSON.deserializeUntyped(createRes.getBody());
-                folderId = (String) createResult.get('id');
-            } else {
-                throw new CalloutException('Failed to create folder. Response: ' + createRes.getBody());
-            }
-        } catch (Exception e) {
-            System.debug('Error in getOrCreateFolder: ' + e.getMessage());
-            throw new AuraHandledException('Error creating/getting folder: ' + e.getMessage());
         }
 
-        return folderId;
+        return createFolder(folderName, parentFolderId);
     }
 
-    /* ==================================================================================
-    * Method : uploadMultipart
-    * Purpose: Upload the file into the given folder using multipart request.
-    * Params : 
-    *   - candidateFolderId : Folder Id in Google Drive where file will be uploaded.
-    *   - fileName          : Name of the file.
-    *   - base64Data        : Base64 encoded data of the file.
-    *   - mimeType          : MIME type of the file.
-    * Returns: Uploaded file Id in Google Drive.
-    * ================================================================================== 
-    */
+    /**
+     * @description
+     * Create a new folder in Google Drive.
+     *
+     * @param folderName     Folder name
+     * @param parentFolderId Parent folder Id
+     * @return Created folder Id
+     */
+    private static String createFolder(String folderName, String parentFolderId) {
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('callout:' + NAMED_CREDENTIAL + '/drive/v3/files');
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/json');
 
-    private static String uploadMultipart(String candidateFolderId, String fileName, String base64Data, String mimeType) {
-        try {
-            String endpoint = 'callout:' + NAMED_CREDENTIAL + '/upload/drive/v3/files?uploadType=multipart';
+        req.setBody(JSON.serialize(new Map<String, Object>{
+            'name' => folderName,
+            'mimeType' => 'application/vnd.google-apps.folder',
+            'parents' => new List<String>{ parentFolderId }
+        }));
 
-            // File metadata
-            Map<String, Object> metadata = new Map<String, Object>{
+        HttpResponse res = new Http().send(req);
+
+        if (res.getStatusCode() == 200 || res.getStatusCode() == 201) {
+            return (String)
+                ((Map<String, Object>) JSON.deserializeUntyped(res.getBody())).get('id');
+        }
+
+        throw new AuraHandledException('Folder creation failed.');
+    }
+
+    /* =========================================================
+     * FILE UPLOAD (MULTIPART)
+     * ========================================================= */
+
+    /**
+     * @description
+     * Upload file content to Google Drive using multipart request.
+     *
+     * @param folderId   Target folder Id
+     * @param fileName   File name
+     * @param base64Data Base64 encoded data
+     * @param mimeType   MIME type
+     * @return Uploaded file Id
+     */
+    private static String uploadMultipart(
+        String folderId,
+        String fileName,
+        String base64Data,
+        String mimeType
+    ) {
+        String boundary = 'CandidateDocBoundary';
+
+        String body =
+            '--' + boundary + '\r\n' +
+            'Content-Type: application/json; charset=UTF-8\r\n\r\n' +
+            JSON.serialize(new Map<String, Object>{
                 'name' => fileName,
-                'parents' => new List<String>{ candidateFolderId }
-            };
+                'parents' => new List<String>{ folderId }
+            }) + '\r\n--' + boundary + '\r\n' +
+            'Content-Type: ' + mimeType + '\r\n' +
+            'Content-Transfer-Encoding: base64\r\n\r\n' +
+            base64Data + '\r\n--' + boundary + '--';
 
-            String metadataJson = JSON.serialize(metadata);
-            String boundary = 'CandidateDocBoundary';
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint(
+            'callout:' + NAMED_CREDENTIAL +
+            '/upload/drive/v3/files?uploadType=multipart'
+        );
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'multipart/related; boundary=' + boundary);
+        req.setBody(body);
 
-            String bodyStart = '--' + boundary + '\r\n'
-                + 'Content-Type: application/json; charset=UTF-8\r\n\r\n'
-                + metadataJson + '\r\n'
-                + '--' + boundary + '\r\n'
-                + 'Content-Type: ' + mimeType + '\r\n'
-                + 'Content-Transfer-Encoding: base64\r\n\r\n';
+        HttpResponse res = new Http().send(req);
 
-            String bodyEnd = '\r\n--' + boundary + '--';
-
-            String fullBody = bodyStart + base64Data + bodyEnd;
-
-            // HTTP Request
-            HttpRequest req = new HttpRequest();
-            req.setEndpoint(endpoint);
-            req.setMethod('POST');
-            req.setHeader('Content-Type', 'multipart/related; boundary=' + boundary);
-            req.setBody(fullBody);
-
-            Http http = new Http();
-            HttpResponse res = http.send(req);
-
-            if (res.getStatusCode() == 200 || res.getStatusCode() == 201) {
-                Map<String, Object> result = (Map<String, Object>) JSON.deserializeUntyped(res.getBody());
-                return (String) result.get('id');
-            } else {
-                throw new CalloutException('Upload failed. Status: ' + res.getStatus() + ' Body: ' + res.getBody());
-            }
-        } catch (Exception e) {
-            System.debug('Error in uploadMultipart: ' + e.getMessage());
-            throw new AuraHandledException('File upload failed: ' + e.getMessage());
+        if (res.getStatusCode() == 200 || res.getStatusCode() == 201) {
+            return (String)
+                ((Map<String, Object>) JSON.deserializeUntyped(res.getBody())).get('id');
         }
+
+        throw new AuraHandledException('File upload failed.');
     }
 
-    /* ==================================================================================
-    * Method : getFiles
-    * Purpose: Get all files of a record from Google Drive.
-    * Params : 
-    *   - recordId      : Salesforce record Id (Candidate, Project, etc.).
-    *   - objectApiName : API name of the object.
-    * Returns: List of file metadata maps from Google Drive.
-    * ================================================================================== 
-    */
+    /* =========================================================
+     * FETCH FILES
+     * ========================================================= */
 
+    /**
+     * @description
+     * Fetch all files uploaded for a Candidate from Google Drive.
+     *
+     * @param recordId Candidate Id
+     * @return List of file metadata maps
+     */
     @AuraEnabled
     public static List<Map<String, Object>> getFiles(Id recordId) {
-        try {
-            Candidate__c cand = [SELECT Name FROM Candidate__c WHERE Id = :recordId LIMIT 1];
-            String recordName = cand.Name;
-            String folderName = recordName + '_' + recordId;
+        validateCandidateCRUD();
 
-            String parentFolderId = [SELECT Parent_Folder_ID__c FROM Google_Drive_Parent_Folder__mdt LIMIT 1].Parent_Folder_ID__c;
+        Candidate__c candidate =
+            [SELECT Id, Name FROM Candidate__c WHERE Id = :recordId LIMIT 1];
 
-            Http http = new Http();
+        String folderName = candidate.Name + '_' + candidate.Id;
+        String parentFolderId = resolveParentFolderId();
 
-            // Search for candidate folder
-            String folderQuery = 'mimeType = \'application/vnd.google-apps.folder\' and name = \'' + folderName 
-                                 + '\' and \'' + parentFolderId + '\' in parents and trashed = false';
+        Http http = new Http();
 
-            HttpRequest folderReq = new HttpRequest();
-            folderReq.setEndpoint('callout:' + NAMED_CREDENTIAL + '/drive/v3/files?q=' + EncodingUtil.urlEncode(folderQuery, 'UTF-8'));
-            folderReq.setMethod('GET');
+        String folderQuery =
+            'mimeType = \'application/vnd.google-apps.folder\'' +
+            ' and name = \'' + folderName +
+            '\' and \'' + parentFolderId +
+            '\' in parents and trashed = false';
 
-            HttpResponse folderRes = http.send(folderReq);
-            if (folderRes.getStatusCode() != 200) {
-                throw new CalloutException('Failed to search candidate folder: ' + folderRes.getBody());
-            }
+        HttpRequest folderReq = new HttpRequest();
+        folderReq.setEndpoint(
+            'callout:' + NAMED_CREDENTIAL +
+            '/drive/v3/files?q=' + EncodingUtil.urlEncode(folderQuery, 'UTF-8')
+        );
+        folderReq.setMethod('GET');
 
-            Map<String, Object> folderResult = (Map<String, Object>) JSON.deserializeUntyped(folderRes.getBody());
-            List<Object> folderFiles = (List<Object>) folderResult.get('files');
+        HttpResponse folderRes = http.send(folderReq);
 
-            if (folderFiles.isEmpty()) {
-                return new List<Map<String, Object>>();
-            }
-
-            String folderId = (String) ((Map<String, Object>) folderFiles[0]).get('id');
-
-            // Fetch all files
-            String fileQuery = '\'' + folderId + '\' in parents and trashed = false';
-            HttpRequest fileReq = new HttpRequest();
-            fileReq.setEndpoint(
-                'callout:' + NAMED_CREDENTIAL + 
-                '/drive/v3/files?q=' + EncodingUtil.urlEncode(fileQuery, 'UTF-8') +
-                '&fields=files(id,name,mimeType,size,createdTime,modifiedTime)'
-            );
-            fileReq.setMethod('GET');
-
-            HttpResponse fileRes = http.send(fileReq);
-            if (fileRes.getStatusCode() != 200) {
-                throw new CalloutException('Failed to fetch files: ' + fileRes.getBody());
-            }
-
-            Map<String, Object> fileResult = (Map<String, Object>) JSON.deserializeUntyped(fileRes.getBody());
-            List<Object> files = (List<Object>) fileResult.get('files');
-
-            List<Map<String, Object>> fileList = new List<Map<String, Object>>();
-            for (Object f : files) {
-                fileList.add((Map<String, Object>) f);
-            }
-
-            return fileList;
-
-        } catch (Exception e) {
-            System.debug('Error in getFiles: ' + e.getMessage());
-            throw new AuraHandledException('Error fetching files: ' + e.getMessage());
+        if (folderRes.getStatusCode() != 200) {
+            throw new AuraHandledException('Folder lookup failed.');
         }
+
+        Map<String, Object> folderResult =
+            (Map<String, Object>) JSON.deserializeUntyped(folderRes.getBody());
+        List<Object> folders = (List<Object>) folderResult.get('files');
+
+        if (folders.isEmpty()) {
+            return new List<Map<String, Object>>();
+        }
+
+        String folderId = (String) ((Map<String, Object>) folders[0]).get('id');
+
+        HttpRequest fileReq = new HttpRequest();
+        fileReq.setEndpoint(
+            'callout:' + NAMED_CREDENTIAL +
+            '/drive/v3/files?q=' +
+            EncodingUtil.urlEncode('\'' + folderId + '\' in parents and trashed = false', 'UTF-8') +
+            '&fields=files(id,name,mimeType,size,createdTime,modifiedTime)'
+        );
+        fileReq.setMethod('GET');
+
+        HttpResponse fileRes = http.send(fileReq);
+
+        if (fileRes.getStatusCode() != 200) {
+            throw new AuraHandledException('File fetch failed.');
+        }
+
+        Map<String, Object> fileResult =
+            (Map<String, Object>) JSON.deserializeUntyped(fileRes.getBody());
+
+        List<Map<String, Object>> response = new List<Map<String, Object>>();
+        for (Object obj : (List<Object>) fileResult.get('files')) {
+            response.add((Map<String, Object>) obj);
+        }
+
+        return response;
     }
 
-    /* ==================================================================================
-    * Method : deleteFileFromDrive
-    * Purpose: Delete a file from Google Drive.
-    * Params : 
-    *   - fileId : Google Drive file Id.
-    * Returns: Success message if file is deleted.
-    * ================================================================================== 
-    */
+    /* =========================================================
+     * DELETE FILE
+     * ========================================================= */
 
+    /**
+     * @description
+     * Delete a file from Google Drive.
+     *
+     * @param fileId Google Drive file Id
+     * @return Status message
+     */
     @AuraEnabled
     public static String deleteFileFromDrive(String fileId) {
-        try {
-            Http http = new Http();
-            HttpRequest req = new HttpRequest();
-            req.setEndpoint('callout:' + NAMED_CREDENTIAL + '/drive/v3/files/' + fileId);
-            req.setMethod('DELETE');
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('callout:' + NAMED_CREDENTIAL + '/drive/v3/files/' + fileId);
+        req.setMethod('DELETE');
 
-            HttpResponse res = http.send(req);
+        HttpResponse res = new Http().send(req);
 
-            if (res.getStatusCode() == 204) {
-                return 'File deleted successfully';
-            } else {
-                throw new CalloutException('Failed to delete file. Status: ' + res.getStatus() + ' Body: ' + res.getBody());
-            }
-        } catch (Exception e) {
-            System.debug('Error in deleteFileFromDrive: ' + e.getMessage());
-            throw new AuraHandledException('File delete failed: ' + e.getMessage());
+        if (res.getStatusCode() == 204) {
+            return 'File deleted successfully';
         }
+
+        throw new AuraHandledException('File delete failed.');
     }
 
-   /* ==================================================================================
-    * Method : updateResumeLink
-    * Purpose: Update resume field of candidate record .
-    * Params : 
-    *   - candidateId : recordId.
-        - driveFileId : Id Of drive file.
-    * ================================================================================== 
-    */
+    /* =========================================================
+     * UPDATE RESUME LINK
+     * ========================================================= */
+
+    /**
+     * @description
+     * Update Candidate resume link with Google Drive file URL.
+     *
+     * @param candidateId  Candidate Id
+     * @param driveFileId  Google Drive file Id
+     */
     @AuraEnabled
-public static void updateResumeLink(Id candidateId, String driveFileId) {
-    if (candidateId == null) {
-        throw new AuraHandledException('Candidate Id is required.');
-    }
+    public static void updateResumeLink(Id candidateId, String driveFileId) {
+        validateCandidateCRUD();
 
-    try {
-        Candidate__c cand;
-        if (driveFileId == null) {
-            // Delete case: Resume field 
-            cand = new Candidate__c(Id = candidateId, Resume_Link__c = null);
-        } else {
-            // Upload case: Resume link
-            String driveLink = 'https://drive.google.com/file/d/' + driveFileId + '/view';
-            cand = new Candidate__c(Id = candidateId, Resume_Link__c = driveLink);
-        }
+        Candidate__c cand = new Candidate__c(
+            Id = candidateId,
+            Resume_Link__c =
+                driveFileId == null
+                ? null
+                : 'https://drive.google.com/file/d/' + driveFileId + '/view'
+        );
+
         update cand;
-
-    } catch (DmlException dmlEx) {
-        // Ensure message is never null
-        String msg = (dmlEx.getMessage() != null) ? dmlEx.getMessage() : 'Unknown DML error';
-        throw new AuraHandledException('Failed to update Resume Link: ' + msg);
-
-    } catch (Exception ex) {
-        // Ensure message is never null
-        String msg = (ex.getMessage() != null) ? ex.getMessage() : 'Unknown error';
-        throw new AuraHandledException('Unexpected error: ' + msg);
     }
-}
 
+    /* =========================================================
+     * LOGGED-IN CANDIDATE
+     * ========================================================= */
 
+    /**
+     * @description
+     * Fetch Candidate Id associated with logged-in user.
+     *
+     * @return Candidate Id or null
+     */
+    @AuraEnabled
+    public static Id getLoggedInCandidateId() {
+        User u =
+            [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId() WITH USER_MODE LIMIT 1];
+
+        if (u.ContactId == null) {
+            return null;
+        }
+
+        List<Candidate__c> cands =
+            [SELECT Id FROM Candidate__c WHERE Contact__c = :u.ContactId LIMIT 1];
+
+        return cands.isEmpty() ? null : cands[0].Id;
+    }
+
+    /* =========================================================
+     * SECURITY
+     * ========================================================= */
+ 	
+    /**
+     * @description
+     * Validate CRUD access for Candidate object.
+     */
+    private static void validateCandidateCRUD() {
+        if (!Schema.sObjectType.Candidate__c.isAccessible() ||
+            !Schema.sObjectType.Candidate__c.isUpdateable()) {
+            throw new AuraHandledException('Insufficient Candidate access.');
+        }
+    }
 }

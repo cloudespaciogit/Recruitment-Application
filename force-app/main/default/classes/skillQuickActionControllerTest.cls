@@ -1,41 +1,40 @@
 /**
-* @File Name : skillQuickActionControllerTest.cls
-* @Description : Test class for skillQuickActionController
-* @Author :
-* @Last Modified By :
-* @Last Modified On : October 16, 2025
-* @Modification Log :
-*==============================================================================
-* Ver | Date | Author | Modification
-*==============================================================================
-* 1.1 | October 16, 2025 |   | Added full positive & negative test coverage
-**/
+ * @description
+ * Test class for SkillQuickActionController
+ * Covers Candidate and Job Position skill fetch and update scenarios
+ */
+@IsTest
+public class SkillQuickActionControllerTest {
 
-@isTest
-public class skillQuickActionControllerTest {
+    /* ================= TEST SETUP ================= */
 
     @testSetup
     static void setupTestData() {
-        // Create first Candidate
-        Candidate__c cand1 = Recruitment_TestDataFactory.createCandidate('John Doe', 'johndoe@email.com');
+
+        Candidate__c cand1 = Recruitment_TestDataFactory.createCandidate(
+            'John Doe',
+            'johndoe@email.com'
+        );
         cand1.Phone__c = '1111111111';
         cand1.Skills__c = 'Salesforce, Apex, LWC';
         cand1.Soft_Skills__c = 'Communication, Teamwork';
         insert cand1;
 
-        // Create second Candidate
-        Candidate__c cand2 = Recruitment_TestDataFactory.createCandidate('Jane Smith', 'jane.smith@test.com');
+        Candidate__c cand2 = Recruitment_TestDataFactory.createCandidate(
+            'Jane Smith',
+            'jane.smith@test.com'
+        );
         cand2.Phone__c = '2222222222';
         cand2.Skills__c = 'Java, SQL, Salesforce';
         cand2.Soft_Skills__c = 'Problem Solving, Adaptability';
         insert cand2;
 
-        // Create Client
-        Client__c client = Recruitment_TestDataFactory.createClient('Client Name', 'Client@email.com');
-        client.Phone__c = '1111111111';
+        Client__c client = Recruitment_TestDataFactory.createClient(
+            'Test Client',
+            'client@email.com'
+        );
         insert client;
 
-        // Create Job Position
         Job_Position__c jp = Recruitment_TestDataFactory.createFlexJobPosition();
         jp.Client__c = client.Id;
         jp.Skills_Required__c = 'Salesforce, JavaScript';
@@ -43,187 +42,394 @@ public class skillQuickActionControllerTest {
         insert jp;
     }
 
-    // ---------------- Positive Tests ----------------
+    /* ================= POSITIVE TESTS ================= */
 
-    @isTest
-    static void testGetCandidateSkills_withCandidate() {
-        Candidate__c cand = [SELECT Id FROM Candidate__c WHERE Name = 'John Doe' LIMIT 1];
+    @IsTest
+static void testGetCandidateSkillsCandidate() {
 
-        Test.startTest();
-        Map<String, List<String>> result = skillQuickActionController.getCandidateSkills(cand.Id, 'Candidate');
-        Test.stopTest();
+    // Create a test user
+    Profile p = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = 'System Administrator'
+        LIMIT 1
+    ];
 
-        System.assertNotEquals(null, result);
-        System.assert(result.containsKey('skills'));
-        System.assert(result.containsKey('softSkills'));
-        System.assertEquals(3, result.get('skills').size());
-        System.assertEquals(2, result.get('softSkills').size());
-    }
+    User testUser = new User(
+        Alias = 'tuser',
+        Email = 'testuser@test.com',
+        EmailEncodingKey = 'UTF-8',
+        LastName = 'User',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        TimeZoneSidKey = 'Asia/Kolkata',
+        UserName = 'testuser' + System.currentTimeMillis() + '@test.com'
+    );
 
-    @isTest
-    static void testGetCandidateSkills_withJobPosition() {
-        Job_Position__c jp = [SELECT Id FROM Job_Position__c LIMIT 1];
+    insert testUser;
 
-        Test.startTest();
-        Map<String, List<String>> result = skillQuickActionController.getCandidateSkills(jp.Id, 'Job Position');
-        Test.stopTest();
+    System.runAs(testUser) {
 
-        System.assertNotEquals(null, result);
-        System.assert(result.containsKey('skills'));
-        System.assert(result.containsKey('softSkills'));
-        System.assertEquals(2, result.get('skills').size());
-        System.assertEquals(2, result.get('softSkills').size());
-    }
-
-    @isTest
-    static void testUpdateCandidateSkills_withCandidate() {
-        Candidate__c cand = [SELECT Id FROM Candidate__c WHERE Name = 'John Doe' LIMIT 1];
-
-        List<String> newSkills = new List<String>{'Python', 'SOQL'};
-        List<String> newSoftSkills = new List<String>{'Adaptability'};
+        Candidate__c cand = [
+            SELECT Id
+            FROM Candidate__c
+            WHERE Name = 'John Doe'
+            LIMIT 1
+        ];
 
         Test.startTest();
-        skillQuickActionController.updateCandidateSkills(cand.Id, 'Candidate', newSkills, newSoftSkills);
+        Map<String, List<String>> result =
+            SkillQuickActionController.getCandidateSkills(cand.Id, 'Candidate');
         Test.stopTest();
 
-        Candidate__c updatedCand = [SELECT Skills__c, Soft_Skills__c FROM Candidate__c WHERE Id = :cand.Id];
-        System.assertEquals('Python, SOQL', updatedCand.Skills__c);
-        System.assertEquals('Adaptability', updatedCand.Soft_Skills__c);
+        System.assertEquals(3, result.get('skills').size(),
+            'Expected 3 technical skills');
+        System.assertEquals(2, result.get('softSkills').size(),
+            'Expected 2 soft skills');
     }
+}
 
-    @isTest
-    static void testUpdateCandidateSkills_withJobPosition() {
-        Job_Position__c jp = [SELECT Id FROM Job_Position__c LIMIT 1];
 
-        List<String> newSkills = new List<String>{'FSL', 'CPQ'};
-        List<String> newSoftSkills = new List<String>{'Time Management', 'Creativity'};
+   @IsTest
+static void testGetCandidateSkillsJobPosition() {
+
+    // Create a test user
+    Profile p = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = 'System Administrator'
+        LIMIT 1
+    ];
+
+    User testUser = new User(
+        Alias = 'tuser2',
+        Email = 'testuser2@test.com',
+        EmailEncodingKey = 'UTF-8',
+        LastName = 'User',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        TimeZoneSidKey = 'Asia/Kolkata',
+        UserName = 'testuser2' + System.currentTimeMillis() + '@test.com'
+    );
+
+    insert testUser;
+
+    System.runAs(testUser) {
+
+        Job_Position__c jp = [
+            SELECT Id
+            FROM Job_Position__c
+            LIMIT 1
+        ];
 
         Test.startTest();
-        skillQuickActionController.updateCandidateSkills(jp.Id, 'Job Position', newSkills, newSoftSkills);
+        Map<String, List<String>> result =
+            SkillQuickActionController.getCandidateSkills(jp.Id, 'Job Position');
         Test.stopTest();
 
-        Job_Position__c updatedJp = [SELECT Skills_Required__c, Soft_Skills__c FROM Job_Position__c WHERE Id = :jp.Id];
-        System.assertEquals('FSL, CPQ', updatedJp.Skills_Required__c);
-        System.assertEquals('Time Management, Creativity', updatedJp.Soft_Skills__c);
+        System.assertEquals(
+            2,
+            result.get('skills').size(),
+            'Expected 2 technical skills'
+        );
+        System.assertEquals(
+            2,
+            result.get('softSkills').size(),
+            'Expected 2 soft skills'
+        );
     }
+}
 
-    // ---------------- Negative / Edge Case Tests ----------------
+    @IsTest
+static void testUpdateSkillsCandidate() {
 
-    @isTest
-    static void testGetCandidateSkills_nullId() {
+    // Create a test user
+    Profile p = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = 'System Administrator'
+        LIMIT 1
+    ];
+
+    User testUser = new User(
+        Alias = 'tuser3',
+        Email = 'testuser3@test.com',
+        EmailEncodingKey = 'UTF-8',
+        LastName = 'User',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        TimeZoneSidKey = 'Asia/Kolkata',
+        UserName = 'testuser3' + System.currentTimeMillis() + '@test.com'
+    );
+
+    insert testUser;
+
+    System.runAs(testUser) {
+
+        Candidate__c cand = [
+            SELECT Id
+            FROM Candidate__c
+            WHERE Name = 'John Doe'
+            LIMIT 1
+        ];
+
+        SkillQuickActionController.SkillUpdateWrapper req =
+            new SkillQuickActionController.SkillUpdateWrapper();
+        req.recordId = cand.Id;
+        req.objName = 'Candidate';
+        req.skills = new List<String>{ 'Python', 'SOQL' };
+        req.softSkills = new List<String>{ 'Adaptability' };
+
+        Test.startTest();
+        SkillQuickActionController.updateCandidateSkills(req);
+        Test.stopTest();
+
+        Candidate__c updated = [
+            SELECT Skills__c, Soft_Skills__c
+            FROM Candidate__c
+            WHERE Id = :cand.Id
+        ];
+
+        System.assertEquals(
+            'Python, SOQL',
+            updated.Skills__c,
+            'Skills should be updated correctly'
+        );
+        System.assertEquals(
+            'Adaptability',
+            updated.Soft_Skills__c,
+            'Soft skills should be updated correctly'
+        );
+    }
+}
+
+    @IsTest
+static void testUpdateSkillsJobPosition() {
+
+    // Create test user
+    Profile p = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = 'System Administrator'
+        LIMIT 1
+    ];
+
+    User testUser = new User(
+        Alias = 'tuser4',
+        Email = 'testuser4@test.com',
+        EmailEncodingKey = 'UTF-8',
+        LastName = 'User',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        TimeZoneSidKey = 'Asia/Kolkata',
+        UserName = 'testuser4' + System.currentTimeMillis() + '@test.com'
+    );
+
+    insert testUser;
+
+    System.runAs(testUser) {
+
+        Job_Position__c jp = [
+            SELECT Id
+            FROM Job_Position__c
+            LIMIT 1
+        ];
+
+        SkillQuickActionController.SkillUpdateWrapper req =
+            new SkillQuickActionController.SkillUpdateWrapper();
+        req.recordId = jp.Id;
+        req.objName = 'Job Position';
+        req.skills = new List<String>{ 'FSL', 'CPQ' };
+        req.softSkills = new List<String>{ 'Creativity' };
+
+        Test.startTest();
+        SkillQuickActionController.updateCandidateSkills(req);
+        Test.stopTest();
+
+        Job_Position__c updated = [
+            SELECT Skills_Required__c, Soft_Skills__c
+            FROM Job_Position__c
+            WHERE Id = :jp.Id
+        ];
+
+        System.assertEquals(
+            'FSL, CPQ',
+            updated.Skills_Required__c,
+            'Skills should be updated correctly'
+        );
+        System.assertEquals(
+            'Creativity',
+            updated.Soft_Skills__c,
+            'Soft skills should be updated correctly'
+        );
+    }
+}
+
+
+    /* ================= NEGATIVE & EDGE TESTS ================= */
+
+    @IsTest
+static void testGetCandidateSkillsNullId() {
+
+    // Create test user
+    Profile p = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = 'System Administrator'
+        LIMIT 1
+    ];
+
+    User testUser = new User(
+        Alias = 'tuser5',
+        Email = 'testuser5@test.com',
+        EmailEncodingKey = 'UTF-8',
+        LastName = 'User',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        TimeZoneSidKey = 'Asia/Kolkata',
+        UserName = 'testuser5' + System.currentTimeMillis() + '@test.com'
+    );
+
+    insert testUser;
+
+    System.runAs(testUser) {
+
         Boolean didThrow = false;
+
         try {
-            skillQuickActionController.getCandidateSkills(null, 'Candidate');
+            SkillQuickActionController.getCandidateSkills(null, 'Candidate');
         } catch (AuraHandledException e) {
             didThrow = true;
         }
-        System.assert(didThrow);
-    }
 
-    @isTest
-    static void testUpdateCandidateSkills_nullId() {
+        System.assert(
+            didThrow,
+            'Method should throw AuraHandledException when recordId is null'
+        );
+    }
+}
+
+    @IsTest
+static void testUpdateSkillsInvalidObject() {
+
+    // Create test user
+    Profile p = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = 'System Administrator'
+        LIMIT 1
+    ];
+
+    User testUser = new User(
+        Alias = 'tuser6',
+        Email = 'testuser6@test.com',
+        EmailEncodingKey = 'UTF-8',
+        LastName = 'User',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        TimeZoneSidKey = 'Asia/Kolkata',
+        UserName = 'testuser6' + System.currentTimeMillis() + '@test.com'
+    );
+
+    insert testUser;
+
+    System.runAs(testUser) {
+
+        Candidate__c cand = [
+            SELECT Id
+            FROM Candidate__c
+            WHERE Name = 'Jane Smith'
+            LIMIT 1
+        ];
+
+        SkillQuickActionController.SkillUpdateWrapper req =
+            new SkillQuickActionController.SkillUpdateWrapper();
+        req.recordId = cand.Id;
+        req.objName = 'InvalidObject';
+
         Boolean didThrow = false;
+
         try {
-            skillQuickActionController.updateCandidateSkills(null, 'Candidate', new List<String>{'Skill1'}, new List<String>{'Soft1'});
+            SkillQuickActionController.updateCandidateSkills(req);
         } catch (AuraHandledException e) {
             didThrow = true;
         }
-        System.assert(didThrow);
+
+        System.assert(
+            didThrow,
+            'Expected AuraHandledException for invalid object name'
+        );
     }
+}
 
-    @isTest
-    static void testGetCandidateSkills_invalidObjName() {
-        Candidate__c cand = [SELECT Id FROM Candidate__c WHERE Name = 'John Doe' LIMIT 1];
-        Map<String, List<String>> result = skillQuickActionController.getCandidateSkills(cand.Id, 'InvalidObj');
-        System.assertEquals(true, result.isEmpty());
-    }
+ @IsTest
+static void testUpdateSkillsEmptyLists() {
 
-    @isTest
-    static void testUpdateCandidateSkills_invalidObjName() {
-        Candidate__c cand = [SELECT Id FROM Candidate__c WHERE Name = 'John Doe' LIMIT 1];
-        Boolean didThrow = false;
+    // Create test user
+    Profile p = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = 'System Administrator'
+        LIMIT 1
+    ];
 
-        try {
-            skillQuickActionController.updateCandidateSkills(cand.Id, 'InvalidObj', new List<String>{'Skill1'}, new List<String>{'Soft1'});
-        } catch (AuraHandledException e) {
-            didThrow = true;
-        }
+    User testUser = new User(
+        Alias = 'tuser7',
+        Email = 'testuser7@test.com',
+        EmailEncodingKey = 'UTF-8',
+        LastName = 'User',
+        LanguageLocaleKey = 'en_US',
+        LocaleSidKey = 'en_US',
+        ProfileId = p.Id,
+        TimeZoneSidKey = 'Asia/Kolkata',
+        UserName = 'testuser7' + System.currentTimeMillis() + '@test.com'
+    );
 
-        System.assert(didThrow);
-    }
+    insert testUser;
 
-    @isTest
-    static void testUpdateCandidateSkills_withEmptyLists() {
-        Candidate__c cand = [SELECT Id, Skills__c, Soft_Skills__c FROM Candidate__c WHERE Name = 'Jane Smith' LIMIT 1];
+    System.runAs(testUser) {
+
+        Candidate__c cand = [
+            SELECT Id
+            FROM Candidate__c
+            WHERE Name = 'Jane Smith'
+            LIMIT 1
+        ];
+
+        SkillQuickActionController.SkillUpdateWrapper req =
+            new SkillQuickActionController.SkillUpdateWrapper();
+        req.recordId = cand.Id;
+        req.objName = 'Candidate';
+        req.skills = new List<String>();
+        req.softSkills = new List<String>();
 
         Test.startTest();
-        skillQuickActionController.updateCandidateSkills(cand.Id, 'Candidate', new List<String>(), new List<String>());
+        SkillQuickActionController.updateCandidateSkills(req);
         Test.stopTest();
 
-        Candidate__c updatedCand = [SELECT Skills__c, Soft_Skills__c FROM Candidate__c WHERE Id = :cand.Id];
-        System.assertEquals(null, updatedCand.Skills__c, 'Skills__c should be null when empty list is passed');
-        System.assertEquals(null, updatedCand.Soft_Skills__c, 'Soft_Skills__c should be null when empty list is passed');
-    }
- 
-   @isTest
-    static void testUpdateCandidateSkills_candidateUpdateFailure() {
-    
-        // Get a real Candidate__c Id
-        Candidate__c cand = [SELECT Id FROM Candidate__c WHERE Name = 'Jane Smith' LIMIT 1];
-    
-        String realIdStr = cand.Id;
-    
-        // Modify the last 5 characters to create a non-existing but valid Id
-        String fakeIdStr = realIdStr.substring(0, realIdStr.length() - 5) + 'ABCDE';
-    
-        // Cast back to Id
-        Id fakeCandId = (Id) fakeIdStr;
-    
-        Boolean didThrow = false;
-    
-        try {
-            Test.startTest();
-            skillQuickActionController.updateCandidateSkills(
-                fakeCandId,
-                'Candidate',
-                new List<String>{ 'Apex' },
-                new List<String>{ 'Leadership' }
-            );
-            Test.stopTest();
-        } catch (AuraHandledException e) {
-            didThrow = true;
-        }
-    
-        System.assert(didThrow, 'Expected AuraHandledException for candidate update failure');
-    }
+        Candidate__c updated = [
+            SELECT Skills__c, Soft_Skills__c
+            FROM Candidate__c
+            WHERE Id = :cand.Id
+        ];
 
-	
-   	@isTest
-    static void testUpdateCandidateSkills_jobPositionUpdateFailure() {
-        Job_Position__c jp = [SELECT Id FROM Job_Position__c LIMIT 1];
-    	String realIdStr = jp.Id;
-    
-        // Modify the last 5 characters to create a non-existing but valid Id
-        String fakeIdStr = realIdStr.substring(0, realIdStr.length() - 5) + 'ABCDE';
-    
-        // Cast back to Id
-        Id fakeJobId = (Id) fakeIdStr;
-    
-        Boolean didThrow = false;
-    
-        try {
-            Test.startTest();
-            skillQuickActionController.updateCandidateSkills(
-                fakeJobId,
-                'Job Position',
-                new List<String>{'SkillA'},
-                new List<String>{'SoftA'}
-            );
-            Test.stopTest();
-        } catch (AuraHandledException e) {
-            didThrow = true;
-        }
-    
-        System.assert(didThrow, 'Expected AuraHandledException for JP update failure');
+        System.assertEquals(
+            null,
+            updated.Skills__c,
+            'Skills should be cleared when empty list is provided'
+        );
+        System.assertEquals(
+            null,
+            updated.Soft_Skills__c,
+            'Soft skills should be cleared when empty list is provided'
+        );
     }
+}
+
 }

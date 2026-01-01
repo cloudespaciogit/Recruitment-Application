@@ -90,6 +90,7 @@
     <tabs>Recruiter__c</tabs>
     <tabs>Supplier__c</tabs>
     <tabs>Work_Order__c</tabs>
+    <tabs>Timesheet__c</tabs>
     <uiType>Lightning</uiType>
     <utilityBar>Recruitment_App_UtilityBar</utilityBar>
 </CustomApplication>

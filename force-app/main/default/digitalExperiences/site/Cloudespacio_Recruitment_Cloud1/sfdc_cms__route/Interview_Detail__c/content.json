@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Interview Detail",
+  "contentBody" : {
+    "activeViewId" : "Interview_Detail",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "detail-Interview__c",
+    "urlPrefix" : "interview"
+  },
+  "urlName" : "interview-detail"
+}

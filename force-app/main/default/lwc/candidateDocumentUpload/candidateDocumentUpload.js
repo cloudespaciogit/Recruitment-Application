@@ -4,7 +4,7 @@ import getFiles from '@salesforce/apex/CandidateDocumentService.getFiles';
 import deleteFileFromDrive from '@salesforce/apex/CandidateDocumentService.deleteFileFromDrive';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import updateResumeLink from '@salesforce/apex/CandidateDocumentService.updateResumeLink';
-
+import getLoggedInCandidateId from '@salesforce/apex/CandidateDocumentService.getLoggedInCandidateId';
 export default class CandidateDocumentUpload extends LightningElement {
     @track selectedDocType = '';
     @track otherDocName = '';
@@ -63,16 +63,80 @@ export default class CandidateDocumentUpload extends LightningElement {
     ];
 
     connectedCallback() {
-        this.loadUploadedFiles();
+    console.log('================ CONNECTED CALLBACK ================');
+    console.log('connectedCallback fired');
+    console.log('Initial recordId value =>', this.recordId);
+
+    try {
+        // CASE 1: Record Page
+        if (this.recordId) {
+            console.log('CASE 1: Record Page detected');
+            console.log('Using recordId =>', this.recordId);
+
+            this.loadUploadedFiles();
+            return;
+        }
+
+        // CASE 2: Portal
+        console.log('CASE 2: Portal detected (recordId not available)');
+        this.resolveCandidateFromPortal();
+
+    } catch (e) {
+        console.error('ERROR in connectedCallback:', e);
     }
+}
+
+
+    async resolveCandidateFromPortal() {
+    console.log('================ RESOLVE CANDIDATE (PORTAL) ================');
+    console.log('resolveCandidateFromPortal started');
+
+    try {
+        console.log('Calling Apex: getLoggedInCandidateId');
+
+        const candidateId = await getLoggedInCandidateId();
+
+        console.log('Apex response candidateId =>', candidateId);
+
+        if (!candidateId) {
+            console.error('CandidateId is NULL / UNDEFINED');
+            this.showToast(
+                'Error',
+                'Candidate record not found for logged-in user.',
+                'error'
+            );
+            return;
+        }
+
+        console.log('Setting recordId with candidateId');
+        this.recordId = candidateId;
+
+        console.log('recordId AFTER SET =>', this.recordId);
+
+        console.log('Calling loadUploadedFiles()');
+        await this.loadUploadedFiles();
+
+    } catch (error) {
+        console.error('ERROR in resolveCandidateFromPortal:', error);
+        console.error('Error body =>', error?.body);
+        console.error('Error message =>', error?.message);
+
+        this.showToast(
+            'Error',
+            error.body?.message || error.message || 'Unable to load candidate data.',
+            'error'
+        );
+    }
+}
+
 
     async loadUploadedFiles() {
         if (!this.recordId) return;
         try {
             const files = await getFiles({ recordId: this.recordId });
             const mappedFiles = files.map(file => {
-                let sizeInKB = (file.size / 1024).toFixed(2) + " KB";
-                let extension = file.name && file.name.includes('.')
+                const sizeInKB = (file.size / 1024).toFixed(2) + " KB";
+                const extension = file.name && file.name.includes('.')
                     ? file.name.split('.').pop()
                     : (file.mimeType ? file.mimeType.split('/').pop() : '');
                 return { ...file, size: sizeInKB, type: extension };

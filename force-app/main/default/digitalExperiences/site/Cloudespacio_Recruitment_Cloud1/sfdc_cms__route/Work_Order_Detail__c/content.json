@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Work Order Detail",
+  "contentBody" : {
+    "activeViewId" : "Work_Order_Detail",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "detail-Work_Order__c",
+    "urlPrefix" : "work-order"
+  },
+  "urlName" : "work-order-detail"
+}

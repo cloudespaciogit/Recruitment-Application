@@ -4,6 +4,7 @@
     <columns>NAME</columns>
     <columns>Job_Title__c</columns>
     <columns>Status__c</columns>
+    <columns>Recruiter__c</columns>
     <columns>Client__c</columns>
     <columns>Project__c</columns>
     <columns>Hired_Candidate__c</columns>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Services Offered --></label>
+    <name>Services_Offered__c</name>
+    <picklistValues>
+        <masterLabel>Bulk Hiring / RPO</masterLabel>
+        <translation><!-- Bulk Hiring / RPO --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Campus Hiring</masterLabel>
+        <translation><!-- Campus Hiring --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Contract Staffing</masterLabel>
+        <translation><!-- Contract Staffing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Executive Search</masterLabel>
+        <translation><!-- Executive Search --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Freelancer / Gig Talent</masterLabel>
+        <translation><!-- Freelancer / Gig Talent --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>IT Staffing</masterLabel>
+        <translation><!-- IT Staffing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>International Hiring</masterLabel>
+        <translation><!-- International Hiring --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Non-IT Staffing</masterLabel>
+        <translation><!-- Non-IT Staffing --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Other</masterLabel>
+        <translation><!-- Other --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Permanent Staffing</masterLabel>
+        <translation><!-- Permanent Staffing --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

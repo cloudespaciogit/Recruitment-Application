@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Please put in the the amount of year the candidate has experience of --></help>
+    <label><!-- Experience Year --></label>
+    <name>Experience_Year__c</name>
+</CustomFieldTranslation>

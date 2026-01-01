@@ -1,0 +1,134 @@
+{
+  "type" : "sfdc_cms__view",
+  "title" : "Interview List",
+  "contentBody" : {
+    "component" : {
+      "children" : [ {
+        "children" : [ {
+          "attributes" : {
+            "backgroundImageConfig" : "",
+            "backgroundImageOverlay" : "rgba(0,0,0,0)",
+            "componentSpacerSize" : "",
+            "layoutDirectionDesktop" : "row",
+            "layoutDirectionMobile" : "column",
+            "layoutDirectionTablet" : "column",
+            "maxContentWidth" : "",
+            "sectionColumnGutterWidth" : "",
+            "sectionConfig" : "{\"UUID\":\"9c6fe1b9-69a9-481f-9ff3-4e9d02efbcad\",\"columns\":[{\"UUID\":\"5b07d666-8296-48da-8ac7-a1e0b4c05f5f\",\"columnName\":\"Column 1\",\"columnKey\":\"col1\",\"columnWidth\":\"12\",\"seedComponents\":[]}]}",
+            "sectionMinHeight" : "",
+            "sectionVerticalAlign" : "flex-start"
+          },
+          "children" : [ {
+            "children" : [ {
+              "attributes" : {
+                "cardBorderColor" : "#E5E5E5",
+                "cardBorderWeight" : "1",
+                "cardHoverColor" : "#F3F3F3",
+                "cardPadding" : "{\"top\":\"16px\",\"right\":\"16px\",\"bottom\":\"16px\",\"left\":\"16px\"}",
+                "cardSpaceBetweenItems" : "16",
+                "cardTextStyle" : "{\"headingTag\":\"p\",\"textStyle\":\"body-regular\"}",
+                "cellPadding" : "{\"top\":\"10px\",\"right\":\"10px\",\"bottom\":\"10px\",\"left\":\"10px\"}",
+                "columnHeaderBackgroundColor" : "#F3F3F3",
+                "dividerBorderColor" : "#E5E5E5",
+                "dividerBorderWeight" : "1",
+                "headerBorderColor" : "#E5E5E5",
+                "headerBorderWeight" : "1",
+                "headerSectionLineSeparator" : "",
+                "recordListData" : "{!Item.recordListData}",
+                "recordListLayoutType" : "TableView",
+                "rowHoverColor" : "#F3F3F3",
+                "showCardLabel" : false,
+                "showHeader" : "true",
+                "showListViewPicker" : "true",
+                "showObjectIcon" : true,
+                "showPagination" : false,
+                "showSearch" : true,
+                "showStatus" : true,
+                "showTitle" : true,
+                "statusSectionLineSeparator" : "",
+                "statusTextDecoration" : "{}",
+                "statusTextDisplayInfo" : "{\"headingTag\":\"p\",\"textStyle\":\"body-small\"}",
+                "tableBorderColor" : "#E5E5E5",
+                "tableBorderWeight" : "1",
+                "tableTextStyle" : "{\"textStyle\":\"body-small\",\"headingTag\":\"p\",\"enableOverride\":false}",
+                "titleSectionLineSeparator" : "",
+                "titleTextDecoration" : "{\"bold\":true}",
+                "titleTextDisplayInfo" : "{\"headingTag\":\"h3\",\"textStyle\":\"heading-medium\"}"
+              },
+              "children" : [ {
+                "children" : [ {
+                  "attributes" : {
+                    "paginatorAttributes" : "{\"nested\":{\"componentName\":\"dxp_content_layout:paginatorStandard\",\"attributes\":{\"prevButtonLabel\":\"Previous\",\"nextButtonLabel\":\"Next\",\"nextButtonTextDecoration\":\"{}\",\"prevButtonTextDecoration\":\"{}\",\"nextButtonStyle\":\"secondary\",\"prevButtonStyle\":\"secondary\",\"size\":\"standard\",\"width\":\"standard\",\"verticalPadding\":\"none\",\"horizontalAlignment\":\"center\",\"disableAutoHidden\": false}}}",
+                    "variant" : "standard"
+                  },
+                  "children" : [ {
+                    "children" : [ {
+                      "attributes" : { },
+                      "definition" : "dxp_page_layout:placeHolder",
+                      "id" : "0c1985e0-b8cf-436c-9f9f-2a96a680caae",
+                      "type" : "component"
+                    } ],
+                    "id" : "4f8ba4b1-743a-4fc4-b33a-61a3060fc87c",
+                    "name" : "placeholder",
+                    "title" : "placeholder",
+                    "type" : "region"
+                  } ],
+                  "definition" : "dxp_content_layout:paginator2",
+                  "id" : "6ee4559d-95b4-43ba-8302-87ff0dd1180a",
+                  "type" : "component"
+                } ],
+                "id" : "37352b56-6aa9-4a03-9872-8672bbf50c8a",
+                "name" : "pagination",
+                "title" : "pagination",
+                "type" : "region"
+              } ],
+              "definition" : "dxp_content_layout:recordListLayout",
+              "id" : "30c41099-7464-484d-bdb8-54b997218183",
+              "type" : "component",
+              "dataProviders" : [ {
+                "definition" : "sfdc_cms__recordListLayoutDataProvider",
+                "sfdcExpressionKey" : "Item",
+                "attributes" : {
+                  "listViewApiName" : "All",
+                  "objectApiName" : "Interview__c",
+                  "pageSize" : 15
+                }
+              } ]
+            } ],
+            "id" : "5b07d666-8296-48da-8ac7-a1e0b4c05f5f",
+            "name" : "col1",
+            "title" : "Column 1",
+            "type" : "region"
+          } ],
+          "definition" : "community_layout:section",
+          "id" : "9c6fe1b9-69a9-481f-9ff3-4e9d02efbcad",
+          "type" : "component"
+        } ],
+        "id" : "6aae3073-cfce-4f22-b058-50cfdb8555e1",
+        "name" : "content",
+        "title" : "Content",
+        "type" : "region"
+      }, {
+        "children" : [ {
+          "attributes" : {
+            "recordId" : "{!recordId}"
+          },
+          "definition" : "community_builder:seoAssistant",
+          "id" : "08adfe20-5a2e-43bc-94b8-7f5531c30f30",
+          "type" : "component"
+        } ],
+        "id" : "c8bb4783-b292-4786-8f36-c42f23407932",
+        "name" : "sfdcHiddenRegion",
+        "title" : "sfdcHiddenRegion",
+        "type" : "region"
+      } ],
+      "definition" : "community_layout:sldsFlexibleLayout",
+      "id" : "c26b6289-b428-41eb-bb22-2da9a7a698bc",
+      "type" : "component"
+    },
+    "dataProviders" : [ ],
+    "themeLayoutType" : "Inner",
+    "viewType" : "list-Interview__c"
+  },
+  "urlName" : "interview-list"
+}

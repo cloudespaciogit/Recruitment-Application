@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Enter the number of days agreed upon with the supplier for payment settlement after the invoice has been submitted. --></help>
+    <label><!-- Payment Term --></label>
+    <name>Payment_Terms_Days__c</name>
+    <picklistValues>
+        <masterLabel>Hourly</masterLabel>
+        <translation><!-- Hourly --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Monthly</masterLabel>
+        <translation><!-- Monthly --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Quarterly</masterLabel>
+        <translation><!-- Quarterly --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Yearly</masterLabel>
+        <translation><!-- Yearly --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

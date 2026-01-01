@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- General location of the job. --></help>
+    <label><!-- Work Mode --></label>
+    <name>Work_Mode__c</name>
+    <picklistValues>
+        <masterLabel>Hybrid</masterLabel>
+        <translation><!-- Hybrid --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Off Site</masterLabel>
+        <translation><!-- Off Site --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>On Site</masterLabel>
+        <translation><!-- On Site --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Remote</masterLabel>
+        <translation><!-- Remote --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

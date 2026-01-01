@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Reminder Days Before Cleanup --></label>
+    <name>Reminder_Days_Before_Cleanup__c</name>
+</CustomFieldTranslation>

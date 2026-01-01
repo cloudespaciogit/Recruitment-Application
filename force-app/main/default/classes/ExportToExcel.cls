@@ -1,5 +1,23 @@
+/**
+ * @description  This class exports Candidate records into an Excel-friendly CSV format.
+ * @author     ayush
+ * @lastModified ajay kaurav
+ * @date
+ */
 public with sharing class ExportToExcel {
-    
+     /**
+     * @description  Exports the provided Candidate record IDs into a Base64-encoded CSV string
+     *               which can be downloaded and opened in Excel.
+     *
+     * @param        candidateIds  List of candidate record Ids to be exported.
+     * @return       Base64 encoded CSV content as String.
+     *
+     * @throws       AuraHandledException if input IDs are empty or if no data is found.
+     *
+     * @author       ayush
+     * @lastModified  ajay kaurav
+     * @date         08-Dec-2025
+     */
     @AuraEnabled(cacheable=false)
     public static String exportCandidatesToExcel(List<Id> candidateIds) {
         if (candidateIds == null || candidateIds.isEmpty()) {
@@ -8,10 +26,9 @@ public with sharing class ExportToExcel {
 
         // Query candidate fields
         List<Candidate__c> candidates = [
-            SELECT Id, Name, Email__c, Phone__c, Total_Experience__c, 
-                    Source__c, CreatedDate
-            FROM Candidate__c
-            WHERE Id IN :candidateIds
+            SELECT Id, Name, Email__c, Phone__c, Total_Experience__c,
+                    Source__c, CreatedDate FROM Candidate__c
+            WHERE Id IN :candidateIds WITH USER_MODE
         ];
 
         if (candidates.isEmpty()) {

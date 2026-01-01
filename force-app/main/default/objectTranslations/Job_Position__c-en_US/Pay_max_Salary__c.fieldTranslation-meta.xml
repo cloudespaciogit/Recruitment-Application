@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <help><!-- Offering to candidate/supplier(Max) --></help>
+    <label><!-- Pay max Salary --></label>
+    <name>Pay_max_Salary__c</name>
+</CustomFieldTranslation>

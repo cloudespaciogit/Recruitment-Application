@@ -14,18 +14,18 @@
 trigger InterviewTrigger on Interview__c (before delete, before insert, before update, after delete, after insert, after update) {
     if (Trigger.isBefore) {
         if (Trigger.isDelete) {
-		InterviewTriggerHandler.handleBeforeDelete(Trigger.oldMap);
+		//InterviewTriggerHandler.handleBeforeDelete(Trigger.oldMap);
         }
         if (Trigger.isInsert) {
-		InterviewTriggerHandler.handleBeforeInsert(Trigger.new);
+		//InterviewTriggerHandler.handleBeforeInsert(Trigger.new);
         }
         if (Trigger.isUpdate) {
-		InterviewTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
+		//InterviewTriggerHandler.handleBeforeUpdate(Trigger.new, Trigger.oldMap);
         }    	        
     } 
     if (Trigger.isAfter){
         if (Trigger.isDelete) {
-		InterviewTriggerHandler.handleAfterDelete(Trigger.oldMap);
+		//InterviewTriggerHandler.handleAfterDelete(Trigger.oldMap);
         }
         if (Trigger.isInsert) {
 		   InterviewTriggerHandler.handleAfterInsert(Trigger.new);

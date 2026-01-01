@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PathAssistant xmlns="http://soap.sforce.com/2006/04/metadata">
+    <active>true</active>
+    <entityName>Work_Order__c</entityName>
+    <fieldName>Status__c</fieldName>
+    <masterLabel>WorkOrder Guidance Status Bar</masterLabel>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Capture the cancellation reason in the work order record.&lt;/li&gt;&lt;li&gt;Notify recruiter, client, and candidate.&lt;/li&gt;&lt;li&gt;Archive or close related tasks to avoid open activities.&lt;/li&gt;&lt;li&gt;Mark record clearly for reporting purposes.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Canceled</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Mark this stage once work is fully completed.&lt;/li&gt;&lt;li&gt;Ensure timesheets, invoices, and client sign-off are recorded.&lt;/li&gt;&lt;li&gt;All related extended work orders will be auto-updated to Completed.&lt;/li&gt;&lt;li&gt;Finalize End Date and ensure it matches actual completion.&lt;/li&gt;&lt;li&gt;Begin release process by preparing exit checklist.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Completed</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Use the &lt;strong&gt;Extend Work Order&lt;/strong&gt; quick action to create a new work order.&lt;/li&gt;&lt;li&gt;Capture reason for extension in the work order notes.&lt;/li&gt;&lt;li&gt;Update expected end date and notify finance/project team.&lt;/li&gt;&lt;li&gt;Update End Date to reflect new work order duration.&lt;/li&gt;&lt;li&gt;Current work order will automatically move to &lt;strong&gt;Extended&lt;/strong&gt;.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Extended</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Collect required documents (ID proofs, contracts, agreements).&lt;/li&gt;&lt;li&gt;Ensure background checks and compliance checks are initiated.&lt;/li&gt;&lt;li&gt;Update joining date, reporting manager, and location fields.&lt;/li&gt;&lt;li&gt;Set Start Date once joining date is confirmed.&lt;/li&gt;&lt;li&gt;Once onboarding tasks are completed, update the status to &lt;strong&gt;Working&lt;/strong&gt;.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>In progress</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Assign the candidate to this stage after interview qualification.&lt;/li&gt;&lt;li&gt;Verify candidate’s job position, role, and joining date fields.&lt;/li&gt;&lt;li&gt;Keep the candidate informed about the onboarding process and next steps.&lt;/li&gt;&lt;li&gt;Notify project manager and recruiter team.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>New</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Specify the reason in the &lt;strong&gt;On Hold Reason&lt;/strong&gt; field.&lt;/li&gt;&lt;li&gt;Communicate with both candidate and client regarding the pause.&lt;/li&gt;&lt;li&gt;Set a tentative resume date if available.&lt;/li&gt;&lt;li&gt;Resume the process as soon as the issue is resolved.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Onhold</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Ensure all &lt;strong&gt;No Dues&lt;/strong&gt; (finance, assets, client confirmation) are cleared.&lt;/li&gt;&lt;li&gt;Update release/exit date in the system.&lt;/li&gt;&lt;li&gt;Notify HR and client about candidate release.&lt;/li&gt;&lt;li&gt;Finalize release formalities (handover, clearance docs).&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Released</picklistValueName>
+    </pathAssistantSteps>
+    <pathAssistantSteps>
+        <info>&lt;ul&gt;&lt;li&gt;Confirm all onboarding formalities are complete.&lt;/li&gt;&lt;li&gt;Ensure time tracking or attendance system is set up.&lt;/li&gt;&lt;li&gt;Keep regular updates on performance in notes or related records.&lt;/li&gt;&lt;li&gt;Set End Date for current work order.&lt;/li&gt;&lt;li&gt;Candidate remains in this stage until work order expires.&lt;/li&gt;&lt;/ul&gt;</info>
+        <picklistValueName>Working</picklistValueName>
+    </pathAssistantSteps>
+    <recordTypeName>__MASTER__</recordTypeName>
+</PathAssistant>

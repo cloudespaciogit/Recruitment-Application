@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Job Position</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Job Positions</value>
+    </caseValues>
+    <layouts>
+        <layout>Job Position Layout</layout>
+        <sections>
+            <label><!-- Client Information --></label>
+            <section>Client Information</section>
+        </sections>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- Dates, Opening and Budget --></label>
+            <section>Dates, Opening and Budget</section>
+        </sections>
+        <sections>
+            <label><!-- Job Information --></label>
+            <section>Job Information</section>
+        </sections>
+        <sections>
+            <label><!-- Job description --></label>
+            <section>Job description</section>
+        </sections>
+        <sections>
+            <label><!-- Skills --></label>
+            <section>Skills</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Add Candidate --></label>
+        <name>Add_Candidate</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Add Skills --></label>
+        <name>Add_Skills</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Create Candidate --></label>
+        <name>Create_Candidate</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- Generate Job Description --></label>
+        <name>Generate_Job_Description</name>
+    </quickActions>
+    <quickActions>
+        <label><!-- LinkedIn Post Generator --></label>
+        <name>LinkedIn_Post_Generator</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Client cannot be changed for a closed position --></errorMessage>
+        <name>VR1_JP_Client_Status</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Total Openings must be a positive number. --></errorMessage>
+        <name>VR2_JP_Total_Openings</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Amounts should be positive and greater than zero for Pay Min Salary,Pay max Salary,Min Salary and Max Salary --></errorMessage>
+        <name>VR3_JP_Positive_Salary</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Experience Required must be a positive number. --></errorMessage>
+        <name>VR4_JP_Experience_Required</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Please provide a reason for closing the job position. --></errorMessage>
+        <name>VR5_Require_Reason_For_Closing</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Responded By Date should be filled only when Responded By is set to Date, and must be empty otherwise. --></errorMessage>
+        <name>VR_JP_Responded_Date</name>
+    </validationRules>
+</CustomObjectTranslation>

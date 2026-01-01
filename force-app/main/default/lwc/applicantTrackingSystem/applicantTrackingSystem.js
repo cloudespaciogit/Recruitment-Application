@@ -4,7 +4,6 @@ import INTERVIEW_OBJECT from '@salesforce/schema/Interview__c';
 import INTERVIEW_Stages from '@salesforce/schema/Interview__c.Interview_Status__c';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { refreshApex } from '@salesforce/apex';
-import updateInterviewStages from '@salesforce/apex/ATSController.updateInterviewStages';
 import updateInterviews from '@salesforce/apex/ATSController.updateInterviews';
 import removeCandidateFromJob from '@salesforce/apex/ATSController.removeCandidateFromJob';
 import requestFeedbackFromClient from '@salesforce/apex/ATSController.collectFeedback';
@@ -48,6 +47,28 @@ export default class ApplicantTrackingSystem extends LightningElement {
     //my add
     showSubmitToClient = false;
     selectedCandidateIds=[];
+    @track isFilterModalOpen = false;
+
+    // FILTER VALUES
+    @track selectedStageFilter = 'All';
+    @track selectedSourceFilter = 'All';
+    @track startDateFilter = null;
+    @track endDateFilter = null;    
+
+    // Source dropdown
+    sourceOptions = [
+        { label: 'All Sources', value: 'All' },
+        { label: 'Job Portal', value: 'Job Portal' },
+        { label: 'Vendor/Supplier', value: 'Vendor' },
+        { label: 'Employee Referral', value: 'Employee Referral' },
+        { label: 'Recruitment Agency', value: 'Recruitment Agency' },
+        { label: 'LinkedIn', value: 'LinkedIn' },
+        { label: 'Company Website', value: 'Company Website' },
+        { label: 'Social Media', value: 'Social Media' },
+        { label: 'Walk-in', value: 'Walk-in' },
+        { label: 'Campus Hiring', value: 'Campus Hiring' },
+        { label: 'Internal Database', value: 'Internal Database' }
+    ];
 
     feedbackTypeOptions = [
     { label: 'Excellent communication', value: 'Excellent communication' },
@@ -81,51 +102,62 @@ export default class ApplicantTrackingSystem extends LightningElement {
         }
     }
 
-    // ---------------- WIRE: Interview Data ----------------
+  // ---------------- WIRE: Interview Data ----------------
+@wire(getATSData, { jobPositionId: '$recordId' })
+wiredData(result) {
+    this.wiredInterviewDataResult = result;
+    const { data, error } = result;
 
-    @wire(getATSData, { jobPositionId: '$recordId' })
-    wiredData(result) {
-        this.wiredInterviewDataResult = result;
-        const { data, error } = result;
-        if (data) {                                                                                                                                                    
-            // Sort alphabetically by candidate name
-            let sortedData = [...data].sort((a, b) => {
-                const nameA = a.Candidate__r?.Name?.toLowerCase() || '';
-                const nameB = b.Candidate__r?.Name?.toLowerCase() || '';
-                return nameA.localeCompare(nameB);
-            });
+    if (data) {
 
-            sortedData = sortedData.map(item => {
+        // Sort alphabetically by candidate name
+        let sortedData = [...data].sort((a, b) => {
+            const nameA = a.Candidate__r?.Name?.toLowerCase() || '';
+            const nameB = b.Candidate__r?.Name?.toLowerCase() || '';
+            return nameA.localeCompare(nameB);
+        });
+
+        // Add resume flag
+        sortedData = sortedData.map(item => {
             return {
                 ...item,
-                isResumeLinkEmpty: !item.Candidate__r?.Resume_Link__c // true if empty or undefined
-                };
-            });
+                isResumeLinkEmpty: !item.Candidate__r?.Resume_Link__c
+            };
+        });
 
-            this.interviewData = sortedData;
-            this.totalRecords = sortedData.length;
-            this.error = undefined;
-            this.tryUpdatePagedRecords();
+        // 🔥 STORE BOTH DATASETS HERE
+        this.allInterviewData = sortedData;   // master copy (never modified)
+        this.interviewData = [...sortedData]; // working copy (filtered)
 
-             // --- Compute pill counts ---
-            const statuses = ['New', 'Shortlisted', 'Interviewing', 'Offered', 'Hired', 'Rejected'];
-            const counts = {};
-            sortedData.forEach(interview => {
-                const status = interview.Interview_Status__c || 'Unknown';
-                counts[status] = (counts[status] || 0) + 1;
-            });
-            this.pillData = statuses.map(status => ({
-                status,
-                count: counts[status] || 0
-            }));
+        this.totalRecords = sortedData.length;
+        this.error = undefined;
 
-        } else if (error) {
-            this.error = error;
-            this.interviewData = [];
-            this.totalRecords = 0;
-            this.pillData = [];
-        }
+        this.tryUpdatePagedRecords();
+
+        // --- Compute pill counts ---
+        const statuses = [
+            'New', 'Shortlisted', 'Interviewing',
+            'Offered', 'Hired', 'Rejected'
+        ];
+
+        const counts = {};
+        sortedData.forEach(interview => {
+            const status = interview.Interview_Status__c || 'Unknown';
+            counts[status] = (counts[status] || 0) + 1;
+        });
+
+        this.pillData = statuses.map(status => ({
+            status,
+            count: counts[status] || 0
+        }));
+
+    } else if (error) {
+        this.error = error;
+        this.interviewData = [];
+        this.totalRecords = 0;
+        this.pillData = [];
     }
+}
 
     // ---------------- Refresh Data from Server ----------------
     refreshData() {
@@ -199,6 +231,139 @@ export default class ApplicantTrackingSystem extends LightningElement {
             this.updatePagedRecords();
         }
     }
+
+   // ---------------- FILTERS ----------------
+
+    // Open filter modal
+    handleFilterClick() {
+        this.isFilterModalOpen = true;
+    }
+
+    // Close filter modal
+    closeFilterModal() {
+        this.isFilterModalOpen = false;
+    }
+
+    // Apply all filters
+    applyFilters() {
+        let filtered = [...this.allInterviewData];  
+        // IMPORTANT:
+        // Use original unfiltered dataset (store your full data in allInterviewData)
+        // to avoid applying filters on already filtered records.
+
+        // --- Stage Filter ---
+        if (this.selectedStageFilter && this.selectedStageFilter !== 'All') {
+            filtered = filtered.filter(rec =>
+                rec.Interview_Status__c === this.selectedStageFilter
+            );
+        }
+
+        // --- Source Filter ---
+        if (this.selectedSourceFilter && this.selectedSourceFilter !== 'All') {
+            filtered = filtered.filter(rec =>
+                rec.Candidate__r?.Source__c === this.selectedSourceFilter
+            );
+        }
+
+        // --- Date Filter (Using CreatedDate — change if needed) ---
+        if (this.startDateFilter || this.endDateFilter) {
+            filtered = filtered.filter(rec => {
+                const recordDate = new Date(rec.CreatedDate);
+
+                const afterStart =
+                    !this.startDateFilter ||
+                    recordDate >= new Date(this.startDateFilter);
+
+                const beforeEnd =
+                    !this.endDateFilter ||
+                    recordDate <= new Date(this.endDateFilter);
+
+                return afterStart && beforeEnd;
+            });
+        }
+
+        // Update UI with filtered list
+        this.interviewData = filtered;
+        this.currentPage = 1;
+        this.updatePagedRecords();
+
+        this.isFilterModalOpen = false;
+    }
+
+    // ---------------- FILTER FIELD HANDLERS ----------------
+        openFilterPanel() {
+        this.isFilterModalOpen = true;
+    }
+
+    // Stage picklist change
+    handleStageFilterChange(event) {
+        this.selectedStageFilter = event.detail.value;
+    }
+
+    // Source picklist change
+    handleSourceFilterChange(event) {
+        this.selectedSourceFilter = event.detail.value;
+    }
+
+    // Start date change
+    handleStartDateChange(event) {
+        this.startDateFilter = event.target.value;
+    }
+
+    // End date change
+    handleEndDateChange(event) {
+        this.endDateFilter = event.target.value;
+    }
+
+    // Quick-select date buttons
+    handleQuickDateSelect(event) {
+        const value = event.target.value;
+
+        const today = new Date();
+        let start, end;
+
+        if (value === 'today') {
+            start = end = today.toISOString().split('T')[0];
+        }
+
+        if (value === 'yesterday') {
+            const y = new Date(today);
+            y.setDate(y.getDate() - 1);
+            start = end = y.toISOString().split('T')[0];
+        }
+
+        if (value === 'last7') {
+            const d = new Date(today);
+            d.setDate(d.getDate() - 7);
+            start = d.toISOString().split('T')[0];
+            end = today.toISOString().split('T')[0];
+        }
+
+        this.startDateFilter = start;
+        this.endDateFilter = end;
+    }
+    // Clear all filters
+        clearFilters() {
+            // Reset all filter values
+            this.selectedStageFilter = 'All';
+            this.selectedSourceFilter = 'All';
+            this.startDateFilter = null;
+            this.endDateFilter = null;
+
+            // Clear quick filters (UI updated automatically)
+
+            // Reset filtered data back to original full list
+            this.interviewData = [...this.allInterviewData];
+
+            // Reset pagination
+            this.currentPage = 1;
+            this.updatePagedRecords();
+
+            // Close modal
+           // this.isFilterModalOpen = false;
+        }
+
+
 
     // ---------------- Selection ----------------
     get dataWithSelection() {

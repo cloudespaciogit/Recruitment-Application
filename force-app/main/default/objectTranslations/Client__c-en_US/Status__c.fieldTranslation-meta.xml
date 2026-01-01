@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomFieldTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <label><!-- Status --></label>
+    <name>Status__c</name>
+    <picklistValues>
+        <masterLabel>Active</masterLabel>
+        <translation><!-- Active --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>DNC</masterLabel>
+        <translation><!-- DNC --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Negotiation</masterLabel>
+        <translation><!-- Negotiation --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>New Lead</masterLabel>
+        <translation><!-- New Lead --></translation>
+    </picklistValues>
+    <picklistValues>
+        <masterLabel>Working</masterLabel>
+        <translation><!-- Working --></translation>
+    </picklistValues>
+</CustomFieldTranslation>

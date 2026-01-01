@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>VR3_Agreement_Singed_dependencies</fullName>
+    <active>true</active>
+    <description>don&apos;t allow to enter dates if agreement checkbox is not selected</description>
+    <errorConditionFormula>OR(
+AND(
+    NOT(Agreement_Signed__c),
+    OR(
+        NOT(ISBLANK(Agreement_Start_Date__c)),
+        NOT(ISBLANK(Agreement_End_Date__c))
+    )
+),
+AND(
+    Agreement_Signed__c,
+    OR(
+        ISBLANK(Agreement_Start_Date__c),
+        ISBLANK(Agreement_End_Date__c)
+    )
+)
+)</errorConditionFormula>
+    <errorMessage>When Agreement Signed is checked, both Agreement Start Date and End Date are required. When it is unchecked, both dates must be blank.</errorMessage>
+</ValidationRule>

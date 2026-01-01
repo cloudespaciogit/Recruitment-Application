@@ -69,9 +69,15 @@ export default class SubmitJobEmailButton extends LightningElement {
 <tr><td>Educational Background</td><td>${job?.Education_Background__c || 'Any Graduate...'}</td></tr>
 <tr><td>Employment Type</td><td>${job?.Employment_Type__c || 'NA'}</td></tr>
 <tr><td>Website</td><td>${job?.Client__r.Website__c || 'NA'}</td></tr>
-<tr><td>Job Description</td><td>${job?.Job_Description__c || 'NA'}</td></tr>
-</table>`;
 
+</table>
+<div style="margin-top:20px; font-family: Arial, sans-serif;">
+    <h3 style="color:#444; margin-bottom:8px;">Job Description</h3>
+    <div style="border:1px solid #e0e0e0; border-radius:8px; padding:12px; background:#fafafa;">
+        ${job?.Job_Description__c || 'NA'}
+    </div>
+</div>
+`;
             /* -----------------------
                PREFILL FOR CUSTOM COMPOSER
             ------------------------ */

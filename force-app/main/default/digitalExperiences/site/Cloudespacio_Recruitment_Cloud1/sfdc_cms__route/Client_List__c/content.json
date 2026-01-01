@@ -1,0 +1,12 @@
+{
+  "type" : "sfdc_cms__route",
+  "title" : "Client List",
+  "contentBody" : {
+    "activeViewId" : "Client_List",
+    "configurationTags" : [ ],
+    "pageAccess" : "UseParent",
+    "routeType" : "list-Client__c",
+    "urlPrefix" : "client"
+  },
+  "urlName" : "client-list"
+}

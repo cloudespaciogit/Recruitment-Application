@@ -1,13 +1,13 @@
-import { LightningElement, api, track, wire } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { FlowNavigationFinishEvent} from 'lightning/flowSupport';
 import getJobDetails from '@salesforce/apex/JobDescriptionController.getJobDetails';
 import generateJobDescription from '@salesforce/apex/JobDescriptionController.generateJobDescription';
 import saveJobDescription from '@salesforce/apex/JobDescriptionController.saveJobDescription';
-
+ 
 export default class JobDescriptionGenerator extends LightningElement {
     @api recordId;
-
+ 
     @track skills;
     @track additionalskill;
     @track qualification;
@@ -18,7 +18,7 @@ export default class JobDescriptionGenerator extends LightningElement {
     @track jobDescription;
     @track isLoading = false;
     @track jobDescriptionEdited = false;
-
+ 
     toneOptions = [
         { label: 'Formal', value: 'Formal' },
         { label: 'Informal', value: 'Informal' },
@@ -30,18 +30,18 @@ export default class JobDescriptionGenerator extends LightningElement {
         { label: 'Medium', value: 'Medium' },
         { label: 'Comprehensive', value: 'Comprehensive' }
     ];
-
+ 
     connectedCallback() {
         this.loadJobData();
         console.log(this.recordId);
     }
-
+ 
     async loadJobData() {
-        
+       
         try {
             const data = await getJobDetails({ jobId: this.recordId });
             this.skills = data.Skills_Required__c;
-            this.additionalskill = data.Additional_skills__c;
+            this.additionalskill = data.Aditional_Skills__c;
             this.qualification = data.Qualification__c;
             this.experienceRequired = data.Experience_Required__c;
             this.softskill = data.Soft_skills__c;
@@ -49,7 +49,7 @@ export default class JobDescriptionGenerator extends LightningElement {
             console.error(error);
         }
     }
-
+ 
 handleChange(event) {
     const { label, value } = event.target;
     const fieldMap = {
@@ -65,10 +65,10 @@ handleChange(event) {
             this.jobDescriptionEdited = true;
         }
     };
-
-    fieldMap[label]?.(); 
+ 
+    fieldMap[label]?.();
 }
-  
+ 
     async generateDescription() {
         this.isLoading = true;
         if (!this.tone || !this.length) {
@@ -78,8 +78,8 @@ handleChange(event) {
             variant: 'error'
         }));
          this.isLoading = false;
-        return; 
-        
+        return;
+       
     }
          let lengthText;
     switch(this.length) {
@@ -96,26 +96,35 @@ handleChange(event) {
             lengthText = 'around 600 characters';
     }
         try {
-            const response = await generateJobDescription({
+             const requestData = {
                 jobId: this.recordId,
-                skillsData: this.skills,
-                additional :this.additionalskill,
-                qualification: this.qualification,
-                experience: this.experienceRequired ,
-                soft: this.softskill,
+                skillsData: this.skills || '',
+                additional: this.additionalskill || '',
+                qualification: this.qualification || '',
+                experience: this.experienceRequired || 0,
+                soft: this.softskill || '',
                 tone: this.tone,
                 length: this.length,
                 lengthsize: lengthText
+ 
+            };          
+            const requestJson = JSON.stringify(requestData);
+            const response = await generateJobDescription({
+                requestJson: requestJson
             });
             this.jobDescription = response;
             this.jobDescriptionEdited = true;
         } catch (error) {
-            console.error(error);
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error',
+                message: 'Failed to generate job description: ' + (error.body?.message || error.message),
+                variant: 'error'
+            }));
         }finally {
-            this.isLoading = false; 
+            this.isLoading = false;
         }
     }
-
+ 
     async saveDescription() {
         this.isLoading = true;
         const jobDesc = this.jobDescription ? this.jobDescription.trim() : '';
@@ -125,7 +134,7 @@ handleChange(event) {
             message: 'No changes to save. Record remains unchanged.',
             variant: 'info'
         }));
-
+ 
         this.isLoading = false;
         this.dispatchEvent(new FlowNavigationFinishEvent());
         return;
@@ -136,21 +145,21 @@ handleChange(event) {
                 jobId: this.recordId,
                 description: this.jobDescription
             });
-
+ 
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Success',
                 message: 'Job Description saved successfully!',
                 variant: 'success'
             }));
-
+ 
            this.dispatchEvent(new FlowNavigationFinishEvent());
         } catch (error) {
             let message = 'An unexpected error occurred.';
-    
+   
     if (error && error.body && error.body.message) {
         message = error.body.message;   // Apex AuraHandledException message
     }
-
+ 
     this.dispatchEvent(
         new ShowToastEvent({
             title: 'Error',

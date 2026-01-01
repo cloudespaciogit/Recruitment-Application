@@ -21,10 +21,8 @@ import { getObjectInfo, getPicklistValues } from 'lightning/uiObjectInfoApi';
 import CANDIDATE_OBJECT from '@salesforce/schema/Candidate__c';
 import GENDER_FIELD from '@salesforce/schema/Candidate__c.Gender__c';
 import NOTICE_FIELD from '@salesforce/schema/Candidate__c.Notice_Period__c';
-import CanSearBGPNG2 from '@salesforce/resourceUrl/CanSearBGPNG2';
 
 export default class CandidateSearch extends LightningElement {
-    backgroundImage = `background-image: url(${CanSearBGPNG2});`;
     @track candidates = [];
     @track searchFlag = false;
     @track skills = [];

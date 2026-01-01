@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Require_Education_Details_For_Recordtype</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND(
+    OR(
+        RecordType.DeveloperName = &quot;Referral&quot;,
+        RecordType.DeveloperName = &quot;Internal&quot;,
+        RecordType.DeveloperName = &quot;External&quot;
+    ),
+    OR(
+        ISBLANK(Highest_Qualification__c),
+        ISBLANK(Institute_Name__c),
+        ISBLANK(Year_Of_Passing__c),
+        ISBLANK(GPA_Percentage__c)
+    )
+)</errorConditionFormula>
+    <errorMessage>Highest Qualification, Institute Name, Year of Passing, and GPA/Percentage are mandatory for this Candidate type.</errorMessage>
+</ValidationRule>

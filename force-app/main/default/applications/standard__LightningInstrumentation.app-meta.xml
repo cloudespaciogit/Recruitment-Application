@@ -16,5 +16,6 @@
         <profile>Gold Partner User</profile>
     </profileActionOverrides>
     <tabs>standard-LightningInstrumentation</tabs>
+    <tabs>Timesheet__c</tabs>
     <uiType>Lightning</uiType>
 </CustomApplication>

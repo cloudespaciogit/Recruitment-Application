@@ -1,8 +1,8 @@
 import { LightningElement, api, track, wire } from 'lwc';
 import fetchSkills from '@salesforce/apex/LightcastSkillService.fetchSkills';
 import { CurrentPageReference } from 'lightning/navigation';
-import getCandidateSkills from '@salesforce/apex/skillQuickActionController.getCandidateSkills';
-import updateCandidateSkills from '@salesforce/apex/skillQuickActionController.updateCandidateSkills';
+import getCandidateSkills from '@salesforce/apex/SkillQuickActionController.getCandidateSkills';
+import updateCandidateSkills from '@salesforce/apex/SkillQuickActionController.updateCandidateSkills';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { CloseActionScreenEvent } from 'lightning/actions';
 
@@ -197,39 +197,41 @@ export default class SkillQuickActionComponent extends LightningElement {
     // ------------------------------------------------------------
     handleSave() {
         console.log("💾 handleSave()");
-        console.log("Saving ID =", this.currentId);
-        console.log("Object =", this.currentObject);
-        console.log("Skills =", this.skills);
-        console.log("SoftSkills =", this.softSkills);
+        console.log("currentId =", this.currentId);
+        console.log("currentObject =", this.currentObject);
 
-        updateCandidateSkills({
-            candidateId: this.currentId,
+        const req = {
+            recordId: this.currentId,
             objName: this.currentObject,
             skills: this.skills,
             softSkills: this.softSkills
-        })
-        .then(() => {
-            console.log("✅ Skills updated successfully");
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: "Success",
-                    message: "Skills updated successfully",
-                    variant: "success"
-                })
-            );
-            this.dispatchEvent(new CloseActionScreenEvent());
-        })
-        .catch(error => {
-            console.error("❌ Error updating skills:", error);
-            this.dispatchEvent(
-                new ShowToastEvent({
-                    title: "Error",
-                    message: "Failed to update skills",
-                    variant: "error"
-                })
-            );
-        });
+        };
+
+        console.log("Sending wrapper:", JSON.stringify(req));
+
+        updateCandidateSkills({ req: req })   
+            .then(() => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Success",
+                        message: "Skills updated successfully",
+                        variant: "success"
+                    })
+                );
+                this.dispatchEvent(new CloseActionScreenEvent());
+            })
+            .catch(error => {
+                console.error("❌ Error updating skills:", error);
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: "Error",
+                        message: error?.body?.message || "Failed to update skills",
+                        variant: "error"
+                    })
+                );
+            });
     }
+
 
     handleCancel() {
         console.log("🚪 handleCancel()");

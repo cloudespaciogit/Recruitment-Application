@@ -65,6 +65,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SkillQuickActionController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SkillsMatchedCandidateController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SubmitCandidateController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -74,10 +82,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>WorkOrderHelper</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>skillQuickActionController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <description>Permission set for the community users</description>
@@ -351,10 +355,6 @@
     <flowAccesses>
         <enabled>true</enabled>
         <flow>Add_To_JobPosition</flow>
-    </flowAccesses>
-    <flowAccesses>
-        <enabled>true</enabled>
-        <flow>Candidate_Export_to_excel</flow>
     </flowAccesses>
     <flowAccesses>
         <enabled>true</enabled>

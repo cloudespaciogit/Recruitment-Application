@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObjectTranslation xmlns="http://soap.sforce.com/2006/04/metadata">
+    <caseValues>
+        <plural>false</plural>
+        <value>Interview</value>
+    </caseValues>
+    <caseValues>
+        <plural>true</plural>
+        <value>Interviews</value>
+    </caseValues>
+    <layouts>
+        <layout>Interview Layout</layout>
+        <sections>
+            <label><!-- Custom Links --></label>
+            <section>Custom Links</section>
+        </sections>
+        <sections>
+            <label><!-- System Information --></label>
+            <section>System Information</section>
+        </sections>
+    </layouts>
+    <quickActions>
+        <label><!-- Request Feedback --></label>
+        <name>Request_Feedback</name>
+    </quickActions>
+    <startsWith>Consonant</startsWith>
+    <validationRules>
+        <errorMessage><!-- Interview Status cannot move backward and cannot be changed after Hired or Rejected. --></errorMessage>
+        <name>Interview_Status_cannot_move_backward</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Interview Date cannot be a past date/time --></errorMessage>
+        <name>VR1_InterviewDate_Should_Be_In_Future</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Description must contain at least 100 characters. --></errorMessage>
+        <name>VR3_Feedback_Character_Limit</name>
+    </validationRules>
+    <validationRules>
+        <errorMessage><!-- Feedback must be updated when Status or Round changes. --></errorMessage>
+        <name>VR3_Feedback_should_be_Updated</name>
+    </validationRules>
+</CustomObjectTranslation>

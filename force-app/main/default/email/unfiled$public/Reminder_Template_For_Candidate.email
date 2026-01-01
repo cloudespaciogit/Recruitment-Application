@@ -1,0 +1,1 @@
+An interview has been scheduled for {!Candidate__c.Name} for the position of {!Job_Position__c.Job_Title__c} at {!Client__c.Name} for{!Interview__c.Round__c} round at {!Interview__c.Interview_Date__c}.

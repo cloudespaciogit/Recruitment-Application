@@ -62,7 +62,7 @@ public class ATSController_Test {
         List<Interview__c> interviews = new List<Interview__c>();
         for (Candidate__c candidate : candidates) {
             Interview__c interview = Recruitment_TestDataFactory.createInterview(candidate, jobPosition);
-            interview.Feedback__c = 'good';
+           // interview.Feedback__c = 'good';
             interviews.add(interview);
         }
         insert interviews;
@@ -105,73 +105,6 @@ public class ATSController_Test {
         System.assertEquals(0, results.size(), 'Expected no results for invalid Job Id');
         }
     }
-	
-    /**
-     * @description :  Tests updateInterviewStages method with 25 valid Interview Ids. 
-*/
-    @IsTest
-    static void testUpdateInterviewStagesValidBulkUpdate() {
-        User u = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
-        List<Interview__c> interviews = [SELECT Id FROM Interview__c LIMIT 25];
-    
-        List<Id> interviewIds = new List<Id>();
-        for (Interview__c interview : interviews) {
-            interviewIds.add(interview.Id);
-        }
-    
-        System.runAs(u) {
-            Test.startTest();
-            ATSController.updateInterviewStages(interviewIds, 'Shortlisted');
-            Test.stopTest();
-    
-            System.assert(true, 'Valid update should NOT throw any exception');
-        }
-    }
-
-    /**
-     * @description :  Tests updateInterviewStages method with 25 valid Interview Ids.
-     
-    @IsTest
-    static void testUpdateInterviewStagesValidBulkUpdate() {
-        User u = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
-        List<Interview__c> interviews = [SELECT Id FROM Interview__c LIMIT 25];
-        List<Id> interviewIds = new List<Id>();
-		Boolean exceptionThrown = false;
-        for (Interview__c interview : interviews) {
-            interviewIds.add(interview.Id);
-        }
-        System.runAs(u) {
-		try {
-            Test.startTest();
-            ATSController.updateInterviewStages(interviewIds, 'Shortlisted');
-            Test.stopTest();
-		} catch (AuraHandledException e) {
-            exceptionThrown = true;
-        }
-        System.assert(exceptionThrown, 'Expected AuraHandledException for empty Ids');
-        }
-    }*/
-
-    /**
-     * @description :  Tests updateInterviewStages with empty interview Ids
-     */
-    @IsTest
-    static void testUpdateInterviewStagesEmptyIds() {
-        Boolean exceptionThrown = false;
-		User u = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
-
-        System.runAs(u) {
-        try {
-            Test.startTest();
-            ATSController.updateInterviewStages(new List<Id>(), 'Hired');
-            Test.stopTest();
-        } catch (AuraHandledException e) {
-            exceptionThrown = true;
-        }
-
-        System.assert(exceptionThrown, 'Expected AuraHandledException for empty Ids');
-        }
-    }
 
     /**
      * @description :  Tests RemoveCandidateFromJob with interview Ids.
@@ -201,7 +134,7 @@ public class ATSController_Test {
             'Related Event should be deleted');
         }
     }
-	
+
     /**
      * @description :  Tests RemoveCandidateFromJob with interview Ids and non-systemAdmin user.
      */
@@ -219,7 +152,7 @@ public class ATSController_Test {
             OwnerId       = UserInfo.getUserId()
         );
         insert ev;
-        
+
 		Profile p = [SELECT Id FROM Profile WHERE Name = 'Standard User' LIMIT 1];
 
         // Insert test user
@@ -254,7 +187,7 @@ public class ATSController_Test {
         System.assert(exceptionThrown, 'Should throw AuraHandledException for invalid input');
         }
     }
-    
+
     /**
      * @description :  Tests removeCandidateFromJob with empty list.
      */
@@ -336,7 +269,7 @@ public class ATSController_Test {
             recordIds.add(i.Id);
         }
         String newstage = 'Shortlisted';
-        String feedback = 'Strong performance';
+        String feedback = 'Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performanceStrong performanceStrong performance';
         User u = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
         System.runAs(u) {
             Test.startTest();
@@ -348,14 +281,15 @@ public class ATSController_Test {
             ];
             for (Interview__c rec : updated) {
                 System.assertEquals('Shortlisted', rec.Interview_Status__c, 'Status should be updated');
-                System.assertEquals('Strong performance', rec.Feedback__c, 'Feedback should be updated');
+                System.assertEquals('Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performance Strong performanceStrong performanceStrong performance'
+                                    , rec.Feedback__c, 'Feedback should be updated');
             }
         }
     }
 
 
     /**
-     * @description :  Test updateInterviews - invalid input (empty or invalid fields).
+     * @description :  Test updateInterviews - invalid input (empty new stage and feedback fields).
      */
     @IsTest
     static void testUpdateInterviewsUpdateFailed() {
@@ -367,7 +301,7 @@ public class ATSController_Test {
         Boolean exceptionThrown = false;
         User u = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
         String newstage = '';
-        String feedback = '';
+        String feedback ='';
         System.runAs(u) {
             try {
                 Test.startTest();
@@ -381,10 +315,36 @@ public class ATSController_Test {
         }
     }
 
+	   /**
+     * @description :  Test updateInterviews - invalid input (empty new stage and feedback fields).
+     */
+    @IsTest
+    static void testUpdateInterviewsUpdateFail() {
+        List<Interview__c> interviews = [SELECT Id FROM Interview__c LIMIT 2];
+        List<Id> recordIds = new List<Id>();
+        for (Interview__c i : interviews) {
+            recordIds.add(i.Id);
+        }
+        Boolean exceptionThrown = false;
+        User u = [SELECT Id FROM User WHERE Alias = 'tuser' LIMIT 1];
+        String newstage = 'Shortlisted';
+        String feedback ='Shortlisted';
+        System.runAs(u) {
+            try {
+                Test.startTest();
+                ATSController.updateInterviews(recordIds, newstage, feedback);
+                Test.stopTest();
+                System.assert(false, 'Expected AuraHandledException for invalid input');
+            } catch (AuraHandledException e) {
+                exceptionThrown = true;
+            }
+            System.assert(exceptionThrown, 'Should throw AuraHandledException for invalid input');
+        }
+    }
 
    /**
      * @description :  Test updateInterviews - feedback missing.
-     
+
     @IsTest
     static void testUpdateInterviewsFeedbackMissing() {
         List<Interview__c> interviews = [SELECT Id FROM Interview__c LIMIT 2];
@@ -399,7 +359,7 @@ public class ATSController_Test {
         System.runAs(u) {
             try {
                 Test.startTest();
-                ATSController.updateInterviews(recordIds, newstage, feedback);                
+                ATSController.updateInterviews(recordIds, newstage, feedback);
                 Test.stopTest();
                 System.assert(false, 'Expected AuraHandledException due to missing feedback');
             } catch (AuraHandledException e) {
